@@ -1,2 +1,2 @@
 # Aerial-Areas
-Geometry shaped aliens are invading Earth. You must stop them using math to destroy their ships.
+Geometry shaped aliens are invading Earth. You must stop them by finding the area or perimeter of their ships.
