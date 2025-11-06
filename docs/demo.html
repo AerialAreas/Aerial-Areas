@@ -1,4 +1,31 @@
 ---
-layout: custom
+layout: default
 title: Game Demo
 ---
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const navUl = document.querySelector("#header nav ul");
+        if (!navUl) return; // safety check
+
+        const links = [
+            { text: "About", url: "/Aerial-Areas/index.html" },
+            { text: "Documentation", url: "/Aerial-Areas/documentation.html" },
+            { text: "Diagrams", url: "/Aerial-Areas/diagrams.html" },
+            { text: "Game Demo", url: "/Aerial-Areas/demo.html" },
+            { text: "About The Team", url: "/Aerial-Areas/team.html" }
+        ];
+
+        links.forEach(link => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+
+            a.href = link.url;
+            a.textContent = link.text;
+
+            li.appendChild(a);
+            navUl.appendChild(li);
+        });
+
+    });
+</script>
