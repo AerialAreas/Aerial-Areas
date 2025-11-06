@@ -4,16 +4,16 @@ url: "https://aerialareas.github.io"
 theme: jekyll-theme-midnight
 header:
   nav:
-  - title: About
+  - title: "Aerial Areas"
     url: "/Aerial-Areas/"
-  - title: Documentation
+  - title: "Documentation"
     url: "/Aerial-Areas/documentation"
-  - title: Diagrams
+  - title: "Diagrams"
     url: "/Aerial-Areas/diagrams"
-  - title: Game Demo
+  - title: "Game Demo"
     url: "/Aerial-Areas/demo"
-  - title: About The Team
+  - title: "About The Team"
     url: "/Aerial-Areas/team"
-  - title: Visit On Github
+  - title: "Visit On Github"
     url: "https://github.com/AerialAreas/Aerial-Areas"
     external: true
