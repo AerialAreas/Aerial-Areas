@@ -2,18 +2,3 @@ title: Aerial Areas
 baseurl: "/Aerial-Areas"
 url: "https://aerialareas.github.io"
 theme: jekyll-theme-midnight
-header:
-  nav:
-  - title: "About"
-    url: "/Aerial-Areas/index.html"
-  - title: "Documentation"
-    url: "/Aerial-Areas/documentation.html"
-  - title: "Diagrams"
-    url: "/Aerial-Areas/diagrams.html"
-  - title: "Game Demo"
-    url: "/Aerial-Areas/demo.html"
-  - title: "About The Team"
-    url: "/Aerial-Areas/team.html"
-  - title: "Visit On Github"
-    url: "https://github.com/AerialAreas/Aerial-Areas"
-    external: true
