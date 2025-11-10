@@ -3,6 +3,17 @@ layout: default
 title: About
 ---
 
+<div id="mobile-nav">
+    <button id="mobile-nav-toggle">☰ Menu</button>
+    <ul id="mobile-nav-list">
+        <li><a href="/Aerial-Areas/index.html"></a>About</li>
+        <li><a href="/Aerial-Areas/documentation.html"></a>Documentation</li>
+        <li><a href="/Aerial-Areas/diagrams.html"></a>Diagrams</li>
+        <li><a href="/Aerial-Areas/demo.html"></a>Game Demo</li>
+        <li><a href="/Aerial-Areas/team.html"></a>About The Team</li>
+    </ul>
+</div>
+
 <h1>About The Project</h1>
 <hr>
 <h2>Project Background/Motivation</h2>
@@ -61,17 +72,6 @@ title: About
     });
 </script>
 
-<div id="mobile-nav">
-    <button id="mobile-nav-toggle">☰ Menu</button>
-    <ul id="mobile-nav-list">
-        <li><a href="/Aerial-Areas/index.html"></a>About</li>
-        <li><a href="/Aerial-Areas/documentation.html"></a>Documentation</li>
-        <li><a href="/Aerial-Areas/diagrams.html"></a>Diagrams</li>
-        <li><a href="/Aerial-Areas/demo.html"></a>Game Demo</li>
-        <li><a href="/Aerial-Areas/team.html"></a>About The Team</li>
-    </ul>
-</div>
-
 <style>
     #mobile-nav {
         display: none;
@@ -81,32 +81,51 @@ title: About
         #header nav {
             display: none !important;
         }
-
+        
         #mobile-nav {
             display: block;
-            margin: 10px;
+            background: #1a1a1a;
+            padding: 10px;
+            border-bottom: 2px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
         }
 
         #mobile-nav-toggle {
-            font-size: 18px;
-            padding: 8px 14px;
+            width: 100%;
             background: #333;
             color: #fff;
+            font-size: 18px;
+            padding: 12px;
             border: none;
             border-radius: 6px;
+            text-align: left;
         }
 
         #mobile-nav-list {
             display: none;
-            margin-top: 10px;
+            margin: 10px 0 0;
             padding: 0;
             list-style: none;
             background: #222;
             border-radius: 6px;
+            overflow: hidden;
+        }
+
+        #mobile-nav-list li a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
         }
 
         #mobile-nav-list li a:hover {
             background: #444;
+        }
+
+        #mobile-nav-list li:last-child a {
+            border-bottom: none;
         }
     }
 </style>
