@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://np7ridp5ciyp"]
+
+[ext_resource type="Script" uid="uid://76cwmi5dldyf" path="res://MainMenu.cs" id="1_eiy7p"]
+[ext_resource type="Texture2D" uid="uid://l0ybgasqx5su" path="res://geometroid.png" id="1_i26rj"]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_eiy7p")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "hello world this is ben brookhart how goes it"
+
+[node name="Geometroid" type="Sprite2D" parent="."]
+position = Vector2(301, 164)
+texture = ExtResource("1_i26rj")
