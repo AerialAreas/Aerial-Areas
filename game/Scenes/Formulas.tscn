@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqxs73m0063lj"]
+
+[ext_resource type="Script" uid="uid://ces6nrx2ucntu" path="res://Scripts/Formulas.cs" id="1_8wqyc"]
+
+[node name="Formulas" type="Node2D"]
+script = ExtResource("1_8wqyc")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 240.0
+offset_top = 129.0
+offset_right = 993.0
+offset_bottom = 402.0
+theme_override_font_sizes/font_size = 50
+text = "pie arr squared"
+
+[node name="FormulasExitButton" type="Button" parent="."]
+offset_left = 1090.0
+offset_top = 1.0
+offset_right = 1136.0
+offset_bottom = 32.0
+pivot_offset = Vector2(-801, 151)
+text = "X"
