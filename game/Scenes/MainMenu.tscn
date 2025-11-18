@@ -68,3 +68,32 @@ offset_left = 212.0
 offset_top = 587.0
 offset_right = 530.0
 offset_bottom = 635.0
+
+[node name="DifficultyContainer" type="VBoxContainer" parent="."]
+visible = false
+offset_left = 719.0
+offset_top = 307.0
+offset_right = 869.0
+offset_bottom = 447.00003
+scale = Vector2(0.7, 0.7)
+
+[node name="EasyButton" type="Button" parent="DifficultyContainer"]
+layout_mode = 2
+text = "Easy"
+
+[node name="MediumButton" type="Button" parent="DifficultyContainer"]
+layout_mode = 2
+text = "Medium
+"
+
+[node name="HardButton" type="Button" parent="DifficultyContainer"]
+layout_mode = 2
+text = "Hard"
+
+[node name="NightmareButton" type="Button" parent="DifficultyContainer"]
+layout_mode = 2
+text = "Nightmare
+"
+
+[node name="DifficultyContainer" type="VBoxContainer" parent="DifficultyContainer"]
+layout_mode = 2
