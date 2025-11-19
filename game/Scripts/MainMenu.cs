@@ -9,7 +9,6 @@ public partial class MainMenu : Node2D
 	public bool nightmare_unlocked = true;
 	public override void _Ready()
 	{
-		GD.Print("Hello, program started");
 		List<string> high_scores_paths = new List<string>{"user://easy_highscores.txt", "user://medium_highscores.txt", "user://hard_highscores.txt", "user://nightmare_highscores.txt"};
 		foreach(string high_score_path in high_scores_paths)
         {
@@ -43,6 +42,7 @@ public partial class MainMenu : Node2D
 		GameLogic.inGame = false;
 		GameLogic.inShop = false;
 		GameLogic.isPaused = false;
+		GameLogic.gold = 0;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

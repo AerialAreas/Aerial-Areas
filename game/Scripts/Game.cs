@@ -15,7 +15,7 @@ public partial class Game : Node
             GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled = true;
             GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled = true;
             GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = true;
-            GetNode<TextEdit>("PanelContainer4/TextEdit").Editable = false;
+            GetNode<LineEdit>("PanelContainer4/Answer").Editable = false;
         }
 
         GetNode<Label>("Money").Text = $"{GameLogic.gold}💵";
@@ -53,7 +53,7 @@ public partial class Game : Node
                 GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled = !GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled;
                 GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled = !GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled;
                 GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = !GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled;
-                GetNode<LineEdit>("PanelContainer4/Answer").Editable = !GetNode<TextEdit>("PanelContainer4/TextEdit").Editable;
+                GetNode<LineEdit>("PanelContainer4/Answer").Editable = !GetNode<LineEdit>("PanelContainer4/Answer").Editable;
             }
         }
     }
@@ -98,7 +98,7 @@ public partial class Game : Node
         GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled = false;
         GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled = false;
         GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = false;
-        GetNode<TextEdit>("PanelContainer4/TextEdit").Editable = true;
+        GetNode<LineEdit>("PanelContainer4/Answer").Editable = true;
     }
 
     public void OnIceButton()

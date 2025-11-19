@@ -11,8 +11,11 @@ config_version=5
 [application]
 
 config/name="AerialAreas"
+config/description="An educational game where you fend off invading aliens by solving area and perimeter. For kids in late elementary and early middle school."
+config/version="0.5.0.0"
 run/main_scene="uid://np7ridp5ciyp"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
+boot_splash/show_image=false
 config/icon="uid://covgrja1iyeir"
 config/windows_native_icon="res://geometroid.ico"
 
