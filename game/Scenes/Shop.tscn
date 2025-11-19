@@ -69,7 +69,6 @@ theme_override_constants/separation = 103
 layout_mode = 2
 size_flags_horizontal = 3
 text = "🧨
-
 500"
 
 [node name="Diamond" type="Button" parent="Upgrades"]
@@ -96,7 +95,6 @@ theme_override_constants/separation = 103
 layout_mode = 2
 size_flags_horizontal = 3
 text = "🔥
-
 100"
 
 [node name="Ice" type="Button" parent="Powerups"]
@@ -111,12 +109,11 @@ size_flags_horizontal = 3
 text = "⚡
 450"
 
-[node name="Label3" type="Label" parent="."]
+[node name="Money" type="Label" parent="."]
 offset_left = 1064.0
 offset_top = 613.0
 offset_right = 1132.0
 offset_bottom = 636.0
-text = "10000💵"
 
 [node name="DebugText" type="Label" parent="."]
 offset_left = 404.0
@@ -124,3 +121,10 @@ offset_top = 580.0
 offset_right = 589.0
 offset_bottom = 635.0
 theme_override_font_sizes/font_size = 40
+
+[node name="DebugMoreMoney" type="Button" parent="."]
+offset_left = 24.0
+offset_top = 605.0
+offset_right = 108.0
+offset_bottom = 636.0
+text = "MORE MONEY"

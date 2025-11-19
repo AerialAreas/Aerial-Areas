@@ -17,6 +17,9 @@ public partial class Shop : Node2D
             GetNode<Button>("Powerups/Ice").Disabled = true;
             GetNode<Button>("Powerups/Lightning").Disabled = true;
         }
+
+        GetNode<Label>("Money").Text = $"{GameLogic.gold}💵";
+        GetNode<Button>("DebugMoreMoney").Connect(Button.SignalName.Pressed, Callable.From(MoreMoneyButton));
 		GetNode<Button>("GoBack").Connect(Button.SignalName.Pressed, Callable.From(OnGoBackButton));
 		GetNode<Button>("PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
 		GetNode<Button>("PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
@@ -91,6 +94,7 @@ public partial class Shop : Node2D
     public void FirecrackerBought()
     {
         GetNode<Label>("DebugText").Text = "🧨 upgrade bought";
+        // GetNode<Label>("Money").Text = GameLogic.gold - ;
     }
     public void DiamondBought()
     {
@@ -111,5 +115,11 @@ public partial class Shop : Node2D
     public void LightningBought()
     {
         GetNode<Label>("DebugText").Text = "⚡ powerup bought";
+    }
+
+    public void MoreMoneyButton()
+    {
+        GameLogic.gold += 5000;
+        GetNode<Label>("Money").Text = $"{GameLogic.gold}💵";
     }
 }

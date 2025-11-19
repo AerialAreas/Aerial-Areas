@@ -147,13 +147,19 @@ offset_top = 579.0
 offset_right = 225.0
 offset_bottom = 646.0
 
-[node name="TextEdit" type="TextEdit" parent="PanelContainer4"]
+[node name="Answer" type="LineEdit" parent="PanelContainer4"]
 layout_mode = 2
 placeholder_text = "Enter Answer"
 
-[node name="Label3" type="Label" parent="."]
+[node name="Money" type="Label" parent="."]
 offset_left = 967.0
 offset_top = 615.0
 offset_right = 1035.0
 offset_bottom = 638.0
-text = "10000💵"
+
+[node name="DebugEnemy" type="Label" parent="."]
+offset_left = 385.0
+offset_top = 155.0
+offset_right = 508.0
+offset_bottom = 178.0
+text = "My answer is 30"

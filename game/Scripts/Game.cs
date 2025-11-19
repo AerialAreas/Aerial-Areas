@@ -17,6 +17,8 @@ public partial class Game : Node
             GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = true;
             GetNode<TextEdit>("PanelContainer4/TextEdit").Editable = false;
         }
+
+        GetNode<Label>("Money").Text = $"{GameLogic.gold}💵";
 		GetNode<Label>("GameAttributes").Text = $"Player Name: {GameLogic.player_name}\nGame Difficulty: {GameLogic.difficulty}";
         GetNode<Button>("VBoxContainer/ShopButton").Connect(Button.SignalName.Pressed, Callable.From(OnShopButton));
 		GetNode<Button>("VBoxContainer/WinButton").Connect(Button.SignalName.Pressed, Callable.From(OnWinButton));
@@ -28,6 +30,8 @@ public partial class Game : Node
         GetNode<Button>("PanelContainer3/PowerUps/Ice").Connect(Button.SignalName.Pressed, Callable.From(OnIceButton));
         GetNode<Button>("PanelContainer3/PowerUps/Fire").Connect(Button.SignalName.Pressed, Callable.From(OnFireButton));
         GetNode<Button>("PanelContainer3/PowerUps/Lightning").Connect(Button.SignalName.Pressed, Callable.From(OnLightningButton));
+
+        GetNode<LineEdit>("PanelContainer4/Answer").TextSubmitted += CheckAnswer;
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -49,7 +53,7 @@ public partial class Game : Node
                 GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled = !GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled;
                 GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled = !GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled;
                 GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = !GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled;
-                GetNode<TextEdit>("PanelContainer4/TextEdit").Editable = !GetNode<TextEdit>("PanelContainer4/TextEdit").Editable;
+                GetNode<LineEdit>("PanelContainer4/Answer").Editable = !GetNode<TextEdit>("PanelContainer4/TextEdit").Editable;
             }
         }
     }
@@ -110,5 +114,15 @@ public partial class Game : Node
     public void OnLightningButton()
     {
         GetNode<Label>("Label").Text = "You used the ⚡ power up!";
+    }
+
+    public void CheckAnswer(string answer)
+    {
+        LineEdit a = GetNode<LineEdit>("PanelContainer4/Answer");
+        if (answer.Trim() == "30")
+        {
+            GetNode<Label>("DebugEnemy").Text = "Oh no you defeated me...";
+        }
+        a.Clear();
     }
 }
