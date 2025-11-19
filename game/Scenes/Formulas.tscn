@@ -1,20 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://bqxs73m0063lj"]
+[gd_scene load_steps=5 format=3 uid="uid://bqxs73m0063lj"]
 
 [ext_resource type="Script" uid="uid://ces6nrx2ucntu" path="res://Scripts/Formulas.cs" id="1_8wqyc"]
+[ext_resource type="Texture2D" uid="uid://dusa8ymfgu3p8" path="res://Sprites/rectangles_formula.png" id="2_lj0nd"]
+[ext_resource type="Texture2D" uid="uid://dt02uikjq4l4q" path="res://Sprites/triangles_formula.png" id="3_stfi6"]
+[ext_resource type="Texture2D" uid="uid://b7mmgkgdy0t36" path="res://Sprites/circles_formula.png" id="4_augv7"]
 
 [node name="Formulas" type="Node2D"]
 script = ExtResource("1_8wqyc")
 
-[node name="Label" type="Label" parent="."]
-offset_left = 240.0
-offset_top = 129.0
-offset_right = 993.0
-offset_bottom = 402.0
-theme_override_font_sizes/font_size = 50
-text = "area of rectangle = length * width
+[node name="LeftButton" type="Button" parent="."]
+offset_top = 320.0
+offset_right = 50.0
+offset_bottom = 405.0
+text = "<"
 
-
-etc"
+[node name="RightButton" type="Button" parent="."]
+offset_left = 1100.0
+offset_top = 320.0
+offset_right = 1150.0
+offset_bottom = 405.0
+text = ">"
 
 [node name="FormulasExitButton" type="Button" parent="."]
 offset_left = 1096.0
@@ -23,3 +28,24 @@ offset_right = 1142.0
 offset_bottom = 40.0
 pivot_offset = Vector2(-801, 151)
 text = "Back"
+
+[node name="RectanglesFormula" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+scale = Vector2(0.96964586, 0.9670165)
+texture = ExtResource("2_lj0nd")
+centered = false
+
+[node name="TrianglesFormula" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+scale = Vector2(0.9671993, 0.96846837)
+texture = ExtResource("3_stfi6")
+centered = false
+
+[node name="CirclesFormula" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+scale = Vector2(0.968829, 0.97138554)
+texture = ExtResource("4_augv7")
+centered = false

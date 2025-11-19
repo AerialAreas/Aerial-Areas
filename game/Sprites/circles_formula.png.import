@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://covgrja1iyeir"
-path="res://.godot/imported/geometroid.png-47b9ef142baafcacc9a24e4ca9f871dc.ctex"
+uid="uid://b7mmgkgdy0t36"
+path="res://.godot/imported/circles_formula.png-c32b647e507bd124364fd9090417d2c6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://geometroid.png"
-dest_files=["res://.godot/imported/geometroid.png-47b9ef142baafcacc9a24e4ca9f871dc.ctex"]
+source_file="res://Sprites/circles_formula.png"
+dest_files=["res://.godot/imported/circles_formula.png-c32b647e507bd124364fd9090417d2c6.ctex"]
 
 [params]
 

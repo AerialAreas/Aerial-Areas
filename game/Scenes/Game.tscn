@@ -1,19 +1,159 @@
 [gd_scene load_steps=3 format=3 uid="uid://56y4kxgniqxq"]
 
 [ext_resource type="Script" uid="uid://b1q6ffty23rfe" path="res://Scripts/Game.cs" id="1_gl6un"]
-[ext_resource type="Texture2D" uid="uid://covgrja1iyeir" path="res://geometroid.png" id="1_iukft"]
+[ext_resource type="Texture2D" uid="uid://covgrja1iyeir" path="res://Sprites/geometroid.png" id="1_iukft"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_gl6un")
 
 [node name="Label" type="Label" parent="."]
-offset_left = 424.0
-offset_top = 119.0
-offset_right = 659.0
-offset_bottom = 208.0
-theme_override_font_sizes/font_size = 50
-text = "pew pew"
+offset_left = 378.0
+offset_top = 28.0
+offset_right = 613.0
+offset_bottom = 117.0
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 797.0
+offset_top = 396.0
+offset_right = 880.0
+offset_bottom = 419.0
+text = "For testing"
+
+[node name="GameAttributes" type="Label" parent="."]
+offset_left = 349.0
+offset_top = 506.0
+offset_right = 389.0
+offset_bottom = 548.0
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
 
 [node name="Geometroid" type="Sprite2D" parent="."]
-position = Vector2(537, 367)
+position = Vector2(446, 304)
 texture = ExtResource("1_iukft")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 714.0
+offset_top = 438.0
+offset_right = 959.0
+offset_bottom = 545.0
+
+[node name="ShopButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Shop"
+
+[node name="WinButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Win"
+
+[node name="GameOverButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Game Over"
+
+[node name="PauseMenu" type="VBoxContainer" parent="."]
+visible = false
+offset_left = 550.0
+offset_top = 260.0
+offset_right = 646.0
+offset_bottom = 396.0
+
+[node name="Resume" type="Button" parent="PauseMenu"]
+layout_mode = 2
+text = "Resume"
+
+[node name="FormulasButton" type="Button" parent="PauseMenu"]
+layout_mode = 2
+text = "Formulas"
+
+[node name="OptionsButton" type="Button" parent="PauseMenu"]
+layout_mode = 2
+text = "Options
+"
+
+[node name="MainMenuButton" type="Button" parent="PauseMenu"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_right = 225.0
+offset_bottom = 577.0
+
+[node name="ProblemList" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/ProblemList"]
+layout_mode = 2
+text = "Problem List"
+horizontal_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+offset_left = 1040.0
+offset_right = 1153.0
+offset_bottom = 322.0
+
+[node name="Upgrades" type="VBoxContainer" parent="PanelContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer2/Upgrades"]
+layout_mode = 2
+text = "Upgrades"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="PanelContainer2/Upgrades"]
+layout_mode = 2
+text = "🧨
+Level 1"
+
+[node name="Button2" type="Button" parent="PanelContainer2/Upgrades"]
+layout_mode = 2
+text = "💎
+Level 1"
+
+[node name="Button3" type="Button" parent="PanelContainer2/Upgrades"]
+layout_mode = 2
+text = "❤️
+Level 1"
+
+[node name="PanelContainer3" type="PanelContainer" parent="."]
+offset_left = 1040.0
+offset_top = 324.0
+offset_right = 1153.0
+offset_bottom = 646.0
+
+[node name="PowerUps" type="VBoxContainer" parent="PanelContainer3"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer3/PowerUps"]
+layout_mode = 2
+text = "Power Ups"
+horizontal_alignment = 1
+
+[node name="Ice" type="Button" parent="PanelContainer3/PowerUps"]
+layout_mode = 2
+text = "🧊"
+
+[node name="Fire" type="Button" parent="PanelContainer3/PowerUps"]
+layout_mode = 2
+text = "🔥"
+
+[node name="Lightning" type="Button" parent="PanelContainer3/PowerUps"]
+layout_mode = 2
+text = "⚡"
+
+[node name="PanelContainer4" type="PanelContainer" parent="."]
+offset_left = 1.0
+offset_top = 579.0
+offset_right = 225.0
+offset_bottom = 646.0
+
+[node name="TextEdit" type="TextEdit" parent="PanelContainer4"]
+layout_mode = 2
+placeholder_text = "Enter Answer"
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 967.0
+offset_top = 615.0
+offset_right = 1035.0
+offset_bottom = 638.0
+text = "10000💵"

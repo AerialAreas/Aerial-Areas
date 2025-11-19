@@ -39,6 +39,10 @@ public partial class MainMenu : Node2D
 		GetNode<Button>("DifficultyContainer/MediumButton").Connect(Button.SignalName.Pressed, Callable.From(OnMediumButtonPressed));
 		GetNode<Button>("DifficultyContainer/HardButton").Connect(Button.SignalName.Pressed, Callable.From(OnHardButtonPressed));
 		GetNode<Button>("DifficultyContainer/NightmareButton").Connect(Button.SignalName.Pressed, Callable.From(OnNightmareButtonPressed));
+
+		GameLogic.inGame = false;
+		GameLogic.inShop = false;
+		GameLogic.isPaused = false;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -75,27 +79,29 @@ public partial class MainMenu : Node2D
 
 	public void OnEasyButtonPressed()
     {
+		GameLogic.player_name = GetNode<TextEdit>("TextEdit").Text.Trim() == "" ? "Anonymous" : GetNode<TextEdit>("TextEdit").Text.Trim();
+		GameLogic.difficulty = "easy";
         GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
-		Game g = new Game(GetNode<TextEdit>("TextEdit").Text, "easy");
     }
 	public void OnMediumButtonPressed()
     {
+		GameLogic.player_name = GetNode<TextEdit>("TextEdit").Text.Trim() == "" ? "Anonymous" : GetNode<TextEdit>("TextEdit").Text.Trim();
+		GameLogic.difficulty = "medium";
 		GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
-		Game g = new Game(GetNode<TextEdit>("TextEdit").Text, "medium");
-
     }
 	public void OnHardButtonPressed()
     {
+		GameLogic.player_name = GetNode<TextEdit>("TextEdit").Text.Trim() == "" ? "Anonymous" : GetNode<TextEdit>("TextEdit").Text.Trim();
+		GameLogic.difficulty = "hard";
 		GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
-		Game g = new Game(GetNode<TextEdit>("TextEdit").Text, "hard");
-
     }
 	public void OnNightmareButtonPressed()
     {
 		if(nightmare_unlocked)
 		{
-			GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");  
-			Game g = new Game(GetNode<TextEdit>("TextEdit").Text, "nightmare"); 
+			GameLogic.player_name = GetNode<TextEdit>("TextEdit").Text.Trim() == "" ? "Anonymous" : GetNode<TextEdit>("TextEdit").Text.Trim();
+			GameLogic.difficulty = "nightmare";
+			GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
 		}
     }
 }

@@ -6,9 +6,7 @@ public partial class HighScores : Node
 {
 	public override void _Ready()
     {
-        Button backtomain = GetNode<Button>("HighScoresExitButton");
-		backtomain.Connect(Button.SignalName.Pressed, Callable.From(OnHighScoresExitButton));
-
+		GetNode<Button>("HighScoresExitButton").Connect(Button.SignalName.Pressed, Callable.From(OnHighScoresExitButton));
 		GetNode<Button>("HBoxContainer/EasyButton").Connect(Button.SignalName.Pressed, Callable.From(OnEasyButtonPressed));
 		GetNode<Button>("HBoxContainer/MediumButton").Connect(Button.SignalName.Pressed, Callable.From(OnMediumButtonPressed));
 		GetNode<Button>("HBoxContainer/HardButton").Connect(Button.SignalName.Pressed, Callable.From(OnHardButtonPressed));

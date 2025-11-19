@@ -6,8 +6,7 @@ public partial class Options : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
     {
-        Button backtomain = GetNode<Button>("OptionsExitButton");
-		backtomain.Connect(Button.SignalName.Pressed, Callable.From(OnOptionsExitButton));
+		GetNode<Button>("OptionsExitButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsExitButton));
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -17,6 +16,18 @@ public partial class Options : Node2D
 
 	public void OnOptionsExitButton()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+        if (GameLogic.inGame)
+        {
+            if (GameLogic.inShop)
+            {
+                GetTree().ChangeSceneToFile("res://Scenes/Shop.tscn");
+                return;
+            }
+            GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
+        }
+		else
+        {
+            GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+        }
     }
 }
