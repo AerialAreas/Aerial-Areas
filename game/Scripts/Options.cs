@@ -3,31 +3,38 @@ using System;
 
 public partial class Options : Node2D
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
     {
-		GetNode<Button>("OptionsExitButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsExitButton));
+        InitializeUIEvents();
     }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
-
-	public void OnOptionsExitButton()
+    public void InitializeUIEvents()
     {
-        if (GameLogic.inGame)
-        {
-            if (GameLogic.inShop)
-            {
-                GetTree().ChangeSceneToFile("res://Scenes/Shop.tscn");
-                return;
-            }
-            GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
-        }
-		else
-        {
-            GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
-        }
+        GetNode<Button>("OptionsExitButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsExitButton));
+        GetNode<HSlider>("VolumeSlider").ValueChanged += VolumeChanged;
+        GetNode<CheckBox>("MusicCheckBox").Toggled += MusicToggled;
+        GetNode<CheckBox>("SFXCheckBox").Toggled += SFXToggled;
+    }
+
+    private void SFXToggled(bool toggledOn)
+    {
+        UIHelper.sfx = toggledOn;
+    }
+
+    private void MusicToggled(bool toggledOn)
+    {
+        UIHelper.music = toggledOn;
+    }
+
+    private void VolumeChanged(double value)
+    {
+        GetNode<Label>("VolumeLabel").Text = $"Volume: {value}";
+        UIHelper.volume = (int)value;
+    }
+
+    public void OnOptionsExitButton()
+    {
+        UIHelper.SwitchSceneTo(this, UIHelper.previous_scene);
     }
 }

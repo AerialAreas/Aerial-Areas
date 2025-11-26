@@ -5,27 +5,19 @@ public partial class Shop : Node2D
 {
     public override void _Ready()
     {
-		GameLogic.inShop = true;
-		if (GameLogic.isPaused)
-        {
-            GetNode<VBoxContainer>("PauseMenu").Visible = true;
-            GetNode<Button>("GoBack").Disabled = true;
-            GetNode<Button>("Upgrades/Firecracker").Disabled = true;
-            GetNode<Button>("Upgrades/Diamond").Disabled = true;
-            GetNode<Button>("Upgrades/Heart").Disabled = true;
-            GetNode<Button>("Powerups/Fire").Disabled = true;
-            GetNode<Button>("Powerups/Ice").Disabled = true;
-            GetNode<Button>("Powerups/Lightning").Disabled = true;
-        }
+        InitializeUIEvents();
+        HandlePause(false);
+    }
 
+    public void InitializeUIEvents()
+    {
         GetNode<Label>("Money").Text = $"{GameLogic.gold}💵";
         GetNode<Button>("DebugMoreMoney").Connect(Button.SignalName.Pressed, Callable.From(MoreMoneyButton));
-		GetNode<Button>("GoBack").Connect(Button.SignalName.Pressed, Callable.From(OnGoBackButton));
-		GetNode<Button>("PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
-		GetNode<Button>("PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
-		GetNode<Button>("PauseMenu/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButton));
-		GetNode<Button>("PauseMenu/Resume").Connect(Button.SignalName.Pressed, Callable.From(OnResumeButton));
-
+        GetNode<Button>("GoBack").Connect(Button.SignalName.Pressed, Callable.From(OnGoBackButton));
+        GetNode<Button>("PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
+        GetNode<Button>("PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
+        GetNode<Button>("PauseMenu/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButton));
+        GetNode<Button>("PauseMenu/Resume").Connect(Button.SignalName.Pressed, Callable.From(OnResumeButton));
         GetNode<Button>("Upgrades/Firecracker").Connect(Button.SignalName.Pressed, Callable.From(FirecrackerBought));
         GetNode<Button>("Upgrades/Diamond").Connect(Button.SignalName.Pressed, Callable.From(DiamondBought));
         GetNode<Button>("Upgrades/Heart").Connect(Button.SignalName.Pressed, Callable.From(HeartBought));
@@ -34,10 +26,10 @@ public partial class Shop : Node2D
         GetNode<Button>("Powerups/Lightning").Connect(Button.SignalName.Pressed, Callable.From(LightningBought));
     }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+    }
 
     public override void _UnhandledInput(InputEvent @event)
     {
@@ -45,56 +37,60 @@ public partial class Shop : Node2D
         {
             if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
             {
-				GameLogic.isPaused = !GameLogic.isPaused;
-                GetNode<VBoxContainer>("PauseMenu").Visible = !GetNode<VBoxContainer>("PauseMenu").Visible;
-				GetNode<Button>("GoBack").Disabled = !GetNode<Button>("GoBack").Disabled;
-                GetNode<Button>("Upgrades/Firecracker").Disabled = !GetNode<Button>("Upgrades/Firecracker").Disabled;
-                GetNode<Button>("Upgrades/Diamond").Disabled = !GetNode<Button>("Upgrades/Diamond").Disabled;
-                GetNode<Button>("Upgrades/Heart").Disabled = !GetNode<Button>("Upgrades/Heart").Disabled;
-                GetNode<Button>("Powerups/Fire").Disabled = !GetNode<Button>("Powerups/Fire").Disabled;
-                GetNode<Button>("Powerups/Ice").Disabled = !GetNode<Button>("Powerups/Ice").Disabled;
-                GetNode<Button>("Powerups/Lightning").Disabled = !GetNode<Button>("Powerups/Lightning").Disabled;
+                HandlePause(true);
             }
         }
     }
 
-	public void OnMainMenuButton()
+    public void HandlePause(bool pause_changed) // if pause_changed is true, it enables/disables the ui elements. if its false, it just sets them to what they should be based on isPaused
     {
-        GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+        bool new_paused;
+        if (pause_changed)
+        {
+            new_paused = !GameLogic.isPaused;
+        }
+        else
+        {
+            new_paused = GameLogic.isPaused;
+        }
+        GameLogic.isPaused = new_paused;
+        GetNode<VBoxContainer>("PauseMenu").Visible = new_paused;
+        GetNode<Button>("GoBack").Disabled = new_paused;
+        GetNode<Button>("Upgrades/Firecracker").Disabled = new_paused;
+        GetNode<Button>("Upgrades/Diamond").Disabled = new_paused;
+        GetNode<Button>("Upgrades/Heart").Disabled = new_paused;
+        GetNode<Button>("Powerups/Fire").Disabled = new_paused;
+        GetNode<Button>("Powerups/Ice").Disabled = new_paused;
+        GetNode<Button>("Powerups/Lightning").Disabled = new_paused;
     }
 
-	public void OnOptionsButton()
+    public void OnMainMenuButton()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/Options.tscn");
+        UIHelper.SwitchSceneTo(this, "Main Menu");
     }
 
-	public void OnFormulasButton()
+    public void OnOptionsButton()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/Formulas.tscn");
+        UIHelper.SwitchSceneTo(this, "Options");
     }
 
-	public void OnResumeButton()
+    public void OnFormulasButton()
     {
-        GameLogic.isPaused = false;
-        GetNode<VBoxContainer>("PauseMenu").Visible = false;
-        GetNode<Button>("GoBack").Disabled = false;
-        GetNode<Button>("Upgrades/Firecracker").Disabled = false;
-        GetNode<Button>("Upgrades/Diamond").Disabled = false;
-        GetNode<Button>("Upgrades/Heart").Disabled = false;
-        GetNode<Button>("Powerups/Fire").Disabled = false;
-        GetNode<Button>("Powerups/Ice").Disabled = false;
-        GetNode<Button>("Powerups/Lightning").Disabled = false;
+        UIHelper.SwitchSceneTo(this, "Formulas");
     }
 
-	public void OnGoBackButton()
+    public void OnResumeButton()
     {
-        GameLogic.inShop = false;
-		GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
+        HandlePause(true);
+    }
+
+    public void OnGoBackButton()
+    {
+        UIHelper.SwitchSceneTo(this, UIHelper.previous_scene);
     }
     public void FirecrackerBought()
     {
         GetNode<Label>("DebugText").Text = "🧨 upgrade bought";
-        // GetNode<Label>("Money").Text = GameLogic.gold - ;
     }
     public void DiamondBought()
     {

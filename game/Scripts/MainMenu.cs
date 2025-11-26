@@ -5,29 +5,25 @@ using System.IO;
 
 public partial class MainMenu : Node2D
 {
-	// Called when the node enters the scene tree for the first time.
-	public bool nightmare_unlocked = true;
 	public override void _Ready()
 	{
-		List<string> high_scores_paths = new List<string>{"user://easy_highscores.txt", "user://medium_highscores.txt", "user://hard_highscores.txt", "user://nightmare_highscores.txt"};
-		foreach(string high_score_path in high_scores_paths)
-        {
-            if (!File.Exists(high_score_path))
-            {
-				using var file = Godot.FileAccess.Open(high_score_path, Godot.FileAccess.ModeFlags.Write);
-				file.StoreString($"blank sample data for the path: {high_score_path}\nJimbo: 100,000\nErik: 98,000\nMike Vrabel: 81,000\nJohnathan: 50,000\nGeoff: 34,500");
-				GD.Print($"Created high score file: {high_score_path}");
-            }
-        }
-        if (nightmare_unlocked)
-        {
-            GetNode<Button>("DifficultyContainer/NightmareButton").Text = "Nightmare";
-        }
-        else
-        {
-			GetNode<Button>("DifficultyContainer/NightmareButton").Text = "Nightmare🔒";
-        }
+		InitializeUIEvents();
+		InitializeTemporaryHighScores();
+		ReadPlayerDataFile();
+	}
 
+	public void ReadPlayerDataFile()
+	{
+		string player_data_file_path = "user://player_data.txt";
+		if (!Godot.FileAccess.FileExists(player_data_file_path))
+		{
+			using var file = Godot.FileAccess.Open(player_data_file_path, Godot.FileAccess.ModeFlags.Write);
+			file.StoreString($"nightmare_unlocked:false");
+			GD.Print($"Created player data file: {player_data_file_path}");
+		}
+	}
+	public void InitializeUIEvents() // Let's just put all of our ui events here
+	{
 		GetNode<Button>("ExitButton").Connect(Button.SignalName.Pressed, Callable.From(OnExitButtonPressed));
 		GetNode<Button>("ButtonsContainer/StartButton").Connect(Button.SignalName.Pressed, Callable.From(OnStartButtonPressed));
 		GetNode<Button>("ButtonsContainer/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButtonPressed));
@@ -38,70 +34,70 @@ public partial class MainMenu : Node2D
 		GetNode<Button>("DifficultyContainer/MediumButton").Connect(Button.SignalName.Pressed, Callable.From(OnMediumButtonPressed));
 		GetNode<Button>("DifficultyContainer/HardButton").Connect(Button.SignalName.Pressed, Callable.From(OnHardButtonPressed));
 		GetNode<Button>("DifficultyContainer/NightmareButton").Connect(Button.SignalName.Pressed, Callable.From(OnNightmareButtonPressed));
-
-		GameLogic.inGame = false;
-		GameLogic.inShop = false;
-		GameLogic.isPaused = false;
-		GameLogic.gold = 0;
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public void InitializeTemporaryHighScores() // This is for the sample data for high scores, but we could have predefined high scores in there
 	{
-		//GD.Print("Hi, a tick has passed");
+		List<string> high_scores_paths = new List<string> { "user://easy_highscores.txt", "user://medium_highscores.txt", "user://hard_highscores.txt", "user://nightmare_highscores.txt" };
+		foreach (string high_score_path in high_scores_paths)
+		{
+			if (!Godot.FileAccess.FileExists(high_score_path))
+			{
+				using var file = Godot.FileAccess.Open(high_score_path, Godot.FileAccess.ModeFlags.Write);
+				file.StoreString($"blank sample data for the path: {high_score_path}\nJimbo: 100,000\nErik: 98,000\nMike Vrabel: 81,000\nJohnathan: 50,000\nGeoff: 34,500");
+				GD.Print($"Created high score file: {high_score_path}");
+			}
+		}
 	}
-
 	public void OnExitButtonPressed()
-    {
-        GD.Print("You clicked exit sir!!!");
+	{
 		GetTree().Quit();
-    }
+	}
 
 	public void OnFormulasButtonPressed()
-    {
-        GetTree().ChangeSceneToFile("res://Scenes/Formulas.tscn");
-    }
+	{
+		UIHelper.SwitchSceneTo(this, "Formulas");
+	}
 
 	public void OnHighScoresButtonPressed()
-    {
-        GetTree().ChangeSceneToFile("res://Scenes/HighScores.tscn");
-    }
+	{
+		UIHelper.SwitchSceneTo(this, "High Scores");
+	}
 
 	public void OnOptionsButtonPressed()
-    {
-        GetTree().ChangeSceneToFile("res://Scenes/Options.tscn");
-    }
+	{
+		UIHelper.SwitchSceneTo(this, "Options");
+	}
 
 	public void OnStartButtonPressed()
-    {
-        GetNode<VBoxContainer>("DifficultyContainer").Visible = true;
-    }
+	{
+		GetNode<VBoxContainer>("DifficultyContainer").Visible = true;
+	}
 
 	public void OnEasyButtonPressed()
-    {
-		GameLogic.player_name = GetNode<TextEdit>("TextEdit").Text.Trim() == "" ? "Anonymous" : GetNode<TextEdit>("TextEdit").Text.Trim();
+	{
+		GameLogic.player_name = GetNode<LineEdit>("EnterName").Text.Trim() == "" ? "Anonymous" : GetNode<LineEdit>("EnterName").Text.Trim();
 		GameLogic.difficulty = "easy";
-        GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
-    }
+		UIHelper.SwitchSceneTo(this, "Game");
+	}
 	public void OnMediumButtonPressed()
-    {
-		GameLogic.player_name = GetNode<TextEdit>("TextEdit").Text.Trim() == "" ? "Anonymous" : GetNode<TextEdit>("TextEdit").Text.Trim();
+	{
+		GameLogic.player_name = GetNode<LineEdit>("EnterName").Text.Trim() == "" ? "Anonymous" : GetNode<LineEdit>("EnterName").Text.Trim();
 		GameLogic.difficulty = "medium";
-		GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
-    }
+		UIHelper.SwitchSceneTo(this, "Game");
+	}
 	public void OnHardButtonPressed()
-    {
-		GameLogic.player_name = GetNode<TextEdit>("TextEdit").Text.Trim() == "" ? "Anonymous" : GetNode<TextEdit>("TextEdit").Text.Trim();
+	{
+		GameLogic.player_name = GetNode<LineEdit>("EnterName").Text.Trim() == "" ? "Anonymous" : GetNode<LineEdit>("EnterName").Text.Trim();
 		GameLogic.difficulty = "hard";
-		GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
-    }
+		UIHelper.SwitchSceneTo(this, "Game");
+	}
 	public void OnNightmareButtonPressed()
-    {
-		if(nightmare_unlocked)
+	{
+		if (GameLogic.nightmare_unlocked)
 		{
-			GameLogic.player_name = GetNode<TextEdit>("TextEdit").Text.Trim() == "" ? "Anonymous" : GetNode<TextEdit>("TextEdit").Text.Trim();
+			GameLogic.player_name = GetNode<LineEdit>("EnterName").Text.Trim() == "" ? "Anonymous" : GetNode<LineEdit>("EnterName").Text.Trim();
 			GameLogic.difficulty = "nightmare";
-			GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
+			UIHelper.SwitchSceneTo(this, "Game");
 		}
-    }
+	}
 }

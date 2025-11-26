@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://7l5mvxkqflpo"]
 
-[ext_resource type="Texture2D" uid="uid://cpmro7t4ek8ay" path="res://win_placeholder.png" id="1_3vusp"]
+[ext_resource type="Texture2D" uid="uid://cpmro7t4ek8ay" path="res://Sprites/win_placeholder.png" id="1_3vusp"]
 [ext_resource type="Script" uid="uid://dd4ndwovgkik5" path="res://Scripts/Win.cs" id="1_jo0u0"]
 
 [node name="Win" type="Node2D"]
@@ -22,14 +22,14 @@ offset_bottom = 265.0
 theme_override_font_sizes/font_size = 39
 
 [node name="WinPlaceholder" type="Sprite2D" parent="."]
-position = Vector2(568.0001, 380.00003)
+position = Vector2(567.00006, 382.00003)
 scale = Vector2(0.7979592, 0.7979592)
 texture = ExtResource("1_3vusp")
 
 [node name="ExitButton" type="Button" parent="."]
-offset_left = 1090.0
-offset_top = 1.0
-offset_right = 1136.0
-offset_bottom = 32.0
+offset_left = 697.0
+offset_top = 503.0
+offset_right = 788.0
+offset_bottom = 534.0
 pivot_offset = Vector2(-801, 151)
-text = "X"
+text = "MainMenu"

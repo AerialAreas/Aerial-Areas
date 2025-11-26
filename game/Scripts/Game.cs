@@ -1,43 +1,37 @@
 using Godot;
 using System;
+using System.ComponentModel;
 
 public partial class Game : Node
 {
-	public override void _Ready()
+    public override void _Ready()
     {
-        GameLogic.inGame = true;
-        if (GameLogic.isPaused)
-        {
-            GetNode<VBoxContainer>("PauseMenu").Visible = true;
-            GetNode<Button>("VBoxContainer/ShopButton").Disabled = true;
-            GetNode<Button>("VBoxContainer/WinButton").Disabled = true;
-            GetNode<Button>("VBoxContainer/GameOverButton").Disabled = true;
-            GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled = true;
-            GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled = true;
-            GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = true;
-            GetNode<LineEdit>("PanelContainer4/Answer").Editable = false;
-        }
+        HandlePause(false); // not changing the pause, just setting defaults
+        GameLogic.SetToStart(); // setting default values of 0 gold, wave 1, etc
+        InitializeUIEvents();
+    }
 
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+    }
+
+    public void InitializeUIEvents()
+    {
         GetNode<Label>("Money").Text = $"{GameLogic.gold}💵";
-		GetNode<Label>("GameAttributes").Text = $"Player Name: {GameLogic.player_name}\nGame Difficulty: {GameLogic.difficulty}";
+        GetNode<Label>("GameAttributes").Text = $"Player Name: {GameLogic.player_name}\nGame Difficulty: {GameLogic.difficulty}";
         GetNode<Button>("VBoxContainer/ShopButton").Connect(Button.SignalName.Pressed, Callable.From(OnShopButton));
-		GetNode<Button>("VBoxContainer/WinButton").Connect(Button.SignalName.Pressed, Callable.From(OnWinButton));
-		GetNode<Button>("VBoxContainer/GameOverButton").Connect(Button.SignalName.Pressed, Callable.From(OnGameOverButton));
+        GetNode<Button>("VBoxContainer/WinButton").Connect(Button.SignalName.Pressed, Callable.From(OnWinButton));
+        GetNode<Button>("VBoxContainer/GameOverButton").Connect(Button.SignalName.Pressed, Callable.From(OnGameOverButton));
         GetNode<Button>("PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
-		GetNode<Button>("PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
-		GetNode<Button>("PauseMenu/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButton));
-		GetNode<Button>("PauseMenu/Resume").Connect(Button.SignalName.Pressed, Callable.From(OnResumeButton));
+        GetNode<Button>("PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
+        GetNode<Button>("PauseMenu/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButton));
+        GetNode<Button>("PauseMenu/Resume").Connect(Button.SignalName.Pressed, Callable.From(OnResumeButton));
         GetNode<Button>("PanelContainer3/PowerUps/Ice").Connect(Button.SignalName.Pressed, Callable.From(OnIceButton));
         GetNode<Button>("PanelContainer3/PowerUps/Fire").Connect(Button.SignalName.Pressed, Callable.From(OnFireButton));
         GetNode<Button>("PanelContainer3/PowerUps/Lightning").Connect(Button.SignalName.Pressed, Callable.From(OnLightningButton));
-
         GetNode<LineEdit>("PanelContainer4/Answer").TextSubmitted += CheckAnswer;
     }
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
 
     public override void _UnhandledInput(InputEvent @event)
     {
@@ -45,60 +39,66 @@ public partial class Game : Node
         {
             if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
             {
-                GameLogic.isPaused = !GameLogic.isPaused;
-                GetNode<VBoxContainer>("PauseMenu").Visible = !GetNode<VBoxContainer>("PauseMenu").Visible;
-                GetNode<Button>("VBoxContainer/ShopButton").Disabled = !GetNode<Button>("VBoxContainer/ShopButton").Disabled;
-                GetNode<Button>("VBoxContainer/WinButton").Disabled = !GetNode<Button>("VBoxContainer/WinButton").Disabled;
-                GetNode<Button>("VBoxContainer/GameOverButton").Disabled = !GetNode<Button>("VBoxContainer/GameOverButton").Disabled;
-                GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled = !GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled;
-                GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled = !GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled;
-                GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = !GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled;
-                GetNode<LineEdit>("PanelContainer4/Answer").Editable = !GetNode<LineEdit>("PanelContainer4/Answer").Editable;
+                HandlePause(true); // changing the bool of pause
             }
         }
     }
-
-	public void OnShopButton()
+    public void HandlePause(bool pause_changed) // if pause_changed is true, it enables/disables the ui elements. if its false, it just sets them to what they should be based on isPaused
     {
-        GetTree().ChangeSceneToFile("res://Scenes/Shop.tscn");
+        bool new_paused;
+        if (pause_changed)
+        {
+            new_paused = !GameLogic.isPaused;
+        }
+        else
+        {
+            new_paused = GameLogic.isPaused;
+        }
+        GameLogic.isPaused = new_paused;
+        GetNode<VBoxContainer>("PauseMenu").Visible = new_paused;
+        GetNode<Button>("VBoxContainer/ShopButton").Disabled = new_paused;
+        GetNode<Button>("VBoxContainer/WinButton").Disabled = new_paused;
+        GetNode<Button>("VBoxContainer/GameOverButton").Disabled = new_paused;
+        GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled = new_paused;
+        GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled = new_paused;
+        GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = new_paused;
+        GetNode<LineEdit>("PanelContainer4/Answer").Editable = !new_paused;
     }
 
-	public void OnWinButton()
+    public void OnShopButton()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/Win.tscn");
+        UIHelper.SwitchSceneTo(this, "Shop");
     }
 
-	public void OnGameOverButton()
+    public void OnWinButton()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/GameOver.tscn");
+        UIHelper.SwitchSceneTo(this, "Win");
+    }
+
+    public void OnGameOverButton()
+    {
+        UIHelper.SwitchSceneTo(this, "Game Over");
     }
 
     public void OnMainMenuButton()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
-    }
-
-	public void OnOptionsButton()
-    {
-        GetTree().ChangeSceneToFile("res://Scenes/Options.tscn");
-    }
-
-	public void OnFormulasButton()
-    {
-        GetTree().ChangeSceneToFile("res://Scenes/Formulas.tscn");
-    }
-
-	public void OnResumeButton()
-    {
+        UIHelper.SwitchSceneTo(this, "Main Menu");
         GameLogic.isPaused = false;
-        GetNode<VBoxContainer>("PauseMenu").Visible = false;
-        GetNode<Button>("VBoxContainer/ShopButton").Disabled = false;
-        GetNode<Button>("VBoxContainer/WinButton").Disabled = false;
-        GetNode<Button>("VBoxContainer/GameOverButton").Disabled = false;
-        GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled = false;
-        GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled = false;
-        GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = false;
-        GetNode<LineEdit>("PanelContainer4/Answer").Editable = true;
+    }
+
+    public void OnOptionsButton()
+    {
+        UIHelper.SwitchSceneTo(this, "Options");
+    }
+
+    public void OnFormulasButton()
+    {
+        UIHelper.SwitchSceneTo(this, "Formulas");
+    }
+
+    public void OnResumeButton()
+    {
+        HandlePause(true);
     }
 
     public void OnIceButton()

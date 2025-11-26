@@ -55,13 +55,6 @@ offset_right = 1136.0
 offset_bottom = 32.0
 text = "X"
 
-[node name="TextEdit" type="TextEdit" parent="."]
-offset_left = 420.0
-offset_top = 591.0
-offset_right = 738.0
-offset_bottom = 639.0
-placeholder_text = "Enter Name"
-
 [node name="DifficultyContainer" type="VBoxContainer" parent="."]
 visible = false
 offset_left = 719.0
@@ -90,3 +83,10 @@ text = "Nightmare
 
 [node name="DifficultyContainer" type="VBoxContainer" parent="DifficultyContainer"]
 layout_mode = 2
+
+[node name="EnterName" type="LineEdit" parent="."]
+offset_left = 425.0
+offset_top = 559.0
+offset_right = 701.0
+offset_bottom = 590.0
+placeholder_text = "Enter Name"

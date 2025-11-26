@@ -5,13 +5,13 @@
 [node name="Options" type="Node2D"]
 script = ExtResource("1_qqnya")
 
-[node name="Label" type="Label" parent="."]
+[node name="VolumeLabel" type="Label" parent="."]
 offset_left = 424.0
 offset_top = 119.0
 offset_right = 659.0
 offset_bottom = 208.0
 theme_override_font_sizes/font_size = 50
-text = "Volume:"
+text = "Volume: 100"
 
 [node name="OptionsExitButton" type="Button" parent="."]
 offset_left = 1090.0
@@ -28,7 +28,7 @@ offset_right = 953.0
 offset_bottom = 270.0
 value = 100.0
 
-[node name="Label2" type="Label" parent="."]
+[node name="SFXLabel" type="Label" parent="."]
 offset_left = 622.0
 offset_top = 348.0
 offset_right = 950.0
@@ -36,7 +36,7 @@ offset_bottom = 437.0
 theme_override_font_sizes/font_size = 50
 text = "Sound Effects"
 
-[node name="Label3" type="Label" parent="."]
+[node name="MusicLabel" type="Label" parent="."]
 offset_left = 206.0
 offset_top = 344.0
 offset_right = 441.0
