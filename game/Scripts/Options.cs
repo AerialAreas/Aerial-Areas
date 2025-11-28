@@ -7,6 +7,7 @@ public partial class Options : Node2D
     public override void _Ready()
     {
         InitializeUIEvents();
+        SetOptionsUIToPlayerSettings();
     }
 
     public void InitializeUIEvents()
@@ -15,8 +16,21 @@ public partial class Options : Node2D
         GetNode<HSlider>("VolumeSlider").ValueChanged += VolumeChanged;
         GetNode<CheckBox>("MusicCheckBox").Toggled += MusicToggled;
         GetNode<CheckBox>("SFXCheckBox").Toggled += SFXToggled;
+        GetNode<CheckBox>("SkipTutorialsCheckBox").Toggled += SkipTutorialsToggled;
     }
 
+    private void SetOptionsUIToPlayerSettings()
+    {
+        GetNode<HSlider>("VolumeSlider").Value = UIHelper.volume;
+        GetNode<CheckBox>("MusicCheckBox").ButtonPressed = UIHelper.music;
+        GetNode<CheckBox>("SFXCheckBox").ButtonPressed = UIHelper.sfx;
+        GetNode<CheckBox>("SkipTutorialsCheckBox").ButtonPressed = UIHelper.skip_tutorials;
+    }
+
+    private void SkipTutorialsToggled(bool toggledOn)
+    {
+        UIHelper.skip_tutorials = toggledOn;
+    }
     private void SFXToggled(bool toggledOn)
     {
         UIHelper.sfx = toggledOn;

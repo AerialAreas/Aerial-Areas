@@ -57,3 +57,17 @@ offset_top = 374.0
 offset_right = 994.0
 offset_bottom = 400.0
 button_pressed = true
+
+[node name="SkipTutorialsLabel" type="Label" parent="."]
+offset_left = 324.0
+offset_top = 487.0
+offset_right = 651.0
+offset_bottom = 576.0
+theme_override_font_sizes/font_size = 50
+text = "Skip Tutorials"
+
+[node name="SkipTutorialsCheckBox" type="CheckBox" parent="."]
+offset_left = 686.0
+offset_top = 512.0
+offset_right = 710.0
+offset_bottom = 538.0

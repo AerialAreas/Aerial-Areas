@@ -12,6 +12,10 @@ public static class GameLogic
     public static bool isPaused = false;
     public static bool penalty = false;
 
+    public static void HandleTick()
+    {
+        // GD.Print("A game tick has been handled.");
+    }
     public static void SetToStart()
     {
         score = 0;

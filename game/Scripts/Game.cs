@@ -4,16 +4,25 @@ using System.ComponentModel;
 
 public partial class Game : Node
 {
-    public override void _Ready()
+    public int tick_count = 0; // testing variable
+    public override void _Ready() // careful with this function, because the player going to options/formulas resets this scene so these get called again!
     {
         HandlePause(false); // not changing the pause, just setting defaults
-        GameLogic.SetToStart(); // setting default values of 0 gold, wave 1, etc
         InitializeUIEvents();
     }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+    public override void _Process(double delta) // should generally be called 60 times per second or whatever we set the framerate to
     {
+        if (!GameLogic.isPaused)
+        {
+            tick_count++;
+            GameLogic.HandleTick();
+            DrawGameObjects();
+        }
+    }
+
+    private void DrawGameObjects() // maybe we make this public and GameLogic calls it? I think it needs to be here because this is the script for the actual Game scene
+    {
+
     }
 
     public void InitializeUIEvents()

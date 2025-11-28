@@ -73,31 +73,39 @@ public partial class MainMenu : Node2D
 		GetNode<VBoxContainer>("DifficultyContainer").Visible = true;
 	}
 
-	public void OnEasyButtonPressed()
+	public void StartGame(string difficulty)
 	{
 		GameLogic.player_name = GetNode<LineEdit>("EnterName").Text.Trim() == "" ? "Anonymous" : GetNode<LineEdit>("EnterName").Text.Trim();
-		GameLogic.difficulty = "easy";
-		UIHelper.SwitchSceneTo(this, "Game");
+		GameLogic.difficulty = difficulty;
+		GameLogic.SetToStart(); // setting default values of 0 gold, wave 1, etc
+								// now we check if skip tutorial is selected
+		if (UIHelper.skip_tutorials)
+		{
+			UIHelper.SwitchSceneTo(this, "Game");
+		}
+		else
+		{
+			UIHelper.SwitchSceneTo(this, "Tutorial");
+		}
+	}
+
+	public void OnEasyButtonPressed()
+	{
+		StartGame("easy");
 	}
 	public void OnMediumButtonPressed()
 	{
-		GameLogic.player_name = GetNode<LineEdit>("EnterName").Text.Trim() == "" ? "Anonymous" : GetNode<LineEdit>("EnterName").Text.Trim();
-		GameLogic.difficulty = "medium";
-		UIHelper.SwitchSceneTo(this, "Game");
+		StartGame("medium");
 	}
 	public void OnHardButtonPressed()
 	{
-		GameLogic.player_name = GetNode<LineEdit>("EnterName").Text.Trim() == "" ? "Anonymous" : GetNode<LineEdit>("EnterName").Text.Trim();
-		GameLogic.difficulty = "hard";
-		UIHelper.SwitchSceneTo(this, "Game");
+		StartGame("hard");
 	}
 	public void OnNightmareButtonPressed()
 	{
 		if (GameLogic.nightmare_unlocked)
 		{
-			GameLogic.player_name = GetNode<LineEdit>("EnterName").Text.Trim() == "" ? "Anonymous" : GetNode<LineEdit>("EnterName").Text.Trim();
-			GameLogic.difficulty = "nightmare";
-			UIHelper.SwitchSceneTo(this, "Game");
+			StartGame("nightmare");
 		}
 	}
 }
