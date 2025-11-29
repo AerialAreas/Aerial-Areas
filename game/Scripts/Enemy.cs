@@ -32,19 +32,32 @@ public class Enemy
         isHighlighted = false;
     }
 
-    void takeLife()
+    public Problem getProblem()
+    {
+        return problem;
+    }
+    public Vector2 getVelocity()
+    {
+        return velocity;
+    }
+    public void setVelocity(Vector2 vel)
+    {
+        velocity = vel;
+    }
+
+    public void takeLife()
     {
         Player.setLives(Player.getLives() - 1);
     }
-    void enemyClick()
+    public void enemyClick()
     {
         isHighlighted = true;
     }
-    void giveMoney()
+    public void giveMoney()
     {
         Player.setCurrency(Player.getCurrency() + value);
     }
-    bool compareAnswer(string input)
+    public bool compareAnswer(string input)
     {
         if (input.Equals(problem.getSolution()))
         {

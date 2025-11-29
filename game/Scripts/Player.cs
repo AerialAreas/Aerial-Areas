@@ -5,6 +5,10 @@ public static class Player
 {
     private static string name;
     private static int lives;
+    private static int currency;
+    private static int score;
+    // Powerup/Upgrade person can take care of dictionaries
+
     public static int getLives()
     {
         return lives;
@@ -14,7 +18,6 @@ public static class Player
         lives = value;
     }
 
-    private static int currency;
     public static int getCurrency()
     {
         return currency;
@@ -23,7 +26,4 @@ public static class Player
     {
         currency = value;
     }
-    private static int score;
-    // Powerup/Upgrade person can take care of dictionaries
-
 }

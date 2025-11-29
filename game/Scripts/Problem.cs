@@ -19,6 +19,10 @@ public abstract class Problem
     {
         solution = value;
     }
+    public Sprite getSprite()
+    {
+        return sprite;
+    }
 }
 public class Rectangle : Problem
 {

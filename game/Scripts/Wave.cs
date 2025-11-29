@@ -50,16 +50,31 @@ public class Wave
 
     public void checkEnemyPositions(Explosion explosion)
     {
+        Sprite explosionSprite = explosion.getSprite();
+        int innerExplosionX = (int)explosionSprite.getPosition().X;
+        int innerExplosionY = (int)explosionSprite.getPosition().Y;
+        int outerExplosionX = (int)(innerExplosionX + explosionSprite.getSize().X);
+        int outerExplosionY = (int)(innerExplosionY + explosionSprite.getSize().Y);
         foreach(Enemy enemy in spawnedEnemies)
         {
-            // explode implementation
-            // call destroyEnemy if necessary
+            Sprite enemySprite = enemy.getProblem().getSprite();
+            int enemyX = (int)enemySprite.getPosition().X;
+            int enemyY = (int)enemySprite.getPosition().Y;
+            
+            //assuming sprites have position toward top-left corner of png
+            if (enemyX < outerExplosionX && enemyX > innerExplosionX - enemySprite.getSize().X &&
+                enemyY < outerExplosionY && enemyY > innerExplosionY - enemySprite.getSize().Y)
+            {
+                destroyEnemy(enemy);
+            }
         }
     }
 
     public void destroyEnemy(Enemy enemy)
     {
         //more to be added
+        enemy.giveMoney();
         spawnedEnemies.Remove(enemy);
+        // enemy destroy()
     }
 }
