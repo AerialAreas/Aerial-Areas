@@ -1,9 +1,5 @@
 using Godot;
-using Player;
-using Problem;
-using Random;
 using System;
-
 
 public abstract class Enemy
 {
@@ -11,10 +7,9 @@ public abstract class Enemy
     private Vector2 position;
     private int value;
     private bool isHighlighted;
-
-    Enemy(string furthestUnlockedShape)
+    protected Random rand = new Random();
+    public Enemy(string furthestUnlockedShape)
     {
-        Random rand = new Random();
         // furthestUnlockedShape is the last shape introduced, if its a triangle, rectangles and triangles can be spawned.
         int shapesAllowed = 0;
         switch (furthestUnlockedShape)
@@ -33,13 +28,16 @@ public abstract class Enemy
         switch (shapeToSpawn)
         {
             case 0:
-                problem = new Rectangle();
+                // Rectangle's constructor may be non-public; use Activator to allow non-public instantiation
+                problem = (Problem)Activator.CreateInstance(typeof(Rectangle), true);
                 break;
             case 1:
-                problem = new Triangle();
+                // Triangle constructor may be non-public; instantiate the same way
+                problem = (Problem)Activator.CreateInstance(typeof(Triangle), true);
                 break;
             case 2:
-                problem = new Circle();
+                // Circle constructor may be non-public; instantiate the same way
+                problem = (Problem)Activator.CreateInstance(typeof(Circle), true);
                 break;
         } // end of problem init
 
@@ -59,7 +57,7 @@ public abstract class Enemy
     {
         target.setLives(target.getLives() - 1);
     }
-    void enemyClick(Event key)
+    void enemyClick()
     {
         
     }
@@ -69,13 +67,13 @@ public abstract class Enemy
     }
     bool compareAnswer(string input)
     {
-        if (input.equals(problem.solution))
+        if (input.Equals(problem.getSolution()))
         {
             return true;
         }
         return false;
     }
 }
-public class BossEnemy : Enemy
+/*public class BossEnemy : Enemy
 {
-}
+}*/

@@ -1,17 +1,24 @@
 using Godot;
-using Random;
-using Sprite;
 using System;
 
 
 
 public abstract class Problem
 {
-    private string solution;
-    private string shape;
-    private string problemType;
-    private Sprite sprite;
-    Random rand = new Random();
+    protected string solution;
+    public string getSolution()
+    {
+        return solution;
+    }
+    public void setSolution(string value)
+    {
+        solution = value;
+    }
+    
+    protected string shape;
+    protected string problemType;
+    protected Sprite sprite;
+    protected Random rand = new Random();
 }
 public class Rectangle : Problem
 {
@@ -122,15 +129,16 @@ public class Circle : Problem
         shape = "Circle";
         radius = rand.Next(1, 13); // 1 to 12
         fillType = rand.Next(1, 4); // 1 to 3
+        int typeDecider;
         
         // problemType init
         if(fillType == 1)
         {
-            int typeDecider = rand.Next(0, 2); // 0 or 1
+            typeDecider = rand.Next(0, 2); // 0 or 1
         }
         else
         {
-            int typeDecider = 0; // only area problems for semi and quarter circles
+            typeDecider = 0; // only area problems for semi and quarter circles
         }
         
         if (typeDecider == 0)
