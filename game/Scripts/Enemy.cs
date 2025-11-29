@@ -1,10 +1,9 @@
 using Godot;
 using System;
 
-public abstract class Enemy
+public class Enemy
 {
     private Problem problem;
-    private Vector2 position;
     private Vector2 velocity;
     private int value;
     private bool isHighlighted;
@@ -25,7 +24,6 @@ public abstract class Enemy
         } // end of problem init
 
         // position init based on UI, all top of screen
-        position = new Vector2(rand.Next(50, 750), 0); // x between 50 and 750, y = 0
         velocity = new Vector2(0, 5); // downwards for now
 
         // value init
@@ -34,16 +32,6 @@ public abstract class Enemy
         isHighlighted = false;
     }
 
-    void move()
-    {
-        // if horizontal movement results in wall collision, flip h direction
-        position.Y += velocity.Y;
-        position.X += velocity.X;
-        if (position.X <= 0 || position.X >= 800) // wall collision
-        {
-            velocity.X = -velocity.X;
-        }
-    }
     void takeLife()
     {
         Player.setLives(Player.getLives() - 1);
