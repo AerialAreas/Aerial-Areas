@@ -5,7 +5,12 @@ using System;
 
 public abstract class Problem
 {
-    protected string solution;
+    protected string solution;    
+    protected string shape;
+    protected string problemType;
+    protected Sprite2D sprite;
+    protected Random rand = new Random();
+
     public string getSolution()
     {
         return solution;
@@ -14,11 +19,6 @@ public abstract class Problem
     {
         solution = value;
     }
-    
-    protected string shape;
-    protected string problemType;
-    protected Sprite sprite;
-    protected Random rand = new Random();
 }
 public class Rectangle : Problem
 {
@@ -59,10 +59,14 @@ public class Rectangle : Problem
             if (problemType == "Area")
             {
                 // set sprite to square area sprite
+                sprite = new Sprite2D();
+                sprite.Texture = GD.Load<Texture2D>("game/Sprites/temp_rectangle_geometroid_area.png");
             }
             else
             {
                 // set sprite to square perimeter sprite
+                sprite = new Sprite2D();
+                sprite.Texture = GD.Load<Texture2D>("game/Sprites/temp_rectangle_geometroid.png");
             }
             // else if problemType == perimeter, set sprite = square perimeter sprite
 
@@ -70,6 +74,18 @@ public class Rectangle : Problem
         else
         {
             // if problemType == area, set sprite = rectangle area sprite
+            if (problemType == "Area")
+            {
+                // set sprite to rectangle area sprite
+                sprite = new Sprite2D();
+                sprite.Texture = GD.Load<Texture2D>("game/Sprites/temp_rectangle_geometroid_area.png");
+            }
+            else
+            {
+                // set sprite to rectangle perimeter sprite
+                sprite = new Sprite2D();
+                sprite.Texture = GD.Load<Texture2D>("game/Sprites/temp_rectangle_geometroid.png");
+            }
             // else if problemType == perimeter, set sprite = rectangle perimeter sprite
         }
     }
@@ -117,6 +133,8 @@ public class Triangle : Problem
         }
 
         // set sprite accordingly based on identifier and problemType
+        sprite = new Sprite2D();
+        sprite.Texture = GD.Load<Texture2D>("game/Sprites/geometroid.png");
     }
 } // end of Triangle class
 public class Circle : Problem
@@ -155,12 +173,17 @@ public class Circle : Problem
                 case (int)FillType.QUARTER:
                     solution = (0.25 * radius * radius).ToString() + "Pi";
                     break;
+                
             }
+            sprite = new Sprite2D();
+            sprite.Texture = GD.Load<Texture2D>("game/Sprites/temp_circle_a.png");
         }
         else
         {
             problemType = "Perimeter";
             solution = (2 * radius).ToString() + "Pi";
+            sprite = new Sprite2D();
+            sprite.Texture = GD.Load<Texture2D>("game/Sprites/temp_circle_p.png");
         }
         // set sprite accordingly based on problemType
     }

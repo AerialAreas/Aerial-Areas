@@ -1,29 +1,29 @@
 using Godot;
 using System;
 
-public class Player
+public static class Player
 {
-    private string name;
-    private int lives;
-    public int getLives()
+    private static string name;
+    private static int lives;
+    public static int getLives()
     {
         return lives;
     } 
-    public void setLives(int value)
+    public static void setLives(int value)
     {
         lives = value;
     }
 
-    private int currency;
-    public int getCurrency()
+    private static int currency;
+    public static int getCurrency()
     {
         return currency;
     } 
-    public void setCurrency(int value)
+    public static void setCurrency(int value)
     {
         currency = value;
     }
-    private int score;
+    private static int score;
     // Powerup/Upgrade person can take care of dictionaries
 
 }

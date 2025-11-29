@@ -5,43 +5,28 @@ public abstract class Enemy
 {
     private Problem problem;
     private Vector2 position;
+    private Vector2 velocity;
     private int value;
     private bool isHighlighted;
     protected Random rand = new Random();
-    public Enemy(string furthestUnlockedShape)
+    public Enemy(string shape)
     {
-        // furthestUnlockedShape is the last shape introduced, if its a triangle, rectangles and triangles can be spawned.
-        int shapesAllowed = 0;
-        switch (furthestUnlockedShape)
+        switch (shape)
         {
             case "Rectangle":
-                shapesAllowed = 1;
-                break;
-            case "Triangle":
-                shapesAllowed = 2;
-                break;
-            case "Circle":
-                shapesAllowed = 3;
-                break;
-        }
-        int shapeToSpawn = rand.Next(0, shapesAllowed); // generating random shape
-        switch (shapeToSpawn)
-        {
-            case 0:
-                // Rectangle's constructor may be non-public; use Activator to allow non-public instantiation
                 problem = (Problem)Activator.CreateInstance(typeof(Rectangle), true);
                 break;
-            case 1:
-                // Triangle constructor may be non-public; instantiate the same way
+            case "Triangle":
                 problem = (Problem)Activator.CreateInstance(typeof(Triangle), true);
                 break;
-            case 2:
-                // Circle constructor may be non-public; instantiate the same way
+            case "Circle":
                 problem = (Problem)Activator.CreateInstance(typeof(Circle), true);
                 break;
         } // end of problem init
 
         // position init based on UI, all top of screen
+        position = new Vector2(rand.Next(50, 750), 0); // x between 50 and 750, y = 0
+        velocity = new Vector2(0, 5); // downwards for now
 
         // value init
         value = rand.Next(10, 21); // random between 10 and 20
@@ -52,18 +37,24 @@ public abstract class Enemy
     void move()
     {
         // if horizontal movement results in wall collision, flip h direction
+        position.Y += velocity.Y;
+        position.X += velocity.X;
+        if (position.X <= 0 || position.X >= 800) // wall collision
+        {
+            velocity.X = -velocity.X;
+        }
     }
-    void takeLife(Player target)
+    void takeLife()
     {
-        target.setLives(target.getLives() - 1);
+        Player.setLives(Player.getLives() - 1);
     }
     void enemyClick()
     {
-        
+        isHighlighted = true;
     }
-    void giveMoney(Player target)
+    void giveMoney()
     {
-        target.setCurrency(target.getCurrency() + value);
+        Player.setCurrency(Player.getCurrency() + value);
     }
     bool compareAnswer(string input)
     {
