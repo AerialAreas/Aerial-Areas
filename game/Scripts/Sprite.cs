@@ -1,15 +1,42 @@
 using Godot;
 using System;
 
-public partial class Sprite : Node
+public class Sprite
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	Vector2 position;
+	string filePath;
+	Vector2 size;
+
+	public Sprite()
 	{
+		position = new Vector2(0, 0);
+		filePath = "";
+		size = new Vector2(0, 0);	
+	}
+	public Sprite(Vector2 pos, string path, Vector2 sz)
+	{
+		position = pos;
+		filePath = path;
+		size = sz;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public Vector2 getPosition()
 	{
+		return position;
+	}
+	public void setPosition(Vector2 pos){
+		position = pos;
+	}
+	public Vector2 getSize()
+	{
+		return size;
+	}
+	public void setSize(Vector2 sz){
+		size = sz;
+	}
+
+	public void drawSprite()
+	{
+		
 	}
 }
