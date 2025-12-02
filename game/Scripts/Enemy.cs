@@ -5,11 +5,13 @@ public class Enemy
 {
     private Problem problem;
     private Vector2 velocity;
-    private int value;
+    public Sprite sprite;
+    public int value;
     private bool isHighlighted;
     protected Random rand = new Random();
     public Enemy(string shape)
     {
+        Vector2 position = new Vector2(rand.Next(0, 1), 0);
         switch (shape)
         {
             case "Rectangle":
@@ -47,15 +49,11 @@ public class Enemy
 
     public void takeLife()
     {
-        Player.setLives(Player.getLives() - 1);
+        GameLogic.lives -= 1;
     }
-    public void enemyClick()
+    public void giveMoney(int money)
     {
-        isHighlighted = true;
-    }
-    public void giveMoney()
-    {
-        Player.setCurrency(Player.getCurrency() + value);
+        GameLogic.currency += money;
     }
     public bool compareAnswer(string input)
     {
@@ -66,6 +64,7 @@ public class Enemy
         return false;
     }
 }
-/*public class BossEnemy : Enemy
-{
-}*/
+
+// public class BossEnemy : Enemy
+// {
+// }

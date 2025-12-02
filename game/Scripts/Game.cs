@@ -27,7 +27,7 @@ public partial class Game : Node
 
     public void InitializeUIEvents()
     {
-        GetNode<Label>("Money").Text = $"{GameLogic.gold}💵";
+        GetNode<Label>("Money").Text = $"{GameLogic.currency}💵";
         GetNode<Label>("GameAttributes").Text = $"Player Name: {GameLogic.player_name}\nGame Difficulty: {GameLogic.difficulty}";
         GetNode<Button>("VBoxContainer/ShopButton").Connect(Button.SignalName.Pressed, Callable.From(OnShopButton));
         GetNode<Button>("VBoxContainer/WinButton").Connect(Button.SignalName.Pressed, Callable.From(OnWinButton));
