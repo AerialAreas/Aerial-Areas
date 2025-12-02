@@ -1,35 +1,23 @@
 using Godot;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 
 
 public abstract class Problem
 {
-    protected string solution;    
-    protected string shape;
-    protected string problemType;
-    protected Sprite sprite;
-    protected Random rand = new Random();
-
-    public string getSolution()
-    {
-        return solution;
-    }
-    public void setSolution(string value)
-    {
-        solution = value;
-    }
-    public Sprite getSprite()
-    {
-        return sprite;
-    }
+    public string solution;    
+    public string shape;
+    public string problemType;
+    public Sprite sprite;
+    public Random rand = new Random();
+    public abstract void PrintProblemData();
 }
 public class Rectangle : Problem
 {
     private int length;
     private int width;
     private bool isSquare;
-    private int randomX;
     Rectangle()
     {
         shape = "Rectangle";
@@ -57,47 +45,19 @@ public class Rectangle : Problem
             problemType = "Perimeter";
             solution = (2 * (length + width)).ToString();
         }
-        randomX = rand.Next(50, 750); // x between 50 and 750
-        if (isSquare) // set sprite accordingly
-        {
-            // if problemType == area, set sprite = square area sprite
-            if (problemType == "Area")
-            {
-                // set sprite to square area sprite
-                sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/temp_rectangle_geometroid_area.png", new Vector2(50, 50));
-            }
-            else
-            {
-                // set sprite to square perimeter sprite
-                sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/temp_rectangle_geometroid.png", new Vector2(50, 50));
-            }
-            // else if problemType == perimeter, set sprite = square perimeter sprite
-
-        }
-        else
-        {
-            // if problemType == area, set sprite = rectangle area sprite
-            if (problemType == "Area")
-            {
-                // set sprite to rectangle area sprite
-                sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/temp_rectangle_geometroid_area.png", new Vector2(50, 50));
-            }
-            else
-            {
-                // set sprite to rectangle perimeter sprite
-                sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/temp_rectangle_geometroid.png", new Vector2(50, 50));
-            }
-            // else if problemType == perimeter, set sprite = rectangle perimeter sprite
-        }
+    }
+    public override void PrintProblemData()
+    {
+        GD.Print($"I am a rectangle with length {length}, width {width}, and type {problemType}, solution is {solution}");
     }
 } // end of Rectangle class
 public class Triangle : Problem
 {
-    private int baseLength;
-    private int height;
-    private int side2;
-    private int side3;
-    private string identifier;
+    public int baseLength;
+    public int height;
+    public int side2;
+    public int side3;
+    public string identifier;
     Triangle()
     {
         shape = "Triangle";
@@ -133,9 +93,10 @@ public class Triangle : Problem
         {
             identifier = "Scalene";
         }
-
-        // set sprite accordingly based on identifier and problemType
-        sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/geometroid.png", new Vector2(50, 50));
+    }
+    public override void PrintProblemData()
+    {
+        //GD.Print($"I am a rectangle with length {length}, width {width}, and type {problemType}, solution is {solution}");
     }
 } // end of Triangle class
 public class Circle : Problem
@@ -187,7 +148,11 @@ public class Circle : Problem
         }
         // set sprite accordingly based on problemType
     }
+    public override void PrintProblemData()
+    {
+        //GD.Print($"I am a rectangle with length {length}, width {width}, and type {problemType}, solution is {solution}");
+    }
 } // end of Circle class
-public class BossProblem : Problem
-{
-}
+// public class BossProblem : Problem
+// {
+// }

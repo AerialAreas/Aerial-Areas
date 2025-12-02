@@ -9,6 +9,16 @@ public partial class Game : Node
     {
         HandlePause(false); // not changing the pause, just setting defaults
         InitializeUIEvents();
+        StartFirstWave();
+    }
+
+    public void StartFirstWave()
+    {
+        if (GameLogic.first_load)
+        {
+            GameLogic.first_load = false;
+            GameLogic.wave = new Wave(1);
+        }
     }
     public override void _Process(double delta) // should generally be called 60 times per second or whatever we set the framerate to
     {

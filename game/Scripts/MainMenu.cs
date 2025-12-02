@@ -78,7 +78,6 @@ public partial class MainMenu : Node2D
 		GameLogic.player_name = GetNode<LineEdit>("EnterName").Text.Trim() == "" ? "Anonymous" : GetNode<LineEdit>("EnterName").Text.Trim();
 		GameLogic.difficulty = difficulty;
 		GameLogic.SetToStart(); // setting default values of 0 gold, wave 1, etc
-								// now we check if skip tutorial is selected
 		if (UIHelper.skip_tutorials)
 		{
 			UIHelper.SwitchSceneTo(this, "Game");
