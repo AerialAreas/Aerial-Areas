@@ -8,7 +8,8 @@ public static class GameLogic
     public static string difficulty;
     public static int score = 0;
     public static int wave = 0;
-    public static int gold = 0;
+    public static int currency = 0;
+    public static int lives = 100;
     public static bool isPaused = false;
     public static bool penalty = false;
 
@@ -20,7 +21,8 @@ public static class GameLogic
     {
         score = 0;
         wave = 1;
-        gold = 0;
+        currency = 0;
+        lives = 100;
         penalty = false;
     }
 }

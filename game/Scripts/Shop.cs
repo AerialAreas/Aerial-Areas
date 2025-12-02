@@ -11,7 +11,7 @@ public partial class Shop : Node2D
 
     public void InitializeUIEvents()
     {
-        GetNode<Label>("Money").Text = $"{GameLogic.gold}💵";
+        GetNode<Label>("Money").Text = $"{GameLogic.currency}💵";
         GetNode<Button>("DebugMoreMoney").Connect(Button.SignalName.Pressed, Callable.From(MoreMoneyButton));
         GetNode<Button>("GoBack").Connect(Button.SignalName.Pressed, Callable.From(OnGoBackButton));
         GetNode<Button>("PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
@@ -115,7 +115,7 @@ public partial class Shop : Node2D
 
     public void MoreMoneyButton()
     {
-        GameLogic.gold += 5000;
-        GetNode<Label>("Money").Text = $"{GameLogic.gold}💵";
+        GameLogic.currency += 5000;
+        GetNode<Label>("Money").Text = $"{GameLogic.currency}💵";
     }
 }

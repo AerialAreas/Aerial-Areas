@@ -72,8 +72,7 @@ public class Wave
 
     public void destroyEnemy(Enemy enemy)
     {
-        //more to be added
-        enemy.giveMoney();
+        GameLogic.currency += enemy.value;
         spawnedEnemies.Remove(enemy);
         // enemy destroy()
     }
