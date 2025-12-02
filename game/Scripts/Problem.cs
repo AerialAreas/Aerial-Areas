@@ -53,39 +53,40 @@ public class Rectangle : Problem
 } // end of Rectangle class
 public class Triangle : Problem
 {
-    public int baseLength;
+    public int base_length;
     public int height;
     public int side2;
     public int side3;
+    public int base1;
     public string identifier;
     Triangle()
     {
         shape = "Triangle";
-        baseLength = rand.Next(1, 13); // 1 to 12
-        height = rand.Next(1, 13); // 1 to 12
-        side2 = rand.Next(1, 13);
-        side3 = rand.Next(1, 13);
-        int randomX = rand.Next(50, 750); // x between 50 and 750
+        base_length = rand.Next(3, 13); // 1 to 12
+        side2 = rand.Next(3, 13);
+        side3 = rand.Next(Math.Abs(side2-base_length), side2+base_length);
+        base1 = side2 / ((side2 + side3) * base_length);
+        height = (int)Math.Sqrt(Math.Pow(side2, 2) - Math.Pow(base1, 2));
 
         // problemType init
         int typeDecider = rand.Next(0, 2); // 0 or 1
         if (typeDecider == 0)
         {
             problemType = "Area";
-            solution = (0.5 * baseLength * height).ToString();
+            solution = (0.5 * base_length * height).ToString();
         }
         else
         {
             problemType = "Perimeter";
-            solution = (baseLength + side2 + side3).ToString();
+            solution = (base_length + side2 + side3).ToString();
         }
 
         // set identifier based on side lengths
-        if (baseLength == side2 && side2 == side3)
+        if (base_length == side2 && side2 == side3)
         {
             identifier = "Equilateral";
         }
-        else if (baseLength == side2 || baseLength == side3 || side2 == side3)
+        else if (base_length == side2 || base_length == side3 || side2 == side3)
         {
             identifier = "Isosceles";
         }
@@ -96,7 +97,7 @@ public class Triangle : Problem
     }
     public override void PrintProblemData()
     {
-        //GD.Print($"I am a rectangle with length {length}, width {width}, and type {problemType}, solution is {solution}");
+        GD.Print($"I am a shape {shape} with length {base_length}, height {height}, side2 {side2}, side3 {side3}, base1{base1} type {problemType}, identifier {identifier}, solution is {solution}");
     }
 } // end of Triangle class
 public class Circle : Problem
