@@ -66,13 +66,27 @@ public partial class Game : Node2D
         GetNode<Button>("VBoxContainer/ShopButton").Connect(Button.SignalName.Pressed, Callable.From(OnShopButton));
         GetNode<Button>("VBoxContainer/WinButton").Connect(Button.SignalName.Pressed, Callable.From(OnWinButton));
         GetNode<Button>("VBoxContainer/GameOverButton").Connect(Button.SignalName.Pressed, Callable.From(OnGameOverButton));
+
         GetNode<Button>("PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
         GetNode<Button>("PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
         GetNode<Button>("PauseMenu/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButton));
         GetNode<Button>("PauseMenu/Resume").Connect(Button.SignalName.Pressed, Callable.From(OnResumeButton));
-        GetNode<Button>("PanelContainer3/PowerUps/Ice").Connect(Button.SignalName.Pressed, Callable.From(OnIceButton));
-        GetNode<Button>("PanelContainer3/PowerUps/Fire").Connect(Button.SignalName.Pressed, Callable.From(OnFireButton));
-        GetNode<Button>("PanelContainer3/PowerUps/Lightning").Connect(Button.SignalName.Pressed, Callable.From(OnLightningButton));
+
+        GetNode<Button>("PanelContainer2/Upgrades/BiggerBooms").Text += $"\nLevel {GameLogic.upgrade_inventory["Bigger Booms"]}";
+
+        GetNode<Button>("PanelContainer2/Upgrades/Slow").Text += $"\nLevel {GameLogic.upgrade_inventory["Slow"]}";
+
+        GetNode<Button>("PanelContainer2/Upgrades/MaxLives").Text += $"\nLevel {GameLogic.upgrade_inventory["Max Lives"]}";
+
+        GetNode<Button>("PanelContainer3/PowerUps/Freeze").Connect(Button.SignalName.Pressed, Callable.From(OnFreezeButton));
+        GetNode<Button>("PanelContainer3/PowerUps/Freeze").Text += $"\n{GameLogic.powerup_inventory["Freeze"]}";
+
+        GetNode<Button>("PanelContainer3/PowerUps/Fireball").Connect(Button.SignalName.Pressed, Callable.From(OnFireballButton));
+        GetNode<Button>("PanelContainer3/PowerUps/Fireball").Text += $"\n{GameLogic.powerup_inventory["Fireball"]}";
+
+        GetNode<Button>("PanelContainer3/PowerUps/Frenzy").Connect(Button.SignalName.Pressed, Callable.From(OnFrenzyButton));
+        GetNode<Button>("PanelContainer3/PowerUps/Frenzy").Text += $"\n{GameLogic.powerup_inventory["Frenzy"]}";
+
         GetNode<LineEdit>("PanelContainer4/Answer").TextSubmitted += CheckAnswer;
     }
 
@@ -102,9 +116,9 @@ public partial class Game : Node2D
         GetNode<Button>("VBoxContainer/ShopButton").Disabled = new_paused;
         GetNode<Button>("VBoxContainer/WinButton").Disabled = new_paused;
         GetNode<Button>("VBoxContainer/GameOverButton").Disabled = new_paused;
-        GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled = new_paused;
-        GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled = new_paused;
-        GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = new_paused;
+        GetNode<Button>("PanelContainer3/PowerUps/Freeze").Disabled = new_paused;
+        GetNode<Button>("PanelContainer3/PowerUps/Fireball").Disabled = new_paused;
+        GetNode<Button>("PanelContainer3/PowerUps/Frenzy").Disabled = new_paused;
         GetNode<LineEdit>("PanelContainer4/Answer").Editable = !new_paused;
     }
 
@@ -144,19 +158,43 @@ public partial class Game : Node2D
         HandlePause(true);
     }
 
-    public void OnIceButton()
+    public void OnFreezeButton()
     {
-        GetNode<Label>("Label").Text = "You used the 🧊 power up!";
+        if (Powerup.UsePowerup("Freeze"))
+        {
+            GetNode<Label>("Label").Text = "You used the 🧊 power up!";
+            GetNode<Button>("PanelContainer3/PowerUps/Freeze").Text = $"🧊\n{GameLogic.powerup_inventory["Freeze"]}";
+        }
+        else
+        {
+            GetNode<Label>("Label").Text = "You don't have enough 🧊 power ups!";
+        }
     }
 
-    public void OnFireButton()
+    public void OnFireballButton()
     {
-        GetNode<Label>("Label").Text = "You used the 🔥 power up!";
+        if (Powerup.UsePowerup("Fireball"))
+        {
+            GetNode<Label>("Label").Text = "You used the 🔥 power up!";
+            GetNode<Button>("PanelContainer3/PowerUps/Fireball").Text = $"🔥\n{GameLogic.powerup_inventory["Fireball"]}";
+        }
+        else
+        {
+            GetNode<Label>("Label").Text = "You don't have enough 🔥 power ups!";
+        }
     }
 
-    public void OnLightningButton()
+    public void OnFrenzyButton()
     {
-        GetNode<Label>("Label").Text = "You used the ⚡ power up!";
+        if (Powerup.UsePowerup("Frenzy"))
+        {
+            GetNode<Label>("Label").Text = "You used the ⚡ power up!";
+            GetNode<Button>("PanelContainer3/PowerUps/Frenzy").Text = $"⚡\n{GameLogic.powerup_inventory["Frenzy"]}";
+        }
+        else
+        {
+            GetNode<Label>("Label").Text = "You don't have enough ⚡ power ups!";
+        }
     }
 
     public void CheckAnswer(string answer)

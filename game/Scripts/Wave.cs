@@ -50,7 +50,7 @@ public class Wave
             if (enemyX < outerExplosionX && enemyX > innerExplosionX - enemySprite.size.X &&
                 enemyY < outerExplosionY && enemyY > innerExplosionY - enemySprite.size.Y)
             {
-                destroyEnemy(enemy);
+                // destroyEnemy(enemy);
             }
         }
     }

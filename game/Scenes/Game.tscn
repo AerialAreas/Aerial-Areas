@@ -1,7 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://56y4kxgniqxq"]
+[gd_scene load_steps=6 format=3 uid="uid://56y4kxgniqxq"]
 
 [ext_resource type="Script" uid="uid://b1q6ffty23rfe" path="res://Scripts/Game.cs" id="1_gl6un"]
 [ext_resource type="Texture2D" uid="uid://covgrja1iyeir" path="res://Sprites/geometroid.png" id="1_iukft"]
+[ext_resource type="Script" uid="uid://d3w7yshupp0n2" path="res://Scripts/Tooltip.cs" id="3_j5yw3"]
+[ext_resource type="Script" uid="uid://dq2ajcqpgwi18" path="res://Scripts/TooltipInteract.cs" id="3_kldst"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kldst"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.14117648, 0.14117648, 0.14117648, 0.7294118)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_gl6un")
@@ -100,20 +118,80 @@ layout_mode = 2
 text = "Upgrades"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="PanelContainer2/Upgrades"]
+[node name="BiggerBooms" type="Button" parent="PanelContainer2/Upgrades"]
 layout_mode = 2
-text = "🧨
-Level 1"
+text = "🧨"
+script = ExtResource("3_kldst")
 
-[node name="Button2" type="Button" parent="PanelContainer2/Upgrades"]
-layout_mode = 2
-text = "💎
-Level 1"
+[node name="Tooltip" type="PanelContainer" parent="PanelContainer2/Upgrades/BiggerBooms"]
+top_level = true
+layout_mode = 0
+offset_left = -572.0
+offset_top = -294.0
+offset_right = -293.0
+offset_bottom = -199.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kldst")
+script = ExtResource("3_j5yw3")
 
-[node name="Button3" type="Button" parent="PanelContainer2/Upgrades"]
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer2/Upgrades/BiggerBooms/Tooltip"]
 layout_mode = 2
-text = "❤️
-Level 1"
+mouse_filter = 2
+bbcode_enabled = true
+text = "[b]Bigger Booms[/b]
+Increases explosion size"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="Slow" type="Button" parent="PanelContainer2/Upgrades"]
+layout_mode = 2
+text = "🐌"
+script = ExtResource("3_kldst")
+
+[node name="Tooltip" type="PanelContainer" parent="PanelContainer2/Upgrades/Slow"]
+top_level = true
+layout_mode = 0
+offset_left = -572.0
+offset_top = -294.0
+offset_right = -293.0
+offset_bottom = -199.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kldst")
+script = ExtResource("3_j5yw3")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer2/Upgrades/Slow/Tooltip"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[b]Slow[/b]
+Passively slows enemies"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="MaxLives" type="Button" parent="PanelContainer2/Upgrades"]
+layout_mode = 2
+text = "❤️"
+script = ExtResource("3_kldst")
+
+[node name="Tooltip" type="PanelContainer" parent="PanelContainer2/Upgrades/MaxLives"]
+top_level = true
+layout_mode = 0
+offset_left = -572.0
+offset_top = -294.0
+offset_right = -293.0
+offset_bottom = -199.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kldst")
+script = ExtResource("3_j5yw3")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer2/Upgrades/MaxLives/Tooltip"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[b]Max Lives[/b]
+Increases max lives"
+fit_content = true
+horizontal_alignment = 1
 
 [node name="PanelContainer3" type="PanelContainer" parent="."]
 offset_left = 1040.0
@@ -129,17 +207,80 @@ layout_mode = 2
 text = "Power Ups"
 horizontal_alignment = 1
 
-[node name="Ice" type="Button" parent="PanelContainer3/PowerUps"]
+[node name="Freeze" type="Button" parent="PanelContainer3/PowerUps"]
 layout_mode = 2
 text = "🧊"
+script = ExtResource("3_kldst")
 
-[node name="Fire" type="Button" parent="PanelContainer3/PowerUps"]
+[node name="Tooltip" type="PanelContainer" parent="PanelContainer3/PowerUps/Freeze"]
+top_level = true
+layout_mode = 0
+offset_left = -572.0
+offset_top = -294.0
+offset_right = -293.0
+offset_bottom = -199.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kldst")
+script = ExtResource("3_j5yw3")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer3/PowerUps/Freeze/Tooltip"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[b]Freeze[/b]
+Halts enemey movement for 5 seconds"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="Fireball" type="Button" parent="PanelContainer3/PowerUps"]
 layout_mode = 2
 text = "🔥"
+script = ExtResource("3_kldst")
 
-[node name="Lightning" type="Button" parent="PanelContainer3/PowerUps"]
+[node name="Tooltip" type="PanelContainer" parent="PanelContainer3/PowerUps/Fireball"]
+top_level = true
+layout_mode = 0
+offset_left = -572.0
+offset_top = -294.0
+offset_right = -293.0
+offset_bottom = -199.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kldst")
+script = ExtResource("3_j5yw3")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer3/PowerUps/Fireball/Tooltip"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[b]Fireball[/b]
+Destroys the closest enemy"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="Frenzy" type="Button" parent="PanelContainer3/PowerUps"]
 layout_mode = 2
 text = "⚡"
+script = ExtResource("3_kldst")
+
+[node name="Tooltip" type="PanelContainer" parent="PanelContainer3/PowerUps/Frenzy"]
+top_level = true
+layout_mode = 0
+offset_left = -572.0
+offset_top = -294.0
+offset_right = -293.0
+offset_bottom = -199.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kldst")
+script = ExtResource("3_j5yw3")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer3/PowerUps/Frenzy/Tooltip"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[b]Frenzy[/b]
+Doubles gold for 5 seconds"
+fit_content = true
+horizontal_alignment = 1
 
 [node name="PanelContainer4" type="PanelContainer" parent="."]
 offset_left = 1.0
