@@ -1,14 +1,26 @@
 using Godot;
 using System;
 using System.ComponentModel;
+using System.Transactions;
 
-public partial class Game : Node
+public partial class Game : Node2D
 {
     public int tick_count = 0; // testing variable
     public override void _Ready() // careful with this function, because the player going to options/formulas resets this scene so these get called again!
     {
         HandlePause(false); // not changing the pause, just setting defaults
         InitializeUIEvents();
+        StartFirstWave();
+        DrawGameObjects();
+    }
+
+    public void StartFirstWave()
+    {
+        if (GameLogic.first_load)
+        {
+            GameLogic.first_load = false;
+            GameLogic.wave = new Wave(1);
+        }
     }
     public override void _Process(double delta) // should generally be called 60 times per second or whatever we set the framerate to
     {
@@ -20,9 +32,20 @@ public partial class Game : Node
         }
     }
 
-    private void DrawGameObjects() // maybe we make this public and GameLogic calls it? I think it needs to be here because this is the script for the actual Game scene
+    public void DrawGameObjects() // maybe we make this public and GameLogic calls it? I think it needs to be here because this is the script for the actual Game scene
     {
-
+        int enemyCount = 10; 
+        for (int i = 0; i < enemyCount; i++)
+        {
+            Enemy newEnemy = new Enemy("Circle");
+            Sprite2D sprite = new Sprite2D();
+            sprite.Texture = GD.Load<Texture2D>(newEnemy.sprite.filePath);
+            sprite.Position = newEnemy.sprite.position;
+            sprite.Scale = new Vector2(.25f, .25f);
+            GameLogic.wave.unspawned_enemies.Add(newEnemy);
+            AddChild(sprite);
+            GD.Print(GameLogic.wave.unspawned_enemies);
+        }
     }
 
     public void InitializeUIEvents()

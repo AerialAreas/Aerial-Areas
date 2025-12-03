@@ -3,9 +3,9 @@ using System;
 
 public class Sprite
 {
-	Vector2 position;
-	string filePath;
-	Vector2 size;
+	public Vector2 position;
+	public string filePath;
+	public Vector2 size;
 
 	public Sprite()
 	{
@@ -19,22 +19,6 @@ public class Sprite
 		filePath = path;
 		size = sz;
 	}
-
-	public Vector2 getPosition()
-	{
-		return position;
-	}
-	public void setPosition(Vector2 pos){
-		position = pos;
-	}
-	public Vector2 getSize()
-	{
-		return size;
-	}
-	public void setSize(Vector2 sz){
-		size = sz;
-	}
-
 	public void drawSprite()
 	{
 		

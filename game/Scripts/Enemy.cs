@@ -3,25 +3,27 @@ using System;
 
 public class Enemy
 {
-    private Problem problem;
-    private Vector2 velocity;
+    public Problem problem;
+    public Vector2 velocity;
     public Sprite sprite;
     public int value;
-    private bool isHighlighted;
+    public bool isHighlighted;
     protected Random rand = new Random();
     public Enemy(string shape)
     {
-        Vector2 position = new Vector2(rand.Next(0, 1), 0);
         switch (shape)
         {
             case "Rectangle":
                 problem = (Problem)Activator.CreateInstance(typeof(Rectangle), true);
+                sprite = new Sprite(new Vector2(rand.Next(500, 600), 0), "res://Sprites/geometroid.png", new Vector2(1, 1));
                 break;
             case "Triangle":
                 problem = (Problem)Activator.CreateInstance(typeof(Triangle), true);
+                sprite = new Sprite(new Vector2(rand.Next(500, 600), 0), "res://Sprites/geometroid.png", new Vector2(1, 1));
                 break;
             case "Circle":
                 problem = (Problem)Activator.CreateInstance(typeof(Circle), true);
+                sprite = new Sprite(new Vector2(rand.Next(500, 600), 0), "res://Sprites/geometroid.png", new Vector2(1, 1));
                 break;
         } // end of problem init
 
@@ -32,32 +34,13 @@ public class Enemy
         value = rand.Next(10, 21); // random between 10 and 20
 
         isHighlighted = false;
-    }
 
-    public Problem getProblem()
-    {
-        return problem;
-    }
-    public Vector2 getVelocity()
-    {
-        return velocity;
-    }
-    public void setVelocity(Vector2 vel)
-    {
-        velocity = vel;
-    }
-
-    public void takeLife()
-    {
-        GameLogic.lives -= 1;
-    }
-    public void giveMoney(int money)
-    {
-        GameLogic.currency += money;
+        // GD.Print($"Spawned an enemy with shape {shape} and velocity {velocity.X}, {velocity.Y} and value {value} and sprite path {sprite.filePath} and sprite pos {sprite.position.X}, {sprite.position.Y}");
+        // problem.PrintProblemData();
     }
     public bool compareAnswer(string input)
     {
-        if (input.Equals(problem.getSolution()))
+        if (input.Equals(problem.solution))
         {
             return true;
         }
