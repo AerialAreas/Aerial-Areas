@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Sprite
+public partial class Sprite : Node2D
 {
 	public Vector2 position;
 	public string filePath;

@@ -15,11 +15,6 @@ public static class GameLogic
     public static bool first_load = true;
     public static Wave wave;
     public static Game game;
-
-    public static void HandleTick()
-    {
-  
-    }
     public static void SetToStart()
     {
         score = 0;

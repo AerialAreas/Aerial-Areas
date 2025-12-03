@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Transactions;
 
 public partial class Game : Node2D
@@ -20,32 +21,42 @@ public partial class Game : Node2D
         {
             GameLogic.first_load = false;
             GameLogic.wave = new Wave(1);
+            for(int i = 0; i < 10; i++)
+            {
+                AddEnemy();
+            }
         }
     }
     public override void _Process(double delta) // should generally be called 60 times per second or whatever we set the framerate to
     {
         if (!GameLogic.isPaused)
         {
-            tick_count++;
-            GameLogic.HandleTick();
-            DrawGameObjects();
+            foreach(Enemy enemy in GameLogic.wave.unspawned_enemies) // todo fix
+            {
+                enemy.Move();
+            }
         }
+    }
+
+    public override void _Draw()
+    {
+        base._Draw();
     }
 
     public void DrawGameObjects() // maybe we make this public and GameLogic calls it? I think it needs to be here because this is the script for the actual Game scene
     {
-        int enemyCount = 10; 
-        for (int i = 0; i < enemyCount; i++)
-        {
-            Enemy newEnemy = new Enemy("Circle");
-            Sprite2D sprite = new Sprite2D();
-            sprite.Texture = GD.Load<Texture2D>(newEnemy.sprite.filePath);
-            sprite.Position = newEnemy.sprite.position;
-            sprite.Scale = new Vector2(.25f, .25f);
-            GameLogic.wave.unspawned_enemies.Add(newEnemy);
-            AddChild(sprite);
-            GD.Print(GameLogic.wave.unspawned_enemies);
-        }
+        
+    }
+    public void AddEnemy()
+    {
+        Enemy newEnemy = new Enemy("Circle");
+        Sprite2D sprite = newEnemy.sprite;
+        newEnemy.SetScript(GD.Load<Script>("res://Scripts/Enemy.cs"));
+        sprite.Texture = GD.Load<Texture2D>("res://Sprites/geometroid.png");
+        sprite.Position = newEnemy.sprite.Position;
+        sprite.Scale = new Vector2(.25f, .25f);
+        GameLogic.wave.unspawned_enemies.Add(newEnemy);
+        AddChild(newEnemy.sprite);
     }
 
     public void InitializeUIEvents()

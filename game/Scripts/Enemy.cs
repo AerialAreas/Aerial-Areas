@@ -1,35 +1,56 @@
 using Godot;
 using System;
 
-public class Enemy
+public partial class Enemy : Sprite2D
 {
     public Problem problem;
     public Vector2 velocity;
-    public Sprite sprite;
+    public Sprite2D sprite;
+    public Texture2D texture;
     public int value;
     public bool isHighlighted;
     protected Random rand = new Random();
+    public override void _Draw()
+    {
+        base._Draw();
+        GD.Print("c");
+    }
+    public override void _Process(double delta)
+    {
+        this._Draw();
+    }
+
+    public void Move()
+    {
+        GD.Print($"{sprite.Position.X}, {sprite.Position.Y}");
+        Vector2 current_enemy_pos = sprite.Position;
+        Vector2 enemy_velocity = velocity;
+        sprite.Position = new Vector2(current_enemy_pos.X + enemy_velocity.X, current_enemy_pos.Y + enemy_velocity.Y);
+        GD.Print($"{sprite.Position.X}, {sprite.Position.Y}");
+    }
+
     public Enemy(string shape)
     {
         switch (shape)
         {
             case "Rectangle":
                 problem = (Problem)Activator.CreateInstance(typeof(Rectangle), true);
-                sprite = new Sprite(new Vector2(rand.Next(500, 600), 0), "res://Sprites/geometroid.png", new Vector2(1, 1));
+                texture = GD.Load<Texture2D>("res://Sprites/geometroid.png");
                 break;
             case "Triangle":
                 problem = (Problem)Activator.CreateInstance(typeof(Triangle), true);
-                sprite = new Sprite(new Vector2(rand.Next(500, 600), 0), "res://Sprites/geometroid.png", new Vector2(1, 1));
+                texture = GD.Load<Texture2D>("res://Sprites/geometroid.png");
                 break;
             case "Circle":
                 problem = (Problem)Activator.CreateInstance(typeof(Circle), true);
-                sprite = new Sprite(new Vector2(rand.Next(500, 600), 0), "res://Sprites/geometroid.png", new Vector2(1, 1));
+                texture = GD.Load<Texture2D>("res://Sprites/geometroid.png");
                 break;
         } // end of problem init
 
         // position init based on UI, all top of screen
-        velocity = new Vector2(0, 5); // downwards for now
-
+        velocity = new Vector2(0, 1); // downwards for now
+        sprite = new Sprite2D();
+        sprite.Position = new Vector2(500, 500);
         // value init
         value = rand.Next(10, 21); // random between 10 and 20
 
