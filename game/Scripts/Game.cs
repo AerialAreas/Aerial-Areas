@@ -32,6 +32,7 @@ public partial class Game : Node
         GetNode<Button>("VBoxContainer/ShopButton").Connect(Button.SignalName.Pressed, Callable.From(OnShopButton));
         GetNode<Button>("VBoxContainer/WinButton").Connect(Button.SignalName.Pressed, Callable.From(OnWinButton));
         GetNode<Button>("VBoxContainer/GameOverButton").Connect(Button.SignalName.Pressed, Callable.From(OnGameOverButton));
+        GetNode<Button>("VBoxContainer/ScoreButton").Connect(Button.SignalName.Pressed, Callable.From(OnScoreButton));
         GetNode<Button>("PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
         GetNode<Button>("PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
         GetNode<Button>("PauseMenu/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButton));
@@ -68,6 +69,7 @@ public partial class Game : Node
         GetNode<Button>("VBoxContainer/ShopButton").Disabled = new_paused;
         GetNode<Button>("VBoxContainer/WinButton").Disabled = new_paused;
         GetNode<Button>("VBoxContainer/GameOverButton").Disabled = new_paused;
+        GetNode<Button>("VBoxContainer/ScoreButton").Disabled = new_paused;
         GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled = new_paused;
         GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled = new_paused;
         GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = new_paused;
@@ -87,6 +89,12 @@ public partial class Game : Node
     public void OnGameOverButton()
     {
         UIHelper.SwitchSceneTo(this, "Game Over");
+    }
+
+    public void OnScoreButton()
+    {
+        GameLogic.score += 5000;
+        GD.Print($"Score: {GameLogic.score}");
     }
 
     public void OnMainMenuButton()

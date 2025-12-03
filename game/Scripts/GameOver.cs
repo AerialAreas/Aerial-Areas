@@ -7,6 +7,7 @@ public partial class GameOver : Node
     {
         GameLogic.isPaused = false;
         GetNode<Label>("Score").Text = $"Score: {GameLogic.score}\nWave: {GameLogic.wave}";
+        HighScores.UpdateHighScore(GameLogic.difficulty, GameLogic.player_name, GameLogic.score);
         InitializeUIEvents();
     }
 
