@@ -35,24 +35,24 @@ public class Wave
 
     public void HandleExplosion(Explosion explosion)
     {
-        Sprite explosionSprite = explosion.sprite;
-        int innerExplosionX = (int)explosionSprite.position.X;
-        int innerExplosionY = (int)explosionSprite.position.Y;
-        int outerExplosionX = (int)(innerExplosionX + explosionSprite.size.X);
-        int outerExplosionY = (int)(innerExplosionY + explosionSprite.size.Y);
-        foreach(Enemy enemy in spawned_enemies)
-        {
-            Sprite enemySprite = enemy.problem.sprite;
-            int enemyX = (int)enemySprite.position.X;
-            int enemyY = (int)enemySprite.position.Y;
+        // Sprite2D explosionSprite = explosion.sprite;
+        // int innerExplosionX = (int)explosionSprite.position.X;
+        // int innerExplosionY = (int)explosionSprite.position.Y;
+        // int outerExplosionX = (int)(innerExplosionX + explosionSprite.size.X);
+        // int outerExplosionY = (int)(innerExplosionY + explosionSprite.size.Y);
+        // foreach(Enemy enemy in spawned_enemies)
+        // {
+        //     Sprite2D enemySprite = enemy.sprite;
+        //     int enemyX = (int)enemySprite.Position.X;
+        //     int enemyY = (int)enemySprite.Position.Y;
             
-            //assuming sprites have position toward top-left corner of png
-            if (enemyX < outerExplosionX && enemyX > innerExplosionX - enemySprite.size.X &&
-                enemyY < outerExplosionY && enemyY > innerExplosionY - enemySprite.size.Y)
-            {
-                // destroyEnemy(enemy);
-            }
-        }
+        //     //assuming sprites have position toward top-left corner of png
+        //     if (enemyX < outerExplosionX && enemyX > innerExplosionX - enemySprite.size.X &&
+        //         enemyY < outerExplosionY && enemyY > innerExplosionY - enemySprite.size.Y)
+        //     {
+        //         // destroyEnemy(enemy);
+        //     }
+        // }
     }
 
     public void destroyEnemy(Enemy enemy)

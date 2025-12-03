@@ -5,6 +5,10 @@ using System.Linq;
 
 public static class GameLogic
 {
+    public const int ENEMY_LEFT_BOUND = 250;
+    public const int ENEMY_RIGHT_BOUND = 1015;
+    public const int ENEMY_ESCAPE_BOUND = 600;
+    public const int ENEMY_SPAWN_Y = -50;
     public static string player_name;
     public static bool nightmare_unlocked = false;
     public static string difficulty;
@@ -44,18 +48,15 @@ public static class GameLogic
         isBiggerBoomMax = false;
         isSlowMax = false;
         isMaxLivesMax = false;
-        List<string> u_keys = upgrade_inventory.Keys.ToList();
-        foreach (string u_key in u_keys)
+        foreach (string u_key in upgrade_inventory.Keys)
         {
             upgrade_inventory[u_key] = 1;
         }
-        List<string> p_keys = powerup_inventory.Keys.ToList();
-        foreach (string p_key in p_keys)
+        foreach (string p_key in powerup_inventory.Keys)
         {
             powerup_inventory[p_key] = 0;
         }
-        List<string> upgrade_keys = Upgrade.upgrades.Keys.ToList();
-        foreach (string upgrade_key in upgrade_keys)
+        foreach (string upgrade_key in Upgrade.upgrades.Keys)
         {
             Upgrade.upgrades[upgrade_key] = 100;
         }

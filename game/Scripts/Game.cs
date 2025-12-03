@@ -1,18 +1,18 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Transactions;
 
 public partial class Game : Node2D
 {
-    public int tick_count = 0; // testing variable
-    public override void _Ready() // careful with this function, because the player going to options/formulas resets this scene so these get called again!
+    public override void _Ready()
     {
         HandlePause(false); // not changing the pause, just setting defaults
         InitializeUIEvents();
         StartFirstWave();
-        DrawGameObjects();
     }
 
     public void StartFirstWave()
@@ -31,9 +31,15 @@ public partial class Game : Node2D
     {
         if (!GameLogic.isPaused)
         {
-            foreach(Enemy enemy in GameLogic.wave.unspawned_enemies) // todo fix
+            List<Enemy> enemies = GameLogic.wave.unspawned_enemies; // todo fix this so its spawned enemies
+            // this is a nifty workaround because we don't want to remove things from the collection its iterating over
+            for(int enemy_index = enemies.Count - 1; enemy_index >= 0; enemy_index--)
             {
-                enemy.Move();
+                bool enemy_escaped = enemies[enemy_index].Move();
+                if (enemy_escaped)
+                {
+                    RemoveEnemy(enemies[enemy_index]);
+                }
             }
         }
     }
@@ -42,21 +48,17 @@ public partial class Game : Node2D
     {
         base._Draw();
     }
-
-    public void DrawGameObjects() // maybe we make this public and GameLogic calls it? I think it needs to be here because this is the script for the actual Game scene
-    {
-        
-    }
     public void AddEnemy()
     {
-        Enemy newEnemy = new Enemy("Circle");
-        Sprite2D sprite = newEnemy.sprite;
-        newEnemy.SetScript(GD.Load<Script>("res://Scripts/Enemy.cs"));
-        sprite.Texture = GD.Load<Texture2D>("res://Sprites/geometroid.png");
-        sprite.Position = newEnemy.sprite.Position;
-        sprite.Scale = new Vector2(.25f, .25f);
+        Enemy newEnemy = new Enemy("Rectangle");
         GameLogic.wave.unspawned_enemies.Add(newEnemy);
         AddChild(newEnemy.sprite);
+        GetNode<VBoxContainer>("ProblemListPanelContainer/ProblemList").AddChild(newEnemy.problem.label);
+    }
+    public void RemoveEnemy(Enemy enemy)
+    {
+        RemoveChild(enemy.sprite);
+        GameLogic.wave.unspawned_enemies.Remove(enemy); // todo fix this so it removes spawned enemies
     }
 
     public void InitializeUIEvents()

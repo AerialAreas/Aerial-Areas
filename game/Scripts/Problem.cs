@@ -11,7 +11,7 @@ public abstract class Problem
     public string solution;    
     public string shape;
     public string problemType;
-    public Sprite sprite;
+    public RichTextLabel label;
     public Random rand = new Random();
     public abstract void PrintProblemData();
 }
@@ -47,6 +47,11 @@ public class Rectangle : Problem
             problemType = "Perimeter";
             solution = (2 * (length + width)).ToString();
         }
+
+        label = new RichTextLabel();
+        label.Text = $"[img height=32]res://Sprites/geometroid.png[/img] length = BROOKHART, height = OMARALY";
+        label.FitContent = true;
+        label.BbcodeEnabled = true;
     }
     public override void PrintProblemData()
     {
