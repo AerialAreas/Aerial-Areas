@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://bqxs73m0063lj"]
 
 [ext_resource type="Script" uid="uid://ces6nrx2ucntu" path="res://Scripts/Formulas.cs" id="1_8wqyc"]
-[ext_resource type="Texture2D" uid="uid://dusa8ymfgu3p8" path="res://Sprites/rectangles_formula.png" id="2_lj0nd"]
-[ext_resource type="Texture2D" uid="uid://dt02uikjq4l4q" path="res://Sprites/triangles_formula.png" id="3_stfi6"]
-[ext_resource type="Texture2D" uid="uid://b7mmgkgdy0t36" path="res://Sprites/circles_formula.png" id="4_augv7"]
+[ext_resource type="Texture2D" uid="uid://dusa8ymfgu3p8" path="res://Sprites/Formulas/rectangles_formula.png" id="2_lj0nd"]
+[ext_resource type="Texture2D" uid="uid://dt02uikjq4l4q" path="res://Sprites/Formulas/triangles_formula.png" id="3_stfi6"]
+[ext_resource type="Texture2D" uid="uid://b7mmgkgdy0t36" path="res://Sprites/Formulas/circles_formula.png" id="4_augv7"]
 
 [node name="Formulas" type="Node2D"]
 script = ExtResource("1_8wqyc")

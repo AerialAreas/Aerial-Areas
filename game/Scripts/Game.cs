@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Transactions;
 
 public partial class Game : Node2D
@@ -17,14 +18,10 @@ public partial class Game : Node2D
 
     public void StartFirstWave()
     {
-        if (GameLogic.first_load)
+        GameLogic.wave = new Wave(1);
+        for(int i = 0; i < 15; i++)
         {
-            GameLogic.first_load = false;
-            GameLogic.wave = new Wave(1);
-            for(int i = 0; i < 10; i++)
-            {
-                AddEnemy();
-            }
+            AddEnemy();
         }
     }
     public override void _Process(double delta) // should generally be called 60 times per second or whatever we set the framerate to
@@ -50,7 +47,21 @@ public partial class Game : Node2D
     }
     public void AddEnemy()
     {
-        Enemy newEnemy = new Enemy("Rectangle");
+        int temp = new Random().Next(1, 4);
+        string type = "";
+        if(temp == 1)
+        {
+            type = "Triangle";
+        }
+        if(temp == 2)
+        {
+            type = "Rectangle";
+        }
+        if(temp == 3)
+        {
+            type = "Circle";
+        }
+        Enemy newEnemy = new Enemy(type);
         GameLogic.wave.unspawned_enemies.Add(newEnemy);
         AddChild(newEnemy.sprite);
         GetNode<VBoxContainer>("ProblemListPanelContainer/ProblemList").AddChild(newEnemy.problem.label);
@@ -58,6 +69,7 @@ public partial class Game : Node2D
     public void RemoveEnemy(Enemy enemy)
     {
         RemoveChild(enemy.sprite);
+        RemoveChild(enemy.problem.label);
         GameLogic.wave.unspawned_enemies.Remove(enemy); // todo fix this so it removes spawned enemies
     }
 

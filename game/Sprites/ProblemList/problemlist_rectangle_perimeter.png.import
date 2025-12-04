@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfj24g5y0mta6"
-path="res://.godot/imported/aerialareas_temporary_tutorial.png-895fc296e8b11c84f85ced2364fb98c3.ctex"
+uid="uid://7y6unqhx2emh"
+path="res://.godot/imported/problemlist_rectangle_perimeter.png-7cd1d0d5cb32709489ef06b29c6c9b7a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/aerialareas_temporary_tutorial.png"
-dest_files=["res://.godot/imported/aerialareas_temporary_tutorial.png-895fc296e8b11c84f85ced2364fb98c3.ctex"]
+source_file="res://Sprites/ProblemList/problemlist_rectangle_perimeter.png"
+dest_files=["res://.godot/imported/problemlist_rectangle_perimeter.png-7cd1d0d5cb32709489ef06b29c6c9b7a.ctex"]
 
 [params]
 

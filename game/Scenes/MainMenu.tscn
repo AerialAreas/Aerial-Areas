@@ -1,32 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://np7ridp5ciyp"]
+[gd_scene load_steps=4 format=3 uid="uid://np7ridp5ciyp"]
 
 [ext_resource type="Script" uid="uid://76cwmi5dldyf" path="res://Scripts/MainMenu.cs" id="1_853f1"]
-[ext_resource type="Texture2D" uid="uid://covgrja1iyeir" path="res://Sprites/geometroid.png" id="2_8saeu"]
+[ext_resource type="Texture2D" uid="uid://dqmjsips2n8tx" path="res://Sprites/Backgrounds/mainmenubg.png" id="3_8saeu"]
+[ext_resource type="Texture2D" uid="uid://by8vvp0i2p45q" path="res://Sprites/aerial_areas_logo.png" id="3_ghw46"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_853f1")
-
-[node name="AerialAreasText" type="Label" parent="."]
-offset_left = 388.0
-offset_top = 14.0
-offset_right = 722.0
-offset_bottom = 83.0
-theme_override_font_sizes/font_size = 50
-text = "AERIAL AREAS"
-
-[node name="Geometroid" type="Sprite2D" parent="."]
-position = Vector2(550, 183)
-texture = ExtResource("2_8saeu")
 
 [node name="ButtonsContainer" type="VBoxContainer" parent="."]
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 420.0
-offset_top = 352.0
-offset_right = 703.0
-offset_bottom = 509.0
+offset_left = 418.0
+offset_top = 382.0
+offset_right = 701.0
+offset_bottom = 539.0
 grow_horizontal = 0
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -90,3 +79,14 @@ offset_top = 559.0
 offset_right = 701.0
 offset_bottom = 590.0
 placeholder_text = "Enter Name"
+
+[node name="MenuBackground" type="Sprite2D" parent="."]
+z_index = -1005
+position = Vector2(577.5, 324.5)
+scale = Vector2(0.5825, 0.47214288)
+texture = ExtResource("3_8saeu")
+
+[node name="AerialAreasLogo" type="Sprite2D" parent="."]
+position = Vector2(556, 165)
+scale = Vector2(0.36150506, 0.38324663)
+texture = ExtResource("3_ghw46")

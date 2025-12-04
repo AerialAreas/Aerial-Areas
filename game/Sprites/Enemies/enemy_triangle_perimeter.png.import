@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dusa8ymfgu3p8"
-path="res://.godot/imported/rectangles_formula.png-4d0b06dd9bde29fde4ab70ba4ece9521.ctex"
+uid="uid://c8v4t2jkypwq4"
+path="res://.godot/imported/enemy_triangle_perimeter.png-f57e87a5a86d1bdaab1c29fa39c4388b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/rectangles_formula.png"
-dest_files=["res://.godot/imported/rectangles_formula.png-4d0b06dd9bde29fde4ab70ba4ece9521.ctex"]
+source_file="res://Sprites/Enemies/enemy_triangle_perimeter.png"
+dest_files=["res://.godot/imported/enemy_triangle_perimeter.png-f57e87a5a86d1bdaab1c29fa39c4388b.ctex"]
 
 [params]
 

@@ -4,10 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 
-
-
 public abstract class Problem
 {
+    public int fill; // -1 for triangles and rectanges, 1 for full circle, 2 for half, 4 for quarter
     public string solution;    
     public string shape;
     public string problemType;
@@ -35,23 +34,24 @@ public class Rectangle : Problem
             isSquare = false;
         }
 
+
+        label = new RichTextLabel();
+        label.FitContent = true;
+        label.BbcodeEnabled = true;
         // problemType init
         int typeDecider = rand.Next(0, 2); // 0 or 1
         if (typeDecider == 0)
         {
             problemType = "Area";
             solution = (length * width).ToString();
+            label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_area.png[/img] length = {length}, width = {width}";
         }
         else
         {
             problemType = "Perimeter";
             solution = (2 * (length + width)).ToString();
+            label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_perimeter.png[/img] length = {length}, width = {width}";
         }
-
-        label = new RichTextLabel();
-        label.Text = $"[img height=32]res://Sprites/geometroid.png[/img] length = BROOKHART, height = OMARALY";
-        label.FitContent = true;
-        label.BbcodeEnabled = true;
     }
     public override void PrintProblemData()
     {
@@ -68,22 +68,27 @@ public class Triangle : Problem
     Triangle()
     {
         shape = "Triangle";
-        base_length = rand.Next(3, 13); // 1 to 12
-        height = rand.Next(3, 13); // 1 to 12
+        base_length = rand.Next(3, 13); // 3 to 12
+        height = rand.Next(3, 13); // 3 to 12
         side2 = rand.Next(3, 13);
         side3 = rand.Next(Math.Abs(side2 - base_length) + 1, side2 + base_length - 1);
 
         // problemType init
+        label = new RichTextLabel();
+        label.FitContent = true;
+        label.BbcodeEnabled = true;
         int typeDecider = rand.Next(0, 2); // 0 or 1
         if (typeDecider == 0)
         {
             problemType = "Area";
             solution = (0.5 * base_length * height).ToString();
+            label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_area.png[/img] base = {base_length}, height = {height}";
         }
         else
         {
             problemType = "Perimeter";
             solution = (base_length + side2 + side3).ToString();
+            label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_perimeter.png[/img] side lengths {base_length}, {side2}, {side3}";
         }
 
         // set identifier based on side lengths
@@ -104,17 +109,18 @@ public class Triangle : Problem
     {
         GD.Print($"I am a shape {shape} with length {base_length}, height {height}, side2 {side2}, side3 {side3}, type {problemType}, identifier {identifier}, solution is {solution}");
     }
-} // end of Triangle class
+}
 public class Circle : Problem
 {
-    enum FillType { FULL = 1, SEMI = 2, QUARTER = 3 }
+    public enum FillType { FULL = 1, SEMI = 2, QUARTER = 3 }
     private int radius;
-    int fillType;
+    public int fillType;
     Circle()
     {
         shape = "Circle";
         radius = rand.Next(1, 13); // 1 to 12
         fillType = rand.Next(1, 4); // 1 to 3
+        fill = fillType;
         int typeDecider;
         
         // problemType init
@@ -127,6 +133,9 @@ public class Circle : Problem
             typeDecider = 0; // only area problems for semi and quarter circles
         }
         
+        label = new RichTextLabel();
+        label.FitContent = true;
+        label.BbcodeEnabled = true;
         if (typeDecider == 0)
         {
             problemType = "Area";
@@ -134,12 +143,15 @@ public class Circle : Problem
             {
                 case (int)FillType.FULL:
                     solution = (radius * radius).ToString() + "p";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_area.png[/img] radius = {radius}";
                     break;
                 case (int)FillType.SEMI:
                     solution = (0.5 * radius * radius).ToString() + "p";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_halfcircle_area.png[/img] radius = {radius}";
                     break;
                 case (int)FillType.QUARTER:
                     solution = (0.25 * radius * radius).ToString() + "p";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_quartercircle_area.png[/img] radius = {radius}";
                     break;   
             }
         }
@@ -147,6 +159,7 @@ public class Circle : Problem
         {
             problemType = "Perimeter";
             solution = (2 * radius).ToString() + "p";
+            label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_circumference.png[/img] radius = {radius}";
         }
     }
     public override void PrintProblemData()

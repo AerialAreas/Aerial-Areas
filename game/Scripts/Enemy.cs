@@ -6,7 +6,6 @@ public partial class Enemy : Sprite2D
     public Problem problem;
     public Vector2 velocity;
     public Sprite2D sprite;
-    public Texture2D texture;
     public int value;
     public bool isHighlighted;
     protected Random rand = new Random();
@@ -35,19 +34,52 @@ public partial class Enemy : Sprite2D
 
     public Enemy(string shape)
     {
+        string texture_path = "";
         switch (shape)
         {
             case "Rectangle":
                 problem = (Problem)Activator.CreateInstance(typeof(Rectangle), true);
-                texture = GD.Load<Texture2D>("res://Sprites/geometroid.png");
+                if(problem.problemType == "Area")
+                {
+                    texture_path = "res://Sprites/Enemies/enemy_rectangle_area.png";
+                }
+                else
+                {
+                    texture_path = "res://Sprites/Enemies/enemy_rectangle_perimeter.png";
+                }
                 break;
             case "Triangle":
                 problem = (Problem)Activator.CreateInstance(typeof(Triangle), true);
-                texture = GD.Load<Texture2D>("res://Sprites/geometroid.png");
+                if(problem.problemType == "Area")
+                {
+                    texture_path = "res://Sprites/Enemies/enemy_triangle_area.png";
+                }
+                else
+                {
+                    texture_path = "res://Sprites/Enemies/enemy_triangle_perimeter.png";
+                }
                 break;
             case "Circle":
                 problem = (Problem)Activator.CreateInstance(typeof(Circle), true);
-                texture = GD.Load<Texture2D>("res://Sprites/geometroid.png");
+                if(problem.problemType == "Area")
+                {
+                    if(problem.fill == 1)
+                    {
+                        texture_path = "res://Sprites/Enemies/enemy_circle_area.png";
+                    }
+                    else if(problem.fill == 2)
+                    {
+                        texture_path = "res://Sprites/Enemies/enemy_halfcircle_area.png";
+                    }
+                    else
+                    {
+                        texture_path = "res://Sprites/Enemies/enemy_quartercircle_area.png";
+                    }
+                }
+                else
+                {
+                    texture_path = "res://Sprites/Enemies/enemy_circle_circumference.png";
+                }
                 break;
         }
         const float VELOCITY_MULTIPLIER = 10f; // debug variable
@@ -56,7 +88,7 @@ public partial class Enemy : Sprite2D
         
         sprite = new Sprite2D();
         sprite.Position = new Vector2(rand.Next(GameLogic.ENEMY_LEFT_BOUND + 10, GameLogic.ENEMY_RIGHT_BOUND - 10), GameLogic.ENEMY_SPAWN_Y);
-        sprite.Texture = GD.Load<Texture2D>("res://Sprites/geometroid.png");
+        sprite.Texture = GD.Load<Texture2D>(texture_path);
         sprite.Scale = new Vector2(.25f, .25f);
         SetScript(GD.Load<Script>("res://Scripts/Enemy.cs"));
 
