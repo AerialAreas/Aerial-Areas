@@ -56,6 +56,7 @@ public partial class Game : Node2D
         if(temp == 2)
         {
             type = "Rectangle";
+
         }
         if(temp == 3)
         {
