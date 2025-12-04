@@ -30,20 +30,24 @@ public partial class Options : Control
     private void SkipTutorialsToggled(bool toggledOn)
     {
         UIHelper.skip_tutorials = toggledOn;
+        MainMenu.UpdateSettings(5, toggledOn);
     }
     private void SFXToggled(bool toggledOn)
     {
         UIHelper.sfx = toggledOn;
+        MainMenu.UpdateSettings(4, toggledOn);
     }
 
     private void MusicToggled(bool toggledOn)
     {
         UIHelper.music = toggledOn;
+        MainMenu.UpdateSettings(3, toggledOn);
     }
 
     private void VolumeChanged(double value)
     {
         GetNode<Label>("VolumeLabel").Text = $"Volume: {value}";
+        MainMenu.UpdateVolumeSlider((int)value);
         UIHelper.volume = (int)value;
     }
 
