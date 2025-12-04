@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 
 public partial class Win : Node2D
 {
@@ -7,6 +9,11 @@ public partial class Win : Node2D
 	{
 		GameLogic.isPaused = false;
 		GetNode<Label>("Score").Text = $"Score: {GameLogic.score}";
+		HighScores.UpdateHighScore(GameLogic.difficulty, GameLogic.player_name, GameLogic.score);
+		if (GameLogic.difficulty == "hard")
+        {
+            MainMenu.UpdateNightmare();
+        }
 		InitializeUIEvents();
 	}
 

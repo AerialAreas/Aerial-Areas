@@ -175,6 +175,12 @@ public partial class Game : Node2D
         UIHelper.SwitchSceneTo(this, "Game Over");
     }
 
+    public void OnScoreButton()
+    {
+        GameLogic.score += 5000;
+        GD.Print($"Score: {GameLogic.score}");
+    }
+
     public void OnMainMenuButton()
     {
         UIHelper.SwitchSceneTo(this, "Main Menu");

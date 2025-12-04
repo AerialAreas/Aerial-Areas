@@ -85,6 +85,14 @@ text = "Win"
 layout_mode = 2
 text = "Game Over"
 
+[node name="ScoreButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Give Score"
+
+[node name="ScoreButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Give Score"
+
 [node name="PauseMenu" type="VBoxContainer" parent="GameContainer"]
 visible = false
 z_index = 1
