@@ -17,6 +17,7 @@ public static class GameLogic
     public static int currency = 0;
     public static int lives = 100;
     public static bool isPaused = false;
+    public static bool inGame = false;
     public static bool penalty = false;
     public static bool isBiggerBoomMax = false;
     public static bool isSlowMax = false;
@@ -48,6 +49,8 @@ public static class GameLogic
         isBiggerBoomMax = false;
         isSlowMax = false;
         isMaxLivesMax = false;
+        first_load = true;
+        inGame = true;
         foreach (string u_key in upgrade_inventory.Keys)
         {
             upgrade_inventory[u_key] = 1;

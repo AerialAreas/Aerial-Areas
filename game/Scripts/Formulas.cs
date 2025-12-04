@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-public partial class Formulas : Node2D
+public partial class Formulas : Control
 {
     private int current_formula = 0;
     List<Sprite2D> shape_formulas = new List<Sprite2D>();
@@ -24,7 +24,14 @@ public partial class Formulas : Node2D
     }
     public void OnFormulasExitButton()
     {
-        UIHelper.SwitchSceneTo(this, UIHelper.previous_scene);
+        if (GameLogic.inGame)
+        {
+            GetNode<Game>("/root/Game").ShowGame();
+        }
+        else
+        {
+            UIHelper.SwitchSceneTo(this, UIHelper.previous_scene);
+        }
     }
 
     public void OnLeftButton()

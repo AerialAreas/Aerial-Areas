@@ -6,7 +6,6 @@ public partial class Shop : Node2D
     public override void _Ready()
     {
         InitializeUIEvents();
-        HandlePause(false);
     }
 
     public void InitializeUIEvents()
@@ -14,11 +13,6 @@ public partial class Shop : Node2D
         GetNode<Label>("Money").Text = $"{GameLogic.currency}💵";
         GetNode<Button>("DebugMoreMoney").Connect(Button.SignalName.Pressed, Callable.From(MoreMoneyButton));
         GetNode<Button>("GoBack").Connect(Button.SignalName.Pressed, Callable.From(OnGoBackButton));
-
-        GetNode<Button>("PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
-        GetNode<Button>("PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
-        GetNode<Button>("PauseMenu/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButton));
-        GetNode<Button>("PauseMenu/Resume").Connect(Button.SignalName.Pressed, Callable.From(OnResumeButton));
 
         GetNode<Button>("Items/Upgrades/BiggerBooms").Connect(Button.SignalName.Pressed, Callable.From(BiggerBoomsBought));
         GetNode<Button>("Items/Upgrades/BiggerBooms").Text = $"🧨\nBigger Booms\n{Upgrade.upgrades["Bigger Booms"]}\nLevel: {GameLogic.upgrade_inventory["Bigger Booms"]}";
@@ -56,39 +50,6 @@ public partial class Shop : Node2D
     {
     }
 
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event is InputEventKey eventKey)
-        {
-            if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
-            {
-                HandlePause(true);
-            }
-        }
-    }
-
-    public void HandlePause(bool pause_changed) // if pause_changed is true, it enables/disables the ui elements. if its false, it just sets them to what they should be based on isPaused
-    {
-        bool new_paused;
-        if (pause_changed)
-        {
-            new_paused = !GameLogic.isPaused;
-        }
-        else
-        {
-            new_paused = GameLogic.isPaused;
-        }
-        GameLogic.isPaused = new_paused;
-        GetNode<VBoxContainer>("PauseMenu").Visible = new_paused;
-        GetNode<Button>("GoBack").Disabled = new_paused;
-        GetNode<Button>("Items/Upgrades/BiggerBooms").Disabled = new_paused;
-        GetNode<Button>("Items/Upgrades/Slow").Disabled = new_paused;
-        GetNode<Button>("Items/Upgrades/MaxLives").Disabled = new_paused;
-        GetNode<Button>("Items/Powerups/Fireball").Disabled = new_paused;
-        GetNode<Button>("Items/Powerups/Freeze").Disabled = new_paused;
-        GetNode<Button>("Items/Powerups/Frenzy").Disabled = new_paused;
-    }
-
     public void OnMainMenuButton()
     {
         UIHelper.SwitchSceneTo(this, "Main Menu");
@@ -104,15 +65,11 @@ public partial class Shop : Node2D
         UIHelper.SwitchSceneTo(this, "Formulas");
     }
 
-    public void OnResumeButton()
-    {
-        HandlePause(true);
-    }
-
     public void OnGoBackButton()
     {
         UIHelper.SwitchSceneTo(this, "Game");
     }
+
     public void BiggerBoomsBought()
     {
         if (CanBuy("Bigger Booms", false))

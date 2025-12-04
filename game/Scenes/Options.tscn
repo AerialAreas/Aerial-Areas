@@ -2,10 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bvqva40axx88y" path="res://Scripts/Options.cs" id="1_qqnya"]
 
-[node name="Options" type="Node2D"]
+[node name="Options" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_qqnya")
 
 [node name="VolumeLabel" type="Label" parent="."]
+layout_mode = 0
 offset_left = 424.0
 offset_top = 119.0
 offset_right = 659.0
@@ -14,6 +17,7 @@ theme_override_font_sizes/font_size = 50
 text = "Volume: 100"
 
 [node name="OptionsExitButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 1090.0
 offset_top = 1.0
 offset_right = 1136.0
@@ -22,6 +26,7 @@ pivot_offset = Vector2(-801, 151)
 text = "Back"
 
 [node name="VolumeSlider" type="HSlider" parent="."]
+layout_mode = 0
 offset_left = 198.0
 offset_top = 212.0
 offset_right = 953.0
@@ -29,6 +34,7 @@ offset_bottom = 270.0
 value = 100.0
 
 [node name="SFXLabel" type="Label" parent="."]
+layout_mode = 0
 offset_left = 622.0
 offset_top = 348.0
 offset_right = 950.0
@@ -37,6 +43,7 @@ theme_override_font_sizes/font_size = 50
 text = "Sound Effects"
 
 [node name="MusicLabel" type="Label" parent="."]
+layout_mode = 0
 offset_left = 206.0
 offset_top = 344.0
 offset_right = 441.0
@@ -45,6 +52,7 @@ theme_override_font_sizes/font_size = 50
 text = "Music"
 
 [node name="MusicCheckBox" type="CheckBox" parent="."]
+layout_mode = 0
 offset_left = 402.0
 offset_top = 371.0
 offset_right = 426.0
@@ -52,6 +60,7 @@ offset_bottom = 397.0
 button_pressed = true
 
 [node name="SFXCheckBox" type="CheckBox" parent="."]
+layout_mode = 0
 offset_left = 970.0
 offset_top = 374.0
 offset_right = 994.0
@@ -59,6 +68,7 @@ offset_bottom = 400.0
 button_pressed = true
 
 [node name="SkipTutorialsLabel" type="Label" parent="."]
+layout_mode = 0
 offset_left = 324.0
 offset_top = 487.0
 offset_right = 651.0
@@ -67,6 +77,7 @@ theme_override_font_sizes/font_size = 50
 text = "Skip Tutorials"
 
 [node name="SkipTutorialsCheckBox" type="CheckBox" parent="."]
+layout_mode = 0
 offset_left = 686.0
 offset_top = 512.0
 offset_right = 710.0
