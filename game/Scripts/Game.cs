@@ -91,6 +91,10 @@ public partial class Game : Node2D
 
     public void InitializeUIEvents()
     {
+        bool night = GameLogic.wave_num % 3 == 0;
+        GetNode<Sprite2D>(night?"GameContainer/Night":"GameContainer/Day").Visible = true;
+        GetNode<Sprite2D>(night?"GameContainer/Day":"GameContainer/Night").Visible = false;
+        
         GetNode<Control>("Options").Visible = false;
         GetNode<Control>("Formulas").Visible = false;
 

@@ -1,11 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://56y4kxgniqxq"]
+[gd_scene load_steps=11 format=3 uid="uid://56y4kxgniqxq"]
 
 [ext_resource type="Script" uid="uid://b1q6ffty23rfe" path="res://Scripts/Game.cs" id="1_gl6un"]
 [ext_resource type="Texture2D" uid="uid://covgrja1iyeir" path="res://Sprites/geometroid.png" id="1_iukft"]
 [ext_resource type="Script" uid="uid://d3w7yshupp0n2" path="res://Scripts/Tooltip.cs" id="3_j5yw3"]
 [ext_resource type="Script" uid="uid://dq2ajcqpgwi18" path="res://Scripts/TooltipInteract.cs" id="3_kldst"]
 [ext_resource type="PackedScene" uid="uid://cvp5lvmx5fvu1" path="res://Scenes/Options.tscn" id="5_7lihs"]
+[ext_resource type="Texture2D" uid="uid://bwihct4ke12eq" path="res://Sprites/Backgrounds/night.png" id="5_bf53h"]
+[ext_resource type="Texture2D" uid="uid://7n7lsnprnoc7" path="res://Sprites/Backgrounds/day.png" id="6_71axn"]
 [ext_resource type="PackedScene" uid="uid://bqxs73m0063lj" path="res://Scenes/Formulas.tscn" id="6_fgofq"]
+[ext_resource type="Texture2D" uid="uid://c6wtrg5ucqg08" path="res://Sprites/player.png" id="7_dahhg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kldst"]
 content_margin_left = 24.0
@@ -326,6 +329,25 @@ offset_right = 933.0
 offset_bottom = 114.0
 text = "My answer is 30"
 
+[node name="Night" type="Sprite2D" parent="GameContainer"]
+z_index = -1
+position = Vector2(579.5, 324.125)
+scale = Vector2(0.592, 0.47)
+texture = ExtResource("5_bf53h")
+
+[node name="Day" type="Sprite2D" parent="GameContainer"]
+z_index = -1
+position = Vector2(578.49994, 324.125)
+scale = Vector2(0.589, 0.47)
+texture = ExtResource("6_71axn")
+
+[node name="Player" type="Sprite2D" parent="GameContainer"]
+position = Vector2(648, 576)
+scale = Vector2(0.24622357, 0.24622357)
+texture = ExtResource("7_dahhg")
+
 [node name="Options" parent="." instance=ExtResource("5_7lihs")]
+visible = false
 
 [node name="Formulas" parent="." instance=ExtResource("6_fgofq")]
+visible = false

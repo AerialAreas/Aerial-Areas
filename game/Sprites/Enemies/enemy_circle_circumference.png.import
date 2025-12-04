@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3t8ir08jhu2w"
-path="res://.godot/imported/enemy_circle_perimeter.png-36edd56925d2a451f1ae1bc6f2422bd3.ctex"
+uid="uid://mmo7062my4qi"
+path="res://.godot/imported/enemy_circle_circumference.png-910bc5e0466c3d20e4231f701a7482be.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Enemies/enemy_circle_perimeter.png"
-dest_files=["res://.godot/imported/enemy_circle_perimeter.png-36edd56925d2a451f1ae1bc6f2422bd3.ctex"]
+source_file="res://Sprites/Enemies/enemy_circle_circumference.png"
+dest_files=["res://.godot/imported/enemy_circle_circumference.png-910bc5e0466c3d20e4231f701a7482be.ctex"]
 
 [params]
 
