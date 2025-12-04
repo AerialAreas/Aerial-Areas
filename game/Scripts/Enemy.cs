@@ -1,71 +1,112 @@
 using Godot;
 using System;
 
-public class Enemy
+public partial class Enemy : Sprite2D
 {
-    private Problem problem;
-    private Vector2 velocity;
-    private int value;
-    private bool isHighlighted;
+    public Problem problem;
+    public Vector2 velocity;
+    public Sprite2D sprite;
+    public int value;
+    public bool isHighlighted;
     protected Random rand = new Random();
+    public override void _Draw()
+    {
+        base._Draw();
+    }
+    public override void _Process(double delta)
+    {
+        this._Draw();
+    }
+
+    public bool Move() // returns whether the enemy has made it to the bottom or not
+    {
+        // GD.Print($"{sprite.Position.X}, {sprite.Position.Y}");
+        Vector2 current_enemy_pos = sprite.Position;
+        Vector2 enemy_velocity = velocity;
+        sprite.Position = new Vector2(current_enemy_pos.X + enemy_velocity.X, current_enemy_pos.Y + enemy_velocity.Y);
+        if(sprite.Position.X <= GameLogic.ENEMY_LEFT_BOUND || sprite.Position.X >= GameLogic.ENEMY_RIGHT_BOUND)
+        {
+            velocity = new Vector2(velocity.X * -1, velocity.Y);
+        }
+        return sprite.Position.Y >= GameLogic.ENEMY_ESCAPE_BOUND;
+        // GD.Print($"{sprite.Position.X}, {sprite.Position.Y}");
+    }
+
     public Enemy(string shape)
     {
+        string texture_path = "";
         switch (shape)
         {
             case "Rectangle":
                 problem = (Problem)Activator.CreateInstance(typeof(Rectangle), true);
+                if(problem.problemType == "Area")
+                {
+                    texture_path = "res://Sprites/Enemies/enemy_rectangle_area.png";
+                }
+                else
+                {
+                    texture_path = "res://Sprites/Enemies/enemy_rectangle_perimeter.png";
+                }
                 break;
             case "Triangle":
                 problem = (Problem)Activator.CreateInstance(typeof(Triangle), true);
+                if(problem.problemType == "Area")
+                {
+                    texture_path = "res://Sprites/Enemies/enemy_triangle_area.png";
+                }
+                else
+                {
+                    texture_path = "res://Sprites/Enemies/enemy_triangle_perimeter.png";
+                }
                 break;
             case "Circle":
                 problem = (Problem)Activator.CreateInstance(typeof(Circle), true);
+                if(problem.problemType == "Area")
+                {
+                    if(problem.fill == 1)
+                    {
+                        texture_path = "res://Sprites/Enemies/enemy_circle_area.png";
+                    }
+                    else if(problem.fill == 2)
+                    {
+                        texture_path = "res://Sprites/Enemies/enemy_halfcircle_area.png";
+                    }
+                    else
+                    {
+                        texture_path = "res://Sprites/Enemies/enemy_quartercircle_area.png";
+                    }
+                }
+                else
+                {
+                    texture_path = "res://Sprites/Enemies/enemy_circle_circumference.png";
+                }
                 break;
-        } // end of problem init
+        }
+        const float VELOCITY_MULTIPLIER = 10f; // debug variable
+        velocity = new Vector2((GD.Randf() - 0.5f) / 5f, 0.1f + (GD.Randf() / 10f)); // 0.1f to 0.2f down and -0.1f to 0.1f horizontal
+        velocity = new Vector2(velocity.X * VELOCITY_MULTIPLIER, velocity.Y * VELOCITY_MULTIPLIER);
+        
+        sprite = new Sprite2D();
+        sprite.Position = new Vector2(rand.Next(GameLogic.ENEMY_LEFT_BOUND + 10, GameLogic.ENEMY_RIGHT_BOUND - 10), GameLogic.ENEMY_SPAWN_Y);
+        sprite.Texture = GD.Load<Texture2D>(texture_path);
+        sprite.Scale = new Vector2(.25f, .25f);
+        SetScript(GD.Load<Script>("res://Scripts/Enemy.cs"));
 
-        // position init based on UI, all top of screen
-        velocity = new Vector2(0, 5); // downwards for now
-
-        // value init
         value = rand.Next(10, 21); // random between 10 and 20
-
         isHighlighted = false;
-    }
-
-    public Problem getProblem()
-    {
-        return problem;
-    }
-    public Vector2 getVelocity()
-    {
-        return velocity;
-    }
-    public void setVelocity(Vector2 vel)
-    {
-        velocity = vel;
-    }
-
-    public void takeLife()
-    {
-        Player.setLives(Player.getLives() - 1);
-    }
-    public void enemyClick()
-    {
-        isHighlighted = true;
-    }
-    public void giveMoney()
-    {
-        Player.setCurrency(Player.getCurrency() + value);
+        // GD.Print($"Spawned an enemy with shape {shape} and velocity {velocity.X}, {velocity.Y} and value {value} and sprite path {sprite.filePath} and sprite pos {sprite.position.X}, {sprite.position.Y}");
+        // problem.PrintProblemData();
     }
     public bool compareAnswer(string input)
     {
-        if (input.Equals(problem.getSolution()))
+        if (input.Equals(problem.solution))
         {
             return true;
         }
         return false;
     }
 }
-/*public class BossEnemy : Enemy
-{
-}*/
+
+// public class BossEnemy : Enemy
+// {
+// }

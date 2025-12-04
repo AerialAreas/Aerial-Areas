@@ -1,20 +1,24 @@
 [gd_scene load_steps=5 format=3 uid="uid://bqxs73m0063lj"]
 
 [ext_resource type="Script" uid="uid://ces6nrx2ucntu" path="res://Scripts/Formulas.cs" id="1_8wqyc"]
-[ext_resource type="Texture2D" uid="uid://dusa8ymfgu3p8" path="res://Sprites/rectangles_formula.png" id="2_lj0nd"]
-[ext_resource type="Texture2D" uid="uid://dt02uikjq4l4q" path="res://Sprites/triangles_formula.png" id="3_stfi6"]
-[ext_resource type="Texture2D" uid="uid://b7mmgkgdy0t36" path="res://Sprites/circles_formula.png" id="4_augv7"]
+[ext_resource type="Texture2D" uid="uid://dusa8ymfgu3p8" path="res://Sprites/Formulas/rectangles_formula.png" id="2_lj0nd"]
+[ext_resource type="Texture2D" uid="uid://dt02uikjq4l4q" path="res://Sprites/Formulas/triangles_formula.png" id="3_stfi6"]
+[ext_resource type="Texture2D" uid="uid://b7mmgkgdy0t36" path="res://Sprites/Formulas/circles_formula.png" id="4_augv7"]
 
-[node name="Formulas" type="Node2D"]
+[node name="Formulas" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_8wqyc")
 
 [node name="LeftButton" type="Button" parent="."]
+layout_mode = 0
 offset_top = 320.0
 offset_right = 50.0
 offset_bottom = 405.0
 text = "<"
 
 [node name="RightButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 1100.0
 offset_top = 320.0
 offset_right = 1150.0
@@ -22,6 +26,7 @@ offset_bottom = 405.0
 text = ">"
 
 [node name="FormulasExitButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 1096.0
 offset_top = 9.0
 offset_right = 1142.0

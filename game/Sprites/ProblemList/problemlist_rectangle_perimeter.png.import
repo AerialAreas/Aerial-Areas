@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7mmgkgdy0t36"
-path="res://.godot/imported/circles_formula.png-c32b647e507bd124364fd9090417d2c6.ctex"
+uid="uid://7y6unqhx2emh"
+path="res://.godot/imported/problemlist_rectangle_perimeter.png-7cd1d0d5cb32709489ef06b29c6c9b7a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/circles_formula.png"
-dest_files=["res://.godot/imported/circles_formula.png-c32b647e507bd124364fd9090417d2c6.ctex"]
+source_file="res://Sprites/ProblemList/problemlist_rectangle_perimeter.png"
+dest_files=["res://.godot/imported/problemlist_rectangle_perimeter.png-7cd1d0d5cb32709489ef06b29c6c9b7a.ctex"]
 
 [params]
 

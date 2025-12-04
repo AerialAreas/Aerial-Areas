@@ -1,35 +1,24 @@
 using Godot;
 using System;
-
-
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 
 public abstract class Problem
 {
-    protected string solution;    
-    protected string shape;
-    protected string problemType;
-    protected Sprite sprite;
-    protected Random rand = new Random();
-
-    public string getSolution()
-    {
-        return solution;
-    }
-    public void setSolution(string value)
-    {
-        solution = value;
-    }
-    public Sprite getSprite()
-    {
-        return sprite;
-    }
+    public int fill; // -1 for triangles and rectanges, 1 for full circle, 2 for half, 4 for quarter
+    public string solution;    
+    public string shape;
+    public string problemType;
+    public RichTextLabel label;
+    public Random rand = new Random();
+    public abstract void PrintProblemData();
 }
 public class Rectangle : Problem
 {
     private int length;
     private int width;
     private bool isSquare;
-    private int randomX;
     Rectangle()
     {
         shape = "Rectangle";
@@ -45,87 +34,69 @@ public class Rectangle : Problem
             isSquare = false;
         }
 
+
+        label = new RichTextLabel();
+        label.FitContent = true;
+        label.BbcodeEnabled = true;
         // problemType init
         int typeDecider = rand.Next(0, 2); // 0 or 1
         if (typeDecider == 0)
         {
             problemType = "Area";
             solution = (length * width).ToString();
+            label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_area.png[/img] length = {length}, width = {width}";
         }
         else
         {
             problemType = "Perimeter";
             solution = (2 * (length + width)).ToString();
+            label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_perimeter.png[/img] length = {length}, width = {width}";
         }
-        randomX = rand.Next(50, 750); // x between 50 and 750
-        if (isSquare) // set sprite accordingly
-        {
-            // if problemType == area, set sprite = square area sprite
-            if (problemType == "Area")
-            {
-                // set sprite to square area sprite
-                sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/temp_rectangle_geometroid_area.png", new Vector2(50, 50));
-            }
-            else
-            {
-                // set sprite to square perimeter sprite
-                sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/temp_rectangle_geometroid.png", new Vector2(50, 50));
-            }
-            // else if problemType == perimeter, set sprite = square perimeter sprite
-
-        }
-        else
-        {
-            // if problemType == area, set sprite = rectangle area sprite
-            if (problemType == "Area")
-            {
-                // set sprite to rectangle area sprite
-                sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/temp_rectangle_geometroid_area.png", new Vector2(50, 50));
-            }
-            else
-            {
-                // set sprite to rectangle perimeter sprite
-                sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/temp_rectangle_geometroid.png", new Vector2(50, 50));
-            }
-            // else if problemType == perimeter, set sprite = rectangle perimeter sprite
-        }
+    }
+    public override void PrintProblemData()
+    {
+        GD.Print($"I am a rectangle with length {length}, width {width}, and type {problemType}, solution is {solution}");
     }
 } // end of Rectangle class
 public class Triangle : Problem
 {
-    private int baseLength;
-    private int height;
-    private int side2;
-    private int side3;
-    private string identifier;
+    public int base_length;
+    public int height;
+    public int side2;
+    public int side3;
+    public string identifier;
     Triangle()
     {
         shape = "Triangle";
-        baseLength = rand.Next(1, 13); // 1 to 12
-        height = rand.Next(1, 13); // 1 to 12
-        side2 = rand.Next(1, 13);
-        side3 = rand.Next(1, 13);
-        int randomX = rand.Next(50, 750); // x between 50 and 750
+        base_length = rand.Next(3, 13); // 3 to 12
+        height = rand.Next(3, 13); // 3 to 12
+        side2 = rand.Next(3, 13);
+        side3 = rand.Next(Math.Abs(side2 - base_length) + 1, side2 + base_length - 1);
 
         // problemType init
+        label = new RichTextLabel();
+        label.FitContent = true;
+        label.BbcodeEnabled = true;
         int typeDecider = rand.Next(0, 2); // 0 or 1
         if (typeDecider == 0)
         {
             problemType = "Area";
-            solution = (0.5 * baseLength * height).ToString();
+            solution = (0.5 * base_length * height).ToString();
+            label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_area.png[/img] base = {base_length}, height = {height}";
         }
         else
         {
             problemType = "Perimeter";
-            solution = (baseLength + side2 + side3).ToString();
+            solution = (base_length + side2 + side3).ToString();
+            label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_perimeter.png[/img] side lengths {base_length}, {side2}, {side3}";
         }
 
         // set identifier based on side lengths
-        if (baseLength == side2 && side2 == side3)
+        if (base_length == side2 && side2 == side3)
         {
             identifier = "Equilateral";
         }
-        else if (baseLength == side2 || baseLength == side3 || side2 == side3)
+        else if (base_length == side2 || base_length == side3 || side2 == side3)
         {
             identifier = "Isosceles";
         }
@@ -133,23 +104,24 @@ public class Triangle : Problem
         {
             identifier = "Scalene";
         }
-
-        // set sprite accordingly based on identifier and problemType
-        sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/geometroid.png", new Vector2(50, 50));
     }
-} // end of Triangle class
+    public override void PrintProblemData()
+    {
+        GD.Print($"I am a shape {shape} with length {base_length}, height {height}, side2 {side2}, side3 {side3}, type {problemType}, identifier {identifier}, solution is {solution}");
+    }
+}
 public class Circle : Problem
 {
-    enum FillType { FULL = 1, SEMI = 2, QUARTER = 3 }
+    public enum FillType { FULL = 1, SEMI = 2, QUARTER = 3 }
     private int radius;
-    int fillType;
+    public int fillType;
     Circle()
     {
         shape = "Circle";
         radius = rand.Next(1, 13); // 1 to 12
         fillType = rand.Next(1, 4); // 1 to 3
+        fill = fillType;
         int typeDecider;
-        int randomX = rand.Next(50, 750); // x between 50 and 750
         
         // problemType init
         if(fillType == 1)
@@ -161,33 +133,40 @@ public class Circle : Problem
             typeDecider = 0; // only area problems for semi and quarter circles
         }
         
+        label = new RichTextLabel();
+        label.FitContent = true;
+        label.BbcodeEnabled = true;
         if (typeDecider == 0)
         {
             problemType = "Area";
             switch (fillType)
             {
                 case (int)FillType.FULL:
-                    solution = (radius * radius).ToString() + "Pi";
+                    solution = (radius * radius).ToString() + "p";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_area.png[/img] radius = {radius}";
                     break;
                 case (int)FillType.SEMI:
-                    solution = (0.5 * radius * radius).ToString() + "Pi";
+                    solution = (0.5 * radius * radius).ToString() + "p";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_halfcircle_area.png[/img] radius = {radius}";
                     break;
                 case (int)FillType.QUARTER:
-                    solution = (0.25 * radius * radius).ToString() + "Pi";
-                    break;
-                
+                    solution = (0.25 * radius * radius).ToString() + "p";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_quartercircle_area.png[/img] radius = {radius}";
+                    break;   
             }
-            sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/temp_circle_a.png", new Vector2(50, 50));
         }
         else
         {
             problemType = "Perimeter";
-            solution = (2 * radius).ToString() + "Pi";
-            sprite = new Sprite(new Vector2(randomX, 0), "game/Sprites/temp_circle_p.png", new Vector2(50, 50));
+            solution = (2 * radius).ToString() + "p";
+            label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_circumference.png[/img] radius = {radius}";
         }
-        // set sprite accordingly based on problemType
+    }
+    public override void PrintProblemData()
+    {
+        GD.Print($"I am a circle with r {radius}, fillType {fillType}, type {problemType}, solution is {solution}");
     }
 } // end of Circle class
-public class BossProblem : Problem
-{
-}
+// public class BossProblem : Problem
+// {
+// }

@@ -1,45 +1,130 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Transactions;
 
-public partial class Game : Node
+public partial class Game : Node2D
 {
-    public int tick_count = 0; // testing variable
-    public override void _Ready() // careful with this function, because the player going to options/formulas resets this scene so these get called again!
+    public override void _Ready()
     {
         HandlePause(false); // not changing the pause, just setting defaults
         InitializeUIEvents();
+        StartFirstWave();
+    }
+
+    public void StartFirstWave()
+    {
+        GameLogic.wave = new Wave(1);
+        for(int i = 0; i < 15; i++)
+        {
+            AddEnemy();
+        }
     }
     public override void _Process(double delta) // should generally be called 60 times per second or whatever we set the framerate to
     {
         if (!GameLogic.isPaused)
         {
-            tick_count++;
-            GameLogic.HandleTick();
-            DrawGameObjects();
+            List<Enemy> enemies = GameLogic.wave.unspawned_enemies; // todo fix this so its spawned enemies
+            // this is a nifty workaround because we don't want to remove things from the collection its iterating over
+            for(int enemy_index = enemies.Count - 1; enemy_index >= 0; enemy_index--)
+            {
+                bool enemy_escaped = enemies[enemy_index].Move();
+                if (enemy_escaped)
+                {
+                    RemoveEnemy(enemies[enemy_index]);
+                }
+            }
         }
     }
 
-    private void DrawGameObjects() // maybe we make this public and GameLogic calls it? I think it needs to be here because this is the script for the actual Game scene
+    public override void _Draw()
     {
+        base._Draw();
+    }
+    public void AddEnemy()
+    {
+        int temp = new Random().Next(1, 4);
+        string type = "";
+        if(temp == 1)
+        {
+            type = "Triangle";
+        }
+        if(temp == 2)
+        {
+            type = "Rectangle";
+        }
+        if(temp == 3)
+        {
+            type = "Circle";
+        }
+        Enemy newEnemy = new Enemy(type);
+        GameLogic.wave.unspawned_enemies.Add(newEnemy);
+        GetNode<Node>("GameContainer").AddChild(newEnemy.sprite);
+        GetNode<VBoxContainer>("GameContainer/ProblemListPanelContainer/ProblemList").AddChild(newEnemy.problem.label);
+    }
+    public void RemoveEnemy(Enemy enemy)
+    {
+        if (enemy == null)
+        {
+            return;
+        }
 
+        if (GameLogic.wave.unspawned_enemies.Contains(enemy))
+        {
+            GameLogic.wave.unspawned_enemies.Remove(enemy); // todo fix this so it removes spawned enemies   
+        }
+
+        if (enemy.sprite != null && enemy.sprite.IsInsideTree())
+        {
+            enemy.sprite.QueueFree();
+        }
+
+        if (enemy.problem != null && enemy.problem.label != null && enemy.problem.label.IsInsideTree())
+        {
+            enemy.problem.label.QueueFree();
+        }
     }
 
     public void InitializeUIEvents()
     {
-        GetNode<Label>("Money").Text = $"{GameLogic.gold}💵";
-        GetNode<Label>("GameAttributes").Text = $"Player Name: {GameLogic.player_name}\nGame Difficulty: {GameLogic.difficulty}";
-        GetNode<Button>("VBoxContainer/ShopButton").Connect(Button.SignalName.Pressed, Callable.From(OnShopButton));
-        GetNode<Button>("VBoxContainer/WinButton").Connect(Button.SignalName.Pressed, Callable.From(OnWinButton));
-        GetNode<Button>("VBoxContainer/GameOverButton").Connect(Button.SignalName.Pressed, Callable.From(OnGameOverButton));
-        GetNode<Button>("PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
-        GetNode<Button>("PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
-        GetNode<Button>("PauseMenu/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButton));
-        GetNode<Button>("PauseMenu/Resume").Connect(Button.SignalName.Pressed, Callable.From(OnResumeButton));
-        GetNode<Button>("PanelContainer3/PowerUps/Ice").Connect(Button.SignalName.Pressed, Callable.From(OnIceButton));
-        GetNode<Button>("PanelContainer3/PowerUps/Fire").Connect(Button.SignalName.Pressed, Callable.From(OnFireButton));
-        GetNode<Button>("PanelContainer3/PowerUps/Lightning").Connect(Button.SignalName.Pressed, Callable.From(OnLightningButton));
-        GetNode<LineEdit>("PanelContainer4/Answer").TextSubmitted += CheckAnswer;
+        bool night = GameLogic.wave_num % 3 == 0;
+        GetNode<Sprite2D>(night?"GameContainer/Night":"GameContainer/Day").Visible = true;
+        GetNode<Sprite2D>(night?"GameContainer/Day":"GameContainer/Night").Visible = false;
+        
+        GetNode<Control>("Options").Visible = false;
+        GetNode<Control>("Formulas").Visible = false;
+
+        GetNode<Label>("GameContainer/Money").Text = $"{GameLogic.currency}💵";
+        GetNode<Label>("GameContainer/GameAttributes").Text = $"Player Name: {GameLogic.player_name}\nGame Difficulty: {GameLogic.difficulty}";
+        GetNode<Button>("GameContainer/VBoxContainer/ShopButton").Connect(Button.SignalName.Pressed, Callable.From(OnShopButton));
+        GetNode<Button>("GameContainer/VBoxContainer/WinButton").Connect(Button.SignalName.Pressed, Callable.From(OnWinButton));
+        GetNode<Button>("GameContainer/VBoxContainer/GameOverButton").Connect(Button.SignalName.Pressed, Callable.From(OnGameOverButton));
+
+        GetNode<Button>("GameContainer/PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
+        GetNode<Button>("GameContainer/PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
+        GetNode<Button>("GameContainer/PauseMenu/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButton));
+        GetNode<Button>("GameContainer/PauseMenu/Resume").Connect(Button.SignalName.Pressed, Callable.From(OnResumeButton));
+
+        GetNode<Button>("GameContainer/PanelContainer2/Upgrades/BiggerBooms").Text += $"\nLevel {GameLogic.upgrade_inventory["Bigger Booms"]}";
+
+        GetNode<Button>("GameContainer/PanelContainer2/Upgrades/Slow").Text += $"\nLevel {GameLogic.upgrade_inventory["Slow"]}";
+
+        GetNode<Button>("GameContainer/PanelContainer2/Upgrades/MaxLives").Text += $"\nLevel {GameLogic.upgrade_inventory["Max Lives"]}";
+
+        GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Connect(Button.SignalName.Pressed, Callable.From(OnFreezeButton));
+        GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Text += $"\n{GameLogic.powerup_inventory["Freeze"]}";
+
+        GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Fireball").Connect(Button.SignalName.Pressed, Callable.From(OnFireballButton));
+        GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Fireball").Text += $"\n{GameLogic.powerup_inventory["Fireball"]}";
+
+        GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Connect(Button.SignalName.Pressed, Callable.From(OnFrenzyButton));
+        GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Text += $"\n{GameLogic.powerup_inventory["Frenzy"]}";
+
+        GetNode<LineEdit>("GameContainer/PanelContainer4/Answer").TextSubmitted += CheckAnswer;
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -64,19 +149,20 @@ public partial class Game : Node
             new_paused = GameLogic.isPaused;
         }
         GameLogic.isPaused = new_paused;
-        GetNode<VBoxContainer>("PauseMenu").Visible = new_paused;
-        GetNode<Button>("VBoxContainer/ShopButton").Disabled = new_paused;
-        GetNode<Button>("VBoxContainer/WinButton").Disabled = new_paused;
-        GetNode<Button>("VBoxContainer/GameOverButton").Disabled = new_paused;
-        GetNode<Button>("PanelContainer3/PowerUps/Ice").Disabled = new_paused;
-        GetNode<Button>("PanelContainer3/PowerUps/Fire").Disabled = new_paused;
-        GetNode<Button>("PanelContainer3/PowerUps/Lightning").Disabled = new_paused;
-        GetNode<LineEdit>("PanelContainer4/Answer").Editable = !new_paused;
+        GetNode<VBoxContainer>("GameContainer/PauseMenu").Visible = new_paused;
+        GetNode<Button>("GameContainer/VBoxContainer/ShopButton").Disabled = new_paused;
+        GetNode<Button>("GameContainer/VBoxContainer/WinButton").Disabled = new_paused;
+        GetNode<Button>("GameContainer/VBoxContainer/GameOverButton").Disabled = new_paused;
+        GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Disabled = new_paused;
+        GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Fireball").Disabled = new_paused;
+        GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Disabled = new_paused;
+        GetNode<LineEdit>("GameContainer/PanelContainer4/Answer").Editable = !new_paused;
     }
 
     public void OnShopButton()
     {
         UIHelper.SwitchSceneTo(this, "Shop");
+        GameLogic.first_load = true;
     }
 
     public void OnWinButton()
@@ -97,12 +183,26 @@ public partial class Game : Node
 
     public void OnOptionsButton()
     {
-        UIHelper.SwitchSceneTo(this, "Options");
+        GetNode<Control>("GameContainer").Visible = false;
+        GetNode<Control>("Options").Visible = true;
+        GetNode<Control>("Formulas").Visible = false;
+        GetNode<VBoxContainer>("GameContainer/PauseMenu").Visible = false;
     }
 
     public void OnFormulasButton()
     {
-        UIHelper.SwitchSceneTo(this, "Formulas");
+        GetNode<Control>("GameContainer").Visible = false;
+        GetNode<Control>("Options").Visible = false;
+        GetNode<Control>("Formulas").Visible = true;
+        GetNode<VBoxContainer>("GameContainer/PauseMenu").Visible = false;
+    }
+
+    public void ShowGame()
+    {
+        GetNode<Control>("GameContainer").Visible = true;
+        GetNode<Control>("Options").Visible = false;
+        GetNode<Control>("Formulas").Visible = false;
+        GetNode<VBoxContainer>("GameContainer/PauseMenu").Visible = true;
     }
 
     public void OnResumeButton()
@@ -110,27 +210,51 @@ public partial class Game : Node
         HandlePause(true);
     }
 
-    public void OnIceButton()
+    public void OnFreezeButton()
     {
-        GetNode<Label>("Label").Text = "You used the 🧊 power up!";
+        if (Powerup.UsePowerup("Freeze"))
+        {
+            GetNode<Label>("GameContainer/Label").Text = "You used the 🧊 power up!";
+            GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Text = $"🧊\n{GameLogic.powerup_inventory["Freeze"]}";
+        }
+        else
+        {
+            GetNode<Label>("GameContainer/Label").Text = "You don't have enough 🧊 power ups!";
+        }
     }
 
-    public void OnFireButton()
+    public void OnFireballButton()
     {
-        GetNode<Label>("Label").Text = "You used the 🔥 power up!";
+        if (Powerup.UsePowerup("Fireball"))
+        {
+            GetNode<Label>("GameContainer/Label").Text = "You used the 🔥 power up!";
+            GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Fireball").Text = $"🔥\n{GameLogic.powerup_inventory["Fireball"]}";
+        }
+        else
+        {
+            GetNode<Label>("GameContainer/Label").Text = "You don't have enough 🔥 power ups!";
+        }
     }
 
-    public void OnLightningButton()
+    public void OnFrenzyButton()
     {
-        GetNode<Label>("Label").Text = "You used the ⚡ power up!";
+        if (Powerup.UsePowerup("Frenzy"))
+        {
+            GetNode<Label>("GameContainer/Label").Text = "You used the ⚡ power up!";
+            GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Text = $"⚡\n{GameLogic.powerup_inventory["Frenzy"]}";
+        }
+        else
+        {
+            GetNode<Label>("GameContainer/Label").Text = "You don't have enough ⚡ power ups!";
+        }
     }
 
     public void CheckAnswer(string answer)
     {
-        LineEdit a = GetNode<LineEdit>("PanelContainer4/Answer");
+        LineEdit a = GetNode<LineEdit>("GameContainer/PanelContainer4/Answer");
         if (answer.Trim() == "30")
         {
-            GetNode<Label>("DebugEnemy").Text = "Oh no you defeated me...";
+            GetNode<Label>("GameContainer/DebugEnemy").Text = "Oh no you defeated me...";
         }
         a.Clear();
     }

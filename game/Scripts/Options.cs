@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Options : Node2D
+public partial class Options : Control
 {
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -49,6 +49,13 @@ public partial class Options : Node2D
 
     public void OnOptionsExitButton()
     {
-        UIHelper.SwitchSceneTo(this, UIHelper.previous_scene);
+        if (GameLogic.inGame)
+        {
+            GetNode<Game>("/root/Game").ShowGame();
+        }
+        else
+        {
+            UIHelper.SwitchSceneTo(this, UIHelper.previous_scene);
+        }
     }
 }

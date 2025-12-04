@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfj24g5y0mta6"
-path="res://.godot/imported/aerialareas_temporary_tutorial.png-895fc296e8b11c84f85ced2364fb98c3.ctex"
+uid="uid://c21l55uotgaqt"
+path="res://.godot/imported/temp_explosion.png-a4ea0e5c62c4e813a4e8283e6f6b428d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/aerialareas_temporary_tutorial.png"
-dest_files=["res://.godot/imported/aerialareas_temporary_tutorial.png-895fc296e8b11c84f85ced2364fb98c3.ctex"]
+source_file="res://Sprites/temp_explosion.png"
+dest_files=["res://.godot/imported/temp_explosion.png-a4ea0e5c62c4e813a4e8283e6f6b428d.ctex"]
 
 [params]
 

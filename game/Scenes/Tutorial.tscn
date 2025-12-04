@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ctth1uyqqd50p"]
 
 [ext_resource type="Script" uid="uid://brfyrdlmkx0r8" path="res://Scripts/Tutorial.cs" id="1_2o727"]
-[ext_resource type="Texture2D" uid="uid://dfj24g5y0mta6" path="res://Sprites/aerialareas_temporary_tutorial.png" id="1_wduq8"]
+[ext_resource type="Texture2D" uid="uid://dfj24g5y0mta6" path="res://Sprites/Tutorial/aerialareas_temporary_tutorial.png" id="1_wduq8"]
 
 [node name="Tutorial" type="Node2D"]
 script = ExtResource("1_2o727")
