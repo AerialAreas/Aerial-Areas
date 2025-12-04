@@ -41,11 +41,25 @@ public partial class Enemy : Sprite2D
                 problem = (Problem)Activator.CreateInstance(typeof(Rectangle), true);
                 if(problem.problemType == "Area")
                 {
-                    texture_path = "res://Sprites/Enemies/enemy_rectangle_area.png";
+                    if (problem.shape == "Square")
+                    {
+                        texture_path = "res://Sprites/Enemies/enemy_square_area.png";
+                    }
+                    else
+                    {
+                        texture_path = "res://Sprites/Enemies/enemy_rectangle_area.png";
+                    }
                 }
                 else
                 {
-                    texture_path = "res://Sprites/Enemies/enemy_rectangle_perimeter.png";
+                    if (problem.shape == "Square")
+                    {
+                        texture_path = "res://Sprites/Enemies/enemy_square_perimeter.png";
+                    }
+                    else
+                    {
+                        texture_path = "res://Sprites/Enemies/enemy_rectangle_perimeter.png";
+                    }
                 }
                 break;
             case "Triangle":

@@ -18,22 +18,19 @@ public class Rectangle : Problem
 {
     private int length;
     private int width;
-    private bool isSquare;
     Rectangle()
     {
-        shape = "Rectangle";
         length = rand.Next(1, 13); // 1 to 12
         width = rand.Next(1, 13); // 1 to 12
 
         if (length == width) // square?
         {
-            isSquare = true;
+            shape = "Square";
         }
         else
         {
-            isSquare = false;
+            shape = "Rectangle";
         }
-
 
         label = new RichTextLabel();
         label.FitContent = true;
