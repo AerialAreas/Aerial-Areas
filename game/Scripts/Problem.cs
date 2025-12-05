@@ -13,6 +13,7 @@ public abstract class Problem
     public RichTextLabel label;
     public Random rand = new Random();
     public abstract void PrintProblemData();
+    public abstract void UpdateLabel(bool hl);
 }
 public class Rectangle : Problem
 {
@@ -48,6 +49,32 @@ public class Rectangle : Problem
             problemType = "Perimeter";
             solution = (2 * (length + width)).ToString();
             label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_perimeter.png[/img] length = {length}, width = {width}";
+        }
+    }
+
+    public override void UpdateLabel(bool hl)
+    {
+        if (problemType == "Area")
+        {
+            if (hl)
+            {
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_area.png[/img] [color=#FFFF00] length = {length}, width = {width} [/color]";
+            }
+            else
+            {
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_area.png[/img] [color=#FFFFFF] length = {length}, width = {width} [/color]";
+            }
+        }
+        else
+        {
+            if (hl)
+            {
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_perimeter.png[/img] [color=#FFFF00] length = {length}, width = {width} [/color]";
+            }
+            else
+            {
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_perimeter.png[/img] [color=#FFFFFF] length = {length}, width = {width} [/color]";
+            }
         }
     }
     public override void PrintProblemData()
@@ -100,6 +127,32 @@ public class Triangle : Problem
         else
         {
             identifier = "Scalene";
+        }
+    }
+
+    public override void UpdateLabel(bool hl)
+    {
+        if (problemType == "Area")
+        {
+            if (hl)
+            {
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_area.png[/img] [color=FFFF00] base = {base_length}, height = {height} [/color]";
+            }
+            else
+            {
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_area.png[/img] [color=FFFFFF] base = {base_length}, height = {height} [/color]";
+            }
+        }
+        else
+        {
+            if (hl)
+            {
+                 label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_perimeter.png[/img] [color=FFFF00]side lengths {base_length}, {side2}, {side3} [/color]";
+            }
+            else
+            {
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_perimeter.png[/img] [color=FFFFFF]side lengths {base_length}, {side2}, {side3} [/color]";
+            }
         }
     }
     public override void PrintProblemData()
@@ -157,6 +210,54 @@ public class Circle : Problem
             problemType = "Perimeter";
             solution = (2 * radius).ToString() + "p";
             label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_circumference.png[/img] radius = {radius}";
+        }
+    }
+
+    public override void UpdateLabel(bool hl)
+    {
+        if (problemType == "Area")
+        {
+            if (hl)
+            {
+                if (fillType == 1)
+                {
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_area.png[/img] [color=FFFF00] radius = {radius} [/color]";
+                }
+                else if (fillType == 2)
+                {
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_halfcircle_area.png[/img] [color=FFFF00] radius = {radius} [/color]";
+                }
+                else
+                {
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_quartercircle_area.png[/img] [color=FFFF00] radius = {radius} [/color]";
+                }
+            }
+            else
+            {
+                if (fillType == 1)
+                {
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_area.png[/img] [color=FFFFFF] radius = {radius} [/color]";
+                }
+                else if (fillType == 2)
+                {
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_halfcircle_area.png[/img] [color=FFFFFF] radius = {radius} [/color]";
+                }
+                else
+                {
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_quartercircle_area.png[/img] [color=FFFFFF] radius = {radius} [/color]";
+                }
+            }
+        }
+        else
+        {
+            if (hl)
+            {
+                 label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_circumference.png[/img] [color=FFFF00] radius = {radius} [/color]";
+            }
+            else
+            {
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_circumference.png[/img] [color=FFFFFF] radius = {radius} [/color]";
+            }
         }
     }
     public override void PrintProblemData()

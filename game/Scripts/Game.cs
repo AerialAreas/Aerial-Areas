@@ -17,6 +17,53 @@ public partial class Game : Node2D
         StartWave();
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        Wave curr_wave = GameLogic.wave;
+        Enemy found_enemy = new Enemy();
+
+        if (@event is InputEventMouseButton mouseButtonEvent)
+        {
+            if (mouseButtonEvent.ButtonIndex == MouseButton.Left && mouseButtonEvent.Pressed)
+            {
+                bool enemy_found = false;
+                foreach (Enemy wave_enemy in curr_wave.unspawned_enemies)
+                {
+                    float scale_x = wave_enemy.sprite.Texture.GetSize().X * wave_enemy.sprite.Scale.X / 2;
+                    float scale_y = wave_enemy.sprite.Texture.GetSize().Y * wave_enemy.sprite.Scale.Y / 2;
+                    float enemy_x = wave_enemy.sprite.Position.X - scale_x;
+                    float enemy_y = wave_enemy.sprite.Position.Y - scale_y;
+                    float mouse_x = mouseButtonEvent.Position.X;
+                    float mouse_y = mouseButtonEvent.Position.Y;
+                    float outer_x = wave_enemy.sprite.Position.X + scale_x;
+                    float outer_y = wave_enemy.sprite.Position.Y + scale_y;
+                    if (enemy_x < mouse_x && outer_x > mouse_x && enemy_y < mouse_y && outer_y > mouse_y && !enemy_found)
+                    {
+                        enemy_found = true;
+                        found_enemy = wave_enemy;
+                    }
+                }
+
+                foreach (Enemy wave_enemy in curr_wave.unspawned_enemies)
+                {
+                    if (enemy_found)
+                    {
+                        if (wave_enemy == found_enemy)
+                        {
+                            wave_enemy.isHighlighted = true;
+                            wave_enemy.problem.UpdateLabel(true);
+                        } 
+                        else
+                        {
+                            wave_enemy.isHighlighted = false;
+                            wave_enemy.problem.UpdateLabel(false);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void StartWave()
     {
         GameLogic.wave = new Wave(GameLogic.wave_num);
@@ -292,9 +339,36 @@ public partial class Game : Node2D
     public void CheckAnswer(string answer)
     {
         LineEdit a = GetNode<LineEdit>("GameContainer/PanelContainer4/Answer");
-        if (answer.Trim() == "30")
+        Wave curr_wave = GameLogic.wave;
+        Enemy selected_enemy = new Enemy();
+        bool enemy_found = false;
+        foreach (Enemy wave_enemy in curr_wave.unspawned_enemies)
         {
-            GetNode<Label>("GameContainer/DebugEnemy").Text = "Oh no you defeated me...";
+            if (wave_enemy.isHighlighted)
+            {
+                selected_enemy = wave_enemy;
+                enemy_found = true;
+                break;
+            }
+        }
+
+        if (!enemy_found)
+        {
+            a.Clear();
+            return;
+        }
+
+        GD.Print(answer.Trim());
+        GD.Print(selected_enemy.problem.solution);
+        if (answer.Trim() == selected_enemy.problem.solution)
+        {   
+            
+            curr_wave.HandleExplosion(selected_enemy);
+            GD.Print("correct");
+        }
+        else
+        {
+            GD.Print("wrong");
         }
         a.Clear();
     }

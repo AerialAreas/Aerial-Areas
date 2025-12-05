@@ -32,6 +32,8 @@ public partial class Enemy : Sprite2D
         // GD.Print($"{sprite.Position.X}, {sprite.Position.Y}");
     }
 
+    public Enemy() {}
+
     public Enemy(string shape)
     {
         string texture_path = "";
@@ -118,6 +120,11 @@ public partial class Enemy : Sprite2D
             return true;
         }
         return false;
+    }
+
+    public void giveMoney()
+    {
+        GD.Print("Jew jew jew");
     }
 }
 
