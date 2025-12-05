@@ -10,7 +10,7 @@ public partial class Shop : Node2D
 
     public void InitializeUIEvents()
     {
-        GetNode<Label>("Money").Text = $"{GameLogic.currency}💵";
+        GetNode<Label>("Money").Text = $"💵:{GameLogic.currency}";
         GetNode<Button>("DebugMoreMoney").Connect(Button.SignalName.Pressed, Callable.From(MoreMoneyButton));
         GetNode<Button>("GoBack").Connect(Button.SignalName.Pressed, Callable.From(OnGoBackButton));
 
@@ -96,6 +96,7 @@ public partial class Shop : Node2D
         {
             GetNode<Label>("DebugText").Text = "🐌 upgrade bought";
             Upgrade.IncreaseLevel("Slow");
+            GameLogic.slow_multiplier -= 0.1f;
             if ((GameLogic.upgrade_inventory["Slow"] - 1) <= 3)
             {
                 Upgrade.upgrades["Slow"] = Upgrade.cost_per_level[GameLogic.upgrade_inventory["Slow"] - 1];
@@ -115,6 +116,8 @@ public partial class Shop : Node2D
         {
             GetNode<Label>("DebugText").Text = "❤️ upgrade bought";
             Upgrade.IncreaseLevel("Max Lives");
+            GameLogic.lives += 5;
+            GameLogic.max_lives += 5;
             if ((GameLogic.upgrade_inventory["Max Lives"] - 1) <= 3)
             {
                 Upgrade.upgrades["Max Lives"] = Upgrade.cost_per_level[GameLogic.upgrade_inventory["Max Lives"] - 1];
@@ -158,7 +161,7 @@ public partial class Shop : Node2D
     public void MoreMoneyButton()
     {
         GameLogic.currency += 5000;
-        GetNode<Label>("Money").Text = $"{GameLogic.currency}💵";
+        GetNode<Label>("Money").Text = $"💵:{GameLogic.currency}";
     }
     private bool CanBuy(string item_name, bool isPowerUp)
     {
@@ -167,7 +170,7 @@ public partial class Shop : Node2D
             if (GameLogic.currency >= Powerup.powerups[item_name] && GameLogic.powerup_inventory.TryGetValue(item_name, out int value) && value < 10)
             {
                 GameLogic.currency -= Powerup.powerups[item_name];
-                GetNode<Label>("Money").Text = $"{GameLogic.currency}💵";
+                GetNode<Label>("Money").Text = $"💵:{GameLogic.currency}";
                 return true;
             }
             else if (GameLogic.currency < Powerup.powerups[item_name])
@@ -186,7 +189,7 @@ public partial class Shop : Node2D
            if (GameLogic.currency >= Upgrade.upgrades[item_name] && GameLogic.upgrade_inventory.TryGetValue(item_name, out int value) && value < 5)
             {
                 GameLogic.currency -= Upgrade.upgrades[item_name];
-                GetNode<Label>("Money").Text = $"{GameLogic.currency}💵";
+                GetNode<Label>("Money").Text = $"💵:{GameLogic.currency}";
                 return true;
             }
             else if (GameLogic.currency < Upgrade.upgrades[item_name])

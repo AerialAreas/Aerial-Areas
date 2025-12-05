@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqxs73m0063lj"]
+[gd_scene load_steps=6 format=3 uid="uid://bqxs73m0063lj"]
 
 [ext_resource type="Script" uid="uid://ces6nrx2ucntu" path="res://Scripts/Formulas.cs" id="1_8wqyc"]
 [ext_resource type="Texture2D" uid="uid://dusa8ymfgu3p8" path="res://Sprites/Formulas/rectangles_formula.png" id="2_lj0nd"]
+[ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Font/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_stfi6"]
 [ext_resource type="Texture2D" uid="uid://dt02uikjq4l4q" path="res://Sprites/Formulas/triangles_formula.png" id="3_stfi6"]
 [ext_resource type="Texture2D" uid="uid://b7mmgkgdy0t36" path="res://Sprites/Formulas/circles_formula.png" id="4_augv7"]
 
@@ -15,6 +16,7 @@ layout_mode = 0
 offset_top = 320.0
 offset_right = 50.0
 offset_bottom = 405.0
+theme_override_fonts/font = ExtResource("2_stfi6")
 text = "<"
 
 [node name="RightButton" type="Button" parent="."]
@@ -23,15 +25,17 @@ offset_left = 1100.0
 offset_top = 320.0
 offset_right = 1150.0
 offset_bottom = 405.0
+theme_override_fonts/font = ExtResource("2_stfi6")
 text = ">"
 
 [node name="FormulasExitButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 1096.0
-offset_top = 9.0
-offset_right = 1142.0
-offset_bottom = 40.0
+offset_left = 1088.0
+offset_top = 5.0
+offset_right = 1144.0
+offset_bottom = 36.0
 pivot_offset = Vector2(-801, 151)
+theme_override_fonts/font = ExtResource("2_stfi6")
 text = "Back"
 
 [node name="RectanglesFormula" type="Sprite2D" parent="."]

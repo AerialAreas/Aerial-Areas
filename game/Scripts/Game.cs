@@ -264,7 +264,9 @@ public partial class Game : Node2D
     }
     public void InitializeUIEvents()
     {
+        GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeTimer").Timeout += EnableFreeze;
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballCooldown").Timeout += EnableFireball;
+        GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzyTimer").Timeout += EnableFrenzy;
         GetNode<Timer>("GameContainer/Timer").WaitTime = GameLogic.difficulty_spawn_time[GameLogic.difficulty];
         GetNode<Timer>("GameContainer/Timer").Connect(Timer.SignalName.Timeout, Callable.From(EnemyCooldown));
 
@@ -275,9 +277,9 @@ public partial class Game : Node2D
         GetNode<Control>("Options").Visible = false;
         GetNode<Control>("Formulas").Visible = false;
 
-        GetNode<Label>("GameContainer/Lives").Text += $" {GameLogic.lives}/{GameLogic.max_lives}";
+        GetNode<Label>("GameContainer/Lives").Text += $"{GameLogic.lives}/{GameLogic.max_lives}";
 
-        GetNode<Label>("GameContainer/Money").Text = $"{GameLogic.currency}💵";
+        GetNode<Label>("GameContainer/Money").Text = $"💵:{GameLogic.currency}";
         GetNode<Button>("GameContainer/VBoxContainer/WinButton").Connect(Button.SignalName.Pressed, Callable.From(OnWinButton));
         GetNode<Button>("GameContainer/VBoxContainer/GameOverButton").Connect(Button.SignalName.Pressed, Callable.From(OnGameOverButton));
         GetNode<Button>("GameContainer/VBoxContainer/ScoreButton").Connect(Button.SignalName.Pressed, Callable.From(OnScoreButton));
@@ -319,12 +321,14 @@ public partial class Game : Node2D
         GetNode<VBoxContainer>("GameContainer/PauseMenu").Visible = new_paused;
         GetNode<LineEdit>("GameContainer/PanelContainer4/Answer").Editable = !new_paused;
         GetNode<Timer>("GameContainer/Timer").Paused = new_paused;
+        GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeTimer").Paused = new_paused;
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballCooldown").Paused = new_paused;
+        GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzyTimer").Paused = new_paused;
     }
 
     public void EnemyCooldown()
     {
-        if (enemy_spawn_number != 0 && GameLogic.wave.unspawned_enemies.Count < 15)
+        if (enemy_spawn_number != 0 && GameLogic.wave.unspawned_enemies.Count < 15 && !GameLogic.isFreeze)
         {
             AddEnemy(GameLogic.wave_num);
             enemy_spawn_number--;
@@ -388,6 +392,10 @@ public partial class Game : Node2D
         {
             if (Powerup.UsePowerup("Freeze"))
             {
+                Timer freeze = GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeTimer");
+                GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Disabled = true;
+                freeze.Start();
+                GameLogic.isFreeze = true;
                 GetNode<Label>("GameContainer/Label").Text = "You used the 🧊 power up!";
                 GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Text = $"🧊\n{GameLogic.powerup_inventory["Freeze"]}";
             }
@@ -423,6 +431,10 @@ public partial class Game : Node2D
         {
             if (Powerup.UsePowerup("Frenzy"))
             {
+                Timer frenzy = GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzyTimer");
+                GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Disabled = true;
+                frenzy.Start();
+                GameLogic.isFrenzy = true;
                 GetNode<Label>("GameContainer/Label").Text = "You used the ⚡ power up!";
                 GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Text = $"⚡\n{GameLogic.powerup_inventory["Frenzy"]}";
             }
@@ -488,15 +500,27 @@ public partial class Game : Node2D
         }
     }
 
+    private void EnableFreeze()
+    {
+        GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Disabled = false;
+        GameLogic.isFreeze = false;
+    }
     private void EnableFireball()
     {
         GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Fireball").Disabled = false;
+    }
+
+    private void EnableFrenzy()
+    {
+        GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Disabled = false;
+        GameLogic.isFrenzy = false;
     }
 
     public void HandleExplosion(Enemy enemy)
     {
         GiveMoney(enemy);
         RemoveEnemy(enemy);
+        GiveScore(enemy);
         CheckEnemies();
         Explosion explosion = new Explosion(enemy.sprite.Position);
         // GetNode<Node>("GameContainer").AddChild(explosion);
@@ -519,6 +543,7 @@ public partial class Game : Node2D
             {
                 GiveMoney(e);
                 RemoveEnemy(e);
+                GiveScore(e);
                 CheckEnemies();
             }
          }
@@ -527,5 +552,14 @@ public partial class Game : Node2D
     {
         GameLogic.currency += enemy.value;
         GetNode<Label>("GameContainer/Money").Text = GameLogic.currency.ToString();
+    }
+    public void GiveScore(Enemy enemy)
+    {
+        int score = (int)(enemy.score * (2 - (enemy.sprite.Position.Y/GameLogic.ENEMY_ESCAPE_BOUND)));
+        if (GameLogic.isFrenzy)
+        {
+            score *= 2;
+        }
+        GameLogic.score += score;
     }
 }

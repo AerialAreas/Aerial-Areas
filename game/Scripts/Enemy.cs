@@ -7,12 +7,17 @@ public partial class Enemy
     public Vector2 velocity;
     public Sprite2D sprite;
     public int value;
+    public int score;
     public bool isHighlighted;
     protected Random rand = new Random();
 
     public bool Move() // returns whether the enemy has made it to the bottom or not
     {
         // GD.Print($"{sprite.Position.X}, {sprite.Position.Y}");
+        if (GameLogic.isFreeze)
+        {
+            return false;
+        }
         Vector2 current_enemy_pos = sprite.Position;
         Vector2 enemy_velocity = velocity;
         sprite.Position = new Vector2(current_enemy_pos.X + enemy_velocity.X, current_enemy_pos.Y + enemy_velocity.Y);
@@ -92,7 +97,7 @@ public partial class Enemy
         }
         float VELOCITY_MULTIPLIER = GameLogic.difficulty_speed_multiplier[GameLogic.difficulty];
         velocity = new Vector2((GD.Randf() - 0.5f) / 5f, 0.1f + (GD.Randf() / 10f)); // 0.1f to 0.2f down and -0.1f to 0.1f horizontal
-        velocity = new Vector2(velocity.X * VELOCITY_MULTIPLIER, velocity.Y * VELOCITY_MULTIPLIER);
+        velocity = new Vector2(velocity.X * VELOCITY_MULTIPLIER * GameLogic.slow_multiplier, velocity.Y * VELOCITY_MULTIPLIER * GameLogic.slow_multiplier);
         
         sprite = new Sprite2D();
         sprite.Position = new Vector2(rand.Next(GameLogic.ENEMY_LEFT_BOUND + 10, GameLogic.ENEMY_RIGHT_BOUND - 10), GameLogic.ENEMY_SPAWN_Y);
@@ -101,6 +106,7 @@ public partial class Enemy
         //SetScript(GD.Load<Script>("res://Scripts/Enemy.cs"));
 
         value = rand.Next(10, 21); // random between 10 and 20
+        score = 100;
         isHighlighted = false;
         // GD.Print($"Spawned an enemy with shape {shape} and velocity {velocity.X}, {velocity.Y} and value {value} and sprite path {sprite.filePath} and sprite pos {sprite.position.X}, {sprite.position.Y}");
         // problem.PrintProblemData();

@@ -24,6 +24,7 @@ public abstract class Problem
         b.Modulate = new Color(0,0,0,0);
         clickable = b;
     }
+    public string fontPath = "res://Font/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf";
 }
 public class Rectangle : Problem
 {
@@ -46,6 +47,8 @@ public class Rectangle : Problem
         label = new RichTextLabel();
         label.FitContent = true;
         label.BbcodeEnabled = true;
+        label.AddThemeFontOverride("normal_font", GD.Load<FontFile>(fontPath));
+        label.AddThemeFontSizeOverride("normal_font_size", 15);
         // problemType init
         int typeDecider = rand.Next(0, 2); // 0 or 1
         if (typeDecider == 0)
@@ -68,22 +71,22 @@ public class Rectangle : Problem
         {
             if (hl)
             {
-                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_area.png[/img] [color=#FFFF00] length = {length}, width = {width} [/color]";
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_area.png[/img][color=#FFFF00] length = {length}, width = {width}[/color]";
             }
             else
             {
-                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_area.png[/img] [color=#FFFFFF] length = {length}, width = {width} [/color]";
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_area.png[/img][color=#FFFFFF] length = {length}, width = {width}[/color]";
             }
         }
         else
         {
             if (hl)
             {
-                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_perimeter.png[/img] [color=#FFFF00] length = {length}, width = {width} [/color]";
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_perimeter.png[/img][color=#FFFF00] length = {length}, width = {width}[/color]";
             }
             else
             {
-                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_perimeter.png[/img] [color=#FFFFFF] length = {length}, width = {width} [/color]";
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_rectangle_perimeter.png[/img][color=#FFFFFF] length = {length}, width = {width}[/color]";
             }
         }
     }
@@ -111,6 +114,8 @@ public class Triangle : Problem
         label = new RichTextLabel();
         label.FitContent = true;
         label.BbcodeEnabled = true;
+        label.AddThemeFontOverride("normal_font", GD.Load<FontFile>(fontPath));
+        label.AddThemeFontSizeOverride("normal_font_size", 15);
         int typeDecider = rand.Next(0, 2); // 0 or 1
         if (typeDecider == 0)
         {
@@ -146,22 +151,22 @@ public class Triangle : Problem
         {
             if (hl)
             {
-                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_area.png[/img] [color=FFFF00] base = {base_length}, height = {height} [/color]";
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_area.png[/img][color=FFFF00] base = {base_length}, height = {height}[/color]";
             }
             else
             {
-                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_area.png[/img] [color=FFFFFF] base = {base_length}, height = {height} [/color]";
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_area.png[/img][color=FFFFFF] base = {base_length}, height = {height}[/color]";
             }
         }
         else
         {
             if (hl)
             {
-                 label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_perimeter.png[/img] [color=FFFF00]side lengths {base_length}, {side2}, {side3} [/color]";
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_perimeter.png[/img][color=FFFF00]side lengths {base_length}, {side2}, {side3}[/color]";
             }
             else
             {
-                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_perimeter.png[/img] [color=FFFFFF]side lengths {base_length}, {side2}, {side3} [/color]";
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_perimeter.png[/img][color=FFFFFF]side lengths {base_length}, {side2}, {side3}[/color]";
             }
         }
     }
@@ -196,6 +201,8 @@ public class Circle : Problem
         label = new RichTextLabel();
         label.FitContent = true;
         label.BbcodeEnabled = true;
+        label.AddThemeFontOverride("normal_font", GD.Load<FontFile>(fontPath));
+        label.AddThemeFontSizeOverride("normal_font_size", 15);
         if (typeDecider == 0)
         {
             problemType = "Area";
@@ -231,30 +238,30 @@ public class Circle : Problem
             {
                 if (fillType == 1)
                 {
-                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_area.png[/img] [color=FFFF00] radius = {radius} [/color]";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_area.png[/img][color=FFFF00] radius = {radius}[/color]";
                 }
                 else if (fillType == 2)
                 {
-                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_halfcircle_area.png[/img] [color=FFFF00] radius = {radius} [/color]";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_halfcircle_area.png[/img][color=FFFF00] radius = {radius}[/color]";
                 }
                 else
                 {
-                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_quartercircle_area.png[/img] [color=FFFF00] radius = {radius} [/color]";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_quartercircle_area.png[/img][color=FFFF00] radius = {radius}[/color]";
                 }
             }
             else
             {
                 if (fillType == 1)
                 {
-                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_area.png[/img] [color=FFFFFF] radius = {radius} [/color]";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_area.png[/img][color=FFFFFF] radius = {radius}[/color]";
                 }
                 else if (fillType == 2)
                 {
-                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_halfcircle_area.png[/img] [color=FFFFFF] radius = {radius} [/color]";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_halfcircle_area.png[/img][color=FFFFFF] radius = {radius}[/color]";
                 }
                 else
                 {
-                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_quartercircle_area.png[/img] [color=FFFFFF] radius = {radius} [/color]";
+                    label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_quartercircle_area.png[/img][color=FFFFFF] radius = {radius}[/color]";
                 }
             }
         }
@@ -262,11 +269,11 @@ public class Circle : Problem
         {
             if (hl)
             {
-                 label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_circumference.png[/img] [color=FFFF00] radius = {radius} [/color]";
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_circumference.png[/img][color=FFFF00] radius = {radius}[/color]";
             }
             else
             {
-                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_circumference.png[/img] [color=FFFFFF] radius = {radius} [/color]";
+                label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_circle_circumference.png[/img][color=FFFFFF] radius = {radius}[/color]";
             }
         }
     }
