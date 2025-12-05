@@ -9,7 +9,7 @@ using System.Transactions;
 
 public partial class Game : Node2D
 {
-    int enemy_spawn_number;
+    private int enemy_spawn_number;
     public override void _Ready()
     {
         HandlePause(false); // not changing the pause, just setting defaults
@@ -339,10 +339,9 @@ public partial class Game : Node2D
     public void CheckAnswer(string answer)
     {
         LineEdit a = GetNode<LineEdit>("GameContainer/PanelContainer4/Answer");
-        Wave curr_wave = GameLogic.wave;
         Enemy selected_enemy = new Enemy();
         bool enemy_found = false;
-        foreach (Enemy wave_enemy in curr_wave.unspawned_enemies)
+        foreach (Enemy wave_enemy in GameLogic.wave.unspawned_enemies)
         {
             if (wave_enemy.isHighlighted)
             {
@@ -363,7 +362,7 @@ public partial class Game : Node2D
         if (answer.Trim() == selected_enemy.problem.solution)
         {   
             
-            curr_wave.HandleExplosion(selected_enemy);
+            HandleExplosion(selected_enemy);
             GD.Print("correct");
         }
         else
@@ -395,5 +394,35 @@ public partial class Game : Node2D
     private void EnableFireball()
     {
         GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Fireball").Disabled = false;
+    }
+
+    public void HandleExplosion(Enemy enemy)
+    {
+        enemy.giveMoney();
+        RemoveEnemy(enemy);
+        CheckEnemies();
+        Explosion explosion = new Explosion(enemy.Position);
+        // GetNode<Node>("GameContainer").AddChild(explosion);
+        float ex_scale_x = explosion.sprite.Texture.GetSize().X * explosion.sprite.Scale.X / 2;
+        float ex_scale_y = explosion.sprite.Texture.GetSize().Y * explosion.sprite.Scale.Y / 2;
+        float ex_inner_x = explosion.sprite.Position.X - ex_scale_x;
+        float ex_inner_y = explosion.sprite.Position.Y - ex_scale_y;
+        float ex_outer_x = explosion.sprite.Position.X + ex_scale_x;
+        float ex_outer_y = explosion.sprite.Position.Y + ex_scale_y;
+        foreach(Enemy e in GameLogic.wave.unspawned_enemies)
+        {
+            float scale_x = e.sprite.Texture.GetSize().X * e.sprite.Scale.X / 2;
+            float scale_y = e.sprite.Texture.GetSize().Y * e.sprite.Scale.Y / 2;
+            float inner_x = e.sprite.Position.X - scale_x;
+            float inner_y = e.sprite.Position.Y - scale_y;
+            float outer_x = e.sprite.Position.X + scale_x;
+            float outer_y = e.sprite.Position.Y + scale_y;
+            if (outer_x > ex_inner_x && inner_x < ex_outer_x && outer_y > ex_inner_y && inner_y < ex_outer_y)
+            {
+                e.giveMoney();
+                RemoveEnemy(e);
+                CheckEnemies();
+            }
+         }
     }
 }
