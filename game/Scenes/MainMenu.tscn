@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://76cwmi5dldyf" path="res://Scripts/MainMenu.cs" id="1_853f1"]
 [ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Font/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_ghw46"]
 [ext_resource type="Texture2D" uid="uid://dqmjsips2n8tx" path="res://Sprites/Backgrounds/mainmenubg.png" id="3_8saeu"]
-[ext_resource type="Texture2D" uid="uid://by8vvp0i2p45q" path="res://Sprites/aerial_areas_logo.png" id="3_ghw46"]
+[ext_resource type="Texture2D" uid="uid://rci0ordbbs18" path="res://Sprites/aerial_areas_logo.png" id="3_ghw46"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_853f1")
@@ -43,10 +43,10 @@ theme_override_fonts/font = ExtResource("2_ghw46")
 text = "High Scores"
 
 [node name="ExitButton" type="Button" parent="."]
-offset_left = 1090.0
+offset_left = 1121.0
 offset_top = 1.0
-offset_right = 1136.0
-offset_bottom = 32.0
+offset_right = 1151.0
+offset_bottom = 34.0
 theme_override_fonts/font = ExtResource("2_ghw46")
 text = "X"
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rci0ordbbs18"
-path="res://.godot/imported/aerial_areas_logo.png-8dc57f22f36d7a03316a411168fa2380.ctex"
+uid="uid://blpambt3eid1n"
+path="res://.godot/imported/final_tutorial.png-4ebf8f14fdbecf01752b263b9e6654ea.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/aerial_areas_logo.png"
-dest_files=["res://.godot/imported/aerial_areas_logo.png-8dc57f22f36d7a03316a411168fa2380.ctex"]
+source_file="res://Sprites/Tutorial/final_tutorial.png"
+dest_files=["res://.godot/imported/final_tutorial.png-4ebf8f14fdbecf01752b263b9e6654ea.ctex"]
 
 [params]
 

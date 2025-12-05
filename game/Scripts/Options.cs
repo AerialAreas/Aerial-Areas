@@ -14,17 +14,17 @@ public partial class Options : Control
     {
         GetNode<Button>("OptionsExitButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsExitButton));
         GetNode<HSlider>("VolumeSlider").ValueChanged += VolumeChanged;
-        GetNode<CheckBox>("MusicCheckBox").Toggled += MusicToggled;
-        GetNode<CheckBox>("SFXCheckBox").Toggled += SFXToggled;
-        GetNode<CheckBox>("SkipTutorialsCheckBox").Toggled += SkipTutorialsToggled;
+        GetNode<CheckBox>("MusicBG/MusicCheckBox").Toggled += MusicToggled;
+        GetNode<CheckBox>("SFXBG/SFXCheckBox").Toggled += SFXToggled;
+        GetNode<CheckBox>("SkipTutorialsBG/SkipTutorialsCheckBox").Toggled += SkipTutorialsToggled;
     }
 
     private void SetOptionsUIToPlayerSettings()
     {
         GetNode<HSlider>("VolumeSlider").Value = UIHelper.volume;
-        GetNode<CheckBox>("MusicCheckBox").ButtonPressed = UIHelper.music;
-        GetNode<CheckBox>("SFXCheckBox").ButtonPressed = UIHelper.sfx;
-        GetNode<CheckBox>("SkipTutorialsCheckBox").ButtonPressed = UIHelper.skip_tutorials;
+        GetNode<CheckBox>("MusicBG/MusicCheckBox").ButtonPressed = UIHelper.music;
+        GetNode<CheckBox>("SFXBG/SFXCheckBox").ButtonPressed = UIHelper.sfx;
+        GetNode<CheckBox>("SkipTutorialsBG/SkipTutorialsCheckBox").ButtonPressed = UIHelper.skip_tutorials;
     }
 
     private void SkipTutorialsToggled(bool toggledOn)

@@ -80,6 +80,18 @@ public partial class Game : Node2D
             {
                 ChangeHighlightedEnemy("Down");
             }
+            if(eventKey.Pressed && eventKey.Keycode == Key.Shift)
+            {
+                OnFreezeButton();
+            }
+            if(eventKey.Pressed && eventKey.Keycode == Key.Ctrl)
+            {
+                OnFireballButton();
+            }
+            if(eventKey.Pressed && eventKey.Keycode == Key.Alt)
+            {
+                OnFrenzyButton();
+            }
         }
     }
     public void ChangeHighlightedEnemy(string direction)
@@ -284,6 +296,7 @@ public partial class Game : Node2D
     }
     public void InitializeUIEvents()
     {
+        GetNode<Timer>("GameContainer/Explosion/Timer").Timeout += ExplosionDisappears;
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeTimer").Timeout += EnableFreeze;
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballCooldown").Timeout += EnableFireball;
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzyTimer").Timeout += EnableFrenzy;
@@ -304,6 +317,7 @@ public partial class Game : Node2D
         GetNode<Button>("GameContainer/VBoxContainer/WinButton").Connect(Button.SignalName.Pressed, Callable.From(OnWinButton));
         GetNode<Button>("GameContainer/VBoxContainer/GameOverButton").Connect(Button.SignalName.Pressed, Callable.From(OnGameOverButton));
         GetNode<Button>("GameContainer/VBoxContainer/ScoreButton").Connect(Button.SignalName.Pressed, Callable.From(OnScoreButton));
+        GetNode<Button>("GameContainer/VBoxContainer/ShopButton").Connect(Button.SignalName.Pressed, Callable.From(OnShopButton));
 
         GetNode<Button>("GameContainer/PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
         GetNode<Button>("GameContainer/PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
@@ -338,6 +352,8 @@ public partial class Game : Node2D
                 GetNode<AudioStreamPlayer>("GameContainer/BGMusic").VolumeDb = -80.0f;
             }
         }
+        GetNode<LineEdit>("GameContainer/PanelContainer4/Answer").GrabClickFocus();
+        GetNode<LineEdit>("GameContainer/PanelContainer4/Answer").GrabFocus();
     }
     public void HandlePause(bool pause_changed) // if pause_changed is true, it enables/disables the ui elements. if its false, it just sets them to what they should be based on isPaused
     {
@@ -384,6 +400,10 @@ public partial class Game : Node2D
         }
     }
 
+    public void ExplosionDisappears()
+    {
+        GetNode<Sprite2D>("GameContainer/Explosion").Position = new Vector2(-300f, -300f); // off screen
+    }
     public void EnemyCooldown()
     {
         if (enemy_spawn_number != 0 && GameLogic.wave.unspawned_enemies.Count < 15 && !GameLogic.isFreeze)
@@ -391,6 +411,10 @@ public partial class Game : Node2D
             AddEnemy(GameLogic.wave_num);
             enemy_spawn_number--;
         }
+    }
+    public void OnShopButton()
+    {
+        UIHelper.SwitchSceneTo(this, "Shop");
     }
 
     public void OnWinButton()
@@ -669,13 +693,19 @@ public partial class Game : Node2D
         GiveScore(enemy);
         CheckEnemies();
         Explosion explosion = new Explosion(enemy.sprite.Position);
+        Sprite2D explosion_sprite = GetNode<Sprite2D>("GameContainer/Explosion");
+        GetNode<Timer>("GameContainer/Explosion/Timer").Start();
+        explosion_sprite.Position = enemy.sprite.Position;
+        int bigger_booms_level = GameLogic.upgrade_inventory["Bigger Booms"];
+        explosion_sprite.Scale = new Vector2(bigger_booms_level * 0.1f, bigger_booms_level * 0.1f);
+
         // GetNode<Node>("GameContainer").AddChild(explosion);
-        float ex_scale_x = explosion.sprite.Texture.GetSize().X * explosion.sprite.Scale.X / 2;
-        float ex_scale_y = explosion.sprite.Texture.GetSize().Y * explosion.sprite.Scale.Y / 2;
-        float ex_inner_x = explosion.sprite.Position.X - ex_scale_x;
-        float ex_inner_y = explosion.sprite.Position.Y - ex_scale_y;
-        float ex_outer_x = explosion.sprite.Position.X + ex_scale_x;
-        float ex_outer_y = explosion.sprite.Position.Y + ex_scale_y;
+        float ex_scale_x = explosion_sprite.Texture.GetSize().X * explosion_sprite.Scale.X / 2;
+        float ex_scale_y = explosion_sprite.Texture.GetSize().Y * explosion_sprite.Scale.Y / 2;
+        float ex_inner_x = explosion_sprite.Position.X - ex_scale_x;
+        float ex_inner_y = explosion_sprite.Position.Y - ex_scale_y;
+        float ex_outer_x = explosion_sprite.Position.X + ex_scale_x;
+        float ex_outer_y = explosion_sprite.Position.Y + ex_scale_y;
         for(int enemy_index = GameLogic.wave.unspawned_enemies.Count - 1; enemy_index >= 0; enemy_index--)
         {
             Enemy e = GameLogic.wave.unspawned_enemies[enemy_index];

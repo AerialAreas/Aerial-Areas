@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rci0ordbbs18"
-path="res://.godot/imported/aerial_areas_logo.png-8dc57f22f36d7a03316a411168fa2380.ctex"
+uid="uid://d0p6i7yono058"
+path="res://.godot/imported/starsbg.png-36894a78641af00fde80c99b63e09643.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/aerial_areas_logo.png"
-dest_files=["res://.godot/imported/aerial_areas_logo.png-8dc57f22f36d7a03316a411168fa2380.ctex"]
+source_file="res://Sprites/Backgrounds/starsbg.png"
+dest_files=["res://.godot/imported/starsbg.png-36894a78641af00fde80c99b63e09643.ctex"]
 
 [params]
 

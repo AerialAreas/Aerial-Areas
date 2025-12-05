@@ -121,6 +121,15 @@ public partial class Enemy
     }
 }
 
-// public class BossEnemy : Enemy
-// {
-// }
+public class BossEnemy : Enemy
+{
+    public BossEnemy()
+    {
+        foo(this);
+    }
+    public void foo(Enemy e)
+    {
+        
+    }
+}
+

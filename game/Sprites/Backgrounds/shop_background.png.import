@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rci0ordbbs18"
-path="res://.godot/imported/aerial_areas_logo.png-8dc57f22f36d7a03316a411168fa2380.ctex"
+uid="uid://bycg1otv5ger1"
+path="res://.godot/imported/shop_background.png-1e26f2cc1ca10285babd0d37a147bed9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/aerial_areas_logo.png"
-dest_files=["res://.godot/imported/aerial_areas_logo.png-8dc57f22f36d7a03316a411168fa2380.ctex"]
+source_file="res://Sprites/Backgrounds/shop_background.png"
+dest_files=["res://.godot/imported/shop_background.png-1e26f2cc1ca10285babd0d37a147bed9.ctex"]
 
 [params]
 

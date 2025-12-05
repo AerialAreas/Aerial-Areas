@@ -9,7 +9,7 @@ public class Explosion
     {
         sprite = new Sprite2D();
         sprite.Position = position;
-        sprite.Texture = GD.Load<Texture2D>("res://Sprites/temp_explosion.png");
+        // sprite.Texture = GD.Load<Texture2D>("res://Sprites/temp_explosion.png");
         sprite.Scale = new Vector2(.2f, .2f);
     }
 }

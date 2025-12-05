@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://c6wtrg5ucqg08" path="res://Sprites/player.png" id="7_dahhg"]
 [ext_resource type="AudioStream" uid="uid://d0yqtxc4qkrh5" path="res://Audio/fire.wav" id="8_acvyw"]
 [ext_resource type="AudioStream" uid="uid://bxcs0ctc03wmx" path="res://Audio/frenzy.wav" id="9_alh3a"]
+[ext_resource type="Texture2D" uid="uid://dsm5qyputhpf6" path="res://Sprites/Explosion.png" id="10_3so38"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kldst"]
 content_margin_left = 24.0
@@ -83,6 +84,10 @@ text = "Game Over"
 [node name="ScoreButton" type="Button" parent="GameContainer/VBoxContainer"]
 layout_mode = 2
 text = "Give Score"
+
+[node name="ShopButton" type="Button" parent="GameContainer/VBoxContainer"]
+layout_mode = 2
+text = "Shop"
 
 [node name="PauseMenu" type="VBoxContainer" parent="GameContainer"]
 visible = false
@@ -240,7 +245,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="GameContainer/PanelContainer3/PowerUps"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_71axn")
-text = "Power Ups"
+text = "Powerups"
 horizontal_alignment = 1
 
 [node name="Freeze" type="Button" parent="GameContainer/PanelContainer3/PowerUps"]
@@ -358,6 +363,7 @@ offset_bottom = 646.0
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_71axn")
 placeholder_text = "Enter Answer"
+keep_editing_on_text_submit = true
 
 [node name="Lives" type="Label" parent="GameContainer"]
 layout_mode = 0
@@ -402,6 +408,13 @@ z_index = 934
 position = Vector2(-1000, 31.75)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("7_bf53h")
+
+[node name="Explosion" type="Sprite2D" parent="GameContainer"]
+position = Vector2(-256, 296)
+texture = ExtResource("10_3so38")
+
+[node name="Timer" type="Timer" parent="GameContainer/Explosion"]
+wait_time = 0.25
 
 [node name="Options" parent="." instance=ExtResource("5_7lihs")]
 visible = false

@@ -1,37 +1,43 @@
 [gd_scene load_steps=3 format=3 uid="uid://ctth1uyqqd50p"]
 
 [ext_resource type="Script" uid="uid://brfyrdlmkx0r8" path="res://Scripts/Tutorial.cs" id="1_2o727"]
-[ext_resource type="Texture2D" uid="uid://dfj24g5y0mta6" path="res://Sprites/Tutorial/aerialareas_temporary_tutorial.png" id="1_wduq8"]
+[ext_resource type="Texture2D" uid="uid://blpambt3eid1n" path="res://Sprites/Tutorial/final_tutorial.png" id="2_2o727"]
 
 [node name="Tutorial" type="Node2D"]
 script = ExtResource("1_2o727")
 
-[node name="TutorialImage" type="Sprite2D" parent="."]
-position = Vector2(575.99994, 323)
-scale = Vector2(0.72361803, 0.5218094)
-texture = ExtResource("1_wduq8")
-
-[node name="BackButton" type="Button" parent="."]
-offset_left = 42.0
-offset_top = 13.0
-offset_right = 138.0
-offset_bottom = 44.0
-pivot_offset = Vector2(-801, 151)
-text = "Back"
+[node name="FinalTutorial" type="Sprite2D" parent="."]
+position = Vector2(577.50006, 324.5)
+scale = Vector2(0.78358203, 0.78381646)
+texture = ExtResource("2_2o727")
 
 [node name="Label" type="Label" parent="."]
-offset_left = 350.0
-offset_top = -21.0
-offset_right = 727.0
-offset_bottom = 116.0
+offset_left = 490.0
+offset_top = 217.0
+offset_right = 867.0
+offset_bottom = 354.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 100
+theme_override_font_sizes/font_size = 50
 text = "Tutorial"
 
-[node name="ReadyButton" type="Button" parent="."]
-offset_left = 1026.0
-offset_top = 18.0
-offset_right = 1122.0
-offset_bottom = 49.0
-pivot_offset = Vector2(-801, 151)
+[node name="ButtonsContainer" type="VBoxContainer" parent="."]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 439.0
+offset_top = 281.0
+offset_right = 722.0
+offset_bottom = 438.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ReadyButton" type="Button" parent="ButtonsContainer"]
+layout_mode = 2
 text = "I'm Ready"
+
+[node name="BackButton" type="Button" parent="ButtonsContainer"]
+layout_mode = 2
+text = "Back"
