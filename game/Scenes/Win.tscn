@@ -18,10 +18,10 @@ text = "HOORAY YOU WON"
 horizontal_alignment = 1
 
 [node name="Reward" type="Label" parent="."]
-offset_left = 836.0
-offset_top = 167.0
-offset_right = 876.0
-offset_bottom = 192.0
+offset_left = 669.0
+offset_top = 590.0
+offset_right = 709.0
+offset_bottom = 615.0
 theme_override_fonts/font = ExtResource("2_8acr0")
 
 [node name="Score" type="Label" parent="."]

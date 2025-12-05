@@ -19,7 +19,6 @@ public static class GameLogic
     public static int max_lives;
     public static bool isPaused = false;
     public static bool inGame = false;
-    public static bool penalty = false;
     public static bool isBiggerBoomMax = false;
     public static bool isSlowMax = false;
     public static bool isMaxLivesMax = false;
@@ -70,7 +69,6 @@ public static class GameLogic
         currency = 0;
         lives = 5;
         max_lives = 5;
-        penalty = false;
         isBiggerBoomMax = false;
         isSlowMax = false;
         isMaxLivesMax = false;
