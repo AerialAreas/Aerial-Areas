@@ -1,13 +1,13 @@
 [gd_scene load_steps=11 format=3 uid="uid://56y4kxgniqxq"]
 
 [ext_resource type="Script" uid="uid://b1q6ffty23rfe" path="res://Scripts/Game.cs" id="1_gl6un"]
-[ext_resource type="Texture2D" uid="uid://covgrja1iyeir" path="res://Sprites/geometroid.png" id="1_iukft"]
 [ext_resource type="Script" uid="uid://d3w7yshupp0n2" path="res://Scripts/Tooltip.cs" id="3_j5yw3"]
 [ext_resource type="Script" uid="uid://dq2ajcqpgwi18" path="res://Scripts/TooltipInteract.cs" id="3_kldst"]
 [ext_resource type="PackedScene" uid="uid://cvp5lvmx5fvu1" path="res://Scenes/Options.tscn" id="5_7lihs"]
 [ext_resource type="Texture2D" uid="uid://bwihct4ke12eq" path="res://Sprites/Backgrounds/night.png" id="5_bf53h"]
 [ext_resource type="Texture2D" uid="uid://7n7lsnprnoc7" path="res://Sprites/Backgrounds/day.png" id="6_71axn"]
 [ext_resource type="PackedScene" uid="uid://bqxs73m0063lj" path="res://Scenes/Formulas.tscn" id="6_fgofq"]
+[ext_resource type="Texture2D" uid="uid://dx8fvo70tysq3" path="res://Sprites/target.png" id="7_bf53h"]
 [ext_resource type="Texture2D" uid="uid://c6wtrg5ucqg08" path="res://Sprites/player.png" id="7_dahhg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kldst"]
@@ -44,14 +44,6 @@ offset_bottom = 203.0
 theme_override_font_sizes/font_size = 40
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="GameContainer"]
-layout_mode = 0
-offset_left = 797.0
-offset_top = 396.0
-offset_right = 880.0
-offset_bottom = 419.0
-text = "For testing"
-
 [node name="GameAttributes" type="Label" parent="GameContainer"]
 layout_mode = 0
 offset_left = 349.0
@@ -60,11 +52,6 @@ offset_right = 389.0
 offset_bottom = 548.0
 theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
-
-[node name="Geometroid" type="Sprite2D" parent="GameContainer"]
-position = Vector2(865.5, 40)
-scale = Vector2(0.365, 0.29)
-texture = ExtResource("1_iukft")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameContainer"]
 layout_mode = 0
@@ -332,6 +319,7 @@ offset_left = 967.0
 offset_top = 615.0
 offset_right = 1035.0
 offset_bottom = 638.0
+text = "default"
 
 [node name="DebugEnemy" type="Label" parent="GameContainer"]
 layout_mode = 0
@@ -351,7 +339,7 @@ scale = Vector2(0.592, 0.47)
 texture = ExtResource("5_bf53h")
 
 [node name="Day" type="Sprite2D" parent="GameContainer"]
-z_index = -1
+z_index = -8
 position = Vector2(578.49994, 324.125)
 scale = Vector2(0.589, 0.47)
 texture = ExtResource("6_71axn")
@@ -360,6 +348,12 @@ texture = ExtResource("6_71axn")
 position = Vector2(648, 576)
 scale = Vector2(0.24622357, 0.24622357)
 texture = ExtResource("7_dahhg")
+
+[node name="Target" type="Sprite2D" parent="GameContainer"]
+z_index = 934
+position = Vector2(-1000, 31.75)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("7_bf53h")
 
 [node name="Options" parent="." instance=ExtResource("5_7lihs")]
 visible = false

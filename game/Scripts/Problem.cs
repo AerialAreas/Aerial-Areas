@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 
@@ -14,6 +15,15 @@ public abstract class Problem
     public Random rand = new Random();
     public abstract void PrintProblemData();
     public abstract void UpdateLabel(bool hl);
+    public Button clickable;
+
+    public Problem()
+    {
+        Button b = new Button();
+        b.Size = new Godot.Vector2(225f, 32);
+        b.Modulate = new Color(0,0,0,0);
+        clickable = b;
+    }
 }
 public class Rectangle : Problem
 {

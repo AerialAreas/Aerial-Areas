@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Enemy : Sprite2D
+public partial class Enemy
 {
     public Problem problem;
     public Vector2 velocity;
@@ -9,14 +9,6 @@ public partial class Enemy : Sprite2D
     public int value;
     public bool isHighlighted;
     protected Random rand = new Random();
-    public override void _Draw()
-    {
-        base._Draw();
-    }
-    public override void _Process(double delta)
-    {
-        this._Draw();
-    }
 
     public bool Move() // returns whether the enemy has made it to the bottom or not
     {
@@ -106,7 +98,7 @@ public partial class Enemy : Sprite2D
         sprite.Position = new Vector2(rand.Next(GameLogic.ENEMY_LEFT_BOUND + 10, GameLogic.ENEMY_RIGHT_BOUND - 10), GameLogic.ENEMY_SPAWN_Y);
         sprite.Texture = GD.Load<Texture2D>(texture_path);
         sprite.Scale = new Vector2(.25f, .25f);
-        SetScript(GD.Load<Script>("res://Scripts/Enemy.cs"));
+        //SetScript(GD.Load<Script>("res://Scripts/Enemy.cs"));
 
         value = rand.Next(10, 21); // random between 10 and 20
         isHighlighted = false;
@@ -120,11 +112,6 @@ public partial class Enemy : Sprite2D
             return true;
         }
         return false;
-    }
-
-    public void giveMoney()
-    {
-        GD.Print("Jew jew jew");
     }
 }
 

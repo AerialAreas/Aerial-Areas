@@ -21,7 +21,6 @@ public partial class Game : Node2D
     {
         Wave curr_wave = GameLogic.wave;
         Enemy found_enemy = new Enemy();
-
         if (@event is InputEventMouseButton mouseButtonEvent)
         {
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left && mouseButtonEvent.Pressed)
@@ -51,6 +50,7 @@ public partial class Game : Node2D
                         if (wave_enemy == found_enemy)
                         {
                             wave_enemy.isHighlighted = true;
+                            GetNode<Sprite2D>("GameContainer/Target").Position = wave_enemy.sprite.Position;
                             wave_enemy.problem.UpdateLabel(true);
                         } 
                         else
@@ -62,6 +62,66 @@ public partial class Game : Node2D
                 }
             }
         }
+        else if (@event is InputEventKey eventKey)
+        {
+            if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
+            {
+                HandlePause(true); // changing the bool of pause
+            }
+            if(eventKey.Pressed && eventKey.Keycode == Key.Up)
+            {
+                ChangeHighlightedEnemy("Up");
+            }
+            if(eventKey.Pressed && eventKey.Keycode == Key.Down)
+            {
+                ChangeHighlightedEnemy("Down");
+            }
+        }
+    }
+    public void ChangeHighlightedEnemy(string direction)
+    {
+        if(GameLogic.wave.unspawned_enemies.Count <= 1)
+        {
+            return;
+        }
+        int old_highlighted_index = -1;
+        int highlighted_index = -1;
+        for(int enemy_index = GameLogic.wave.unspawned_enemies.Count - 1; enemy_index >= 0; enemy_index--)
+        {
+            Enemy selected = GameLogic.wave.unspawned_enemies[enemy_index];
+            if (selected.isHighlighted)
+            {
+                highlighted_index = enemy_index;
+                old_highlighted_index = enemy_index;
+            }
+        }
+        if(highlighted_index == -1)
+        {
+            GD.Print("Highlighted enemy is not found on arrow press");
+            return;
+        }
+        if(direction == "Up")
+        {
+            highlighted_index--;
+        }
+        else
+        {
+            highlighted_index++;
+        }
+        if(highlighted_index < 0)
+        {
+            highlighted_index = GameLogic.wave.unspawned_enemies.Count - 1;
+        }
+        if(highlighted_index >= GameLogic.wave.unspawned_enemies.Count)
+        {
+            highlighted_index = 0;
+        }
+        GameLogic.wave.unspawned_enemies[highlighted_index].isHighlighted = true;
+        GetNode<Sprite2D>("GameContainer/Target").Position = GameLogic.wave.unspawned_enemies[highlighted_index].sprite.Position;
+        GameLogic.wave.unspawned_enemies[highlighted_index].problem.UpdateLabel(true);
+
+        GameLogic.wave.unspawned_enemies[old_highlighted_index].isHighlighted = false;
+        GameLogic.wave.unspawned_enemies[old_highlighted_index].problem.UpdateLabel(false);
     }
 
     public void StartWave()
@@ -74,22 +134,55 @@ public partial class Game : Node2D
     {
         if (!GameLogic.isPaused)
         {
-            List<Enemy> enemies = GameLogic.wave.unspawned_enemies; // todo fix this so its spawned enemies
-            // this is a nifty workaround because we don't want to remove things from the collection its iterating over
-            for(int enemy_index = enemies.Count - 1; enemy_index >= 0; enemy_index--)
+            HighlightEnemyIfNoneHighlighted();
+            HandleMoveAndEscapes();
+        }
+    }
+    public void HighlightEnemyIfNoneHighlighted()
+    {
+        Enemy lowest_enemy = new Enemy();
+        float lowest_height = -1337f;
+        if(GameLogic.wave.unspawned_enemies.Count == 0)
+        {
+            return;
+        }
+        foreach(Enemy enemy in GameLogic.wave.unspawned_enemies)
+        {
+            if (enemy.isHighlighted)
             {
-                bool enemy_escaped = enemies[enemy_index].Move();
-                if (enemy_escaped)
+                GetNode<Sprite2D>("GameContainer/Target").Position = enemy.sprite.Position;
+                return;
+            }
+            else
+            {
+                if(enemy.sprite.Position.Y > lowest_height)
                 {
-                    GameLogic.lives--;
-                    GetNode<Label>("GameContainer/Lives").Text = $"Lives: {GameLogic.lives}/{GameLogic.max_lives}";
-                    RemoveEnemy(enemies[enemy_index]);
-                    CheckEnemies();
+                    lowest_enemy = enemy;
+                    lowest_height = enemy.sprite.Position.Y;
                 }
             }
         }
+        lowest_enemy.isHighlighted = true;
+        GetNode<Sprite2D>("GameContainer/Target").Position = lowest_enemy.sprite.Position;
+        lowest_enemy.problem.UpdateLabel(true);
     }
 
+    public void HandleMoveAndEscapes()
+    {
+        List<Enemy> enemies = GameLogic.wave.unspawned_enemies; // todo fix this so its spawned enemies
+        // this is a nifty workaround because we don't want to remove things from the collection its iterating over
+        for(int enemy_index = enemies.Count - 1; enemy_index >= 0; enemy_index--)
+        {
+            bool enemy_escaped = enemies[enemy_index].Move();
+            if (enemy_escaped)
+            {
+                GameLogic.lives--;
+                GetNode<Label>("GameContainer/Lives").Text = $"Lives: {GameLogic.lives}/{GameLogic.max_lives}";
+                RemoveEnemy(enemies[enemy_index]);
+                CheckEnemies();
+            }
+        }
+    }
     public override void _Draw()
     {
         base._Draw();
@@ -129,7 +222,23 @@ public partial class Game : Node2D
         Enemy newEnemy = new Enemy(type);
         GameLogic.wave.unspawned_enemies.Add(newEnemy);
         GetNode<Node>("GameContainer").AddChild(newEnemy.sprite);
+        newEnemy.problem.label.AddChild(newEnemy.problem.clickable);
         GetNode<VBoxContainer>("GameContainer/ProblemListPanelContainer/ProblemList").AddChild(newEnemy.problem.label);
+        newEnemy.problem.clickable.Pressed += () => HighlightEnemy(newEnemy);
+    }
+    public void HighlightEnemy(Enemy enemy)
+    {
+        foreach(Enemy e in GameLogic.wave.unspawned_enemies)
+        {
+            if (e.isHighlighted)
+            {
+                e.isHighlighted = false;
+                e.problem.UpdateLabel(false);
+            }
+        }
+        enemy.isHighlighted = true;
+        GetNode<Sprite2D>("GameContainer/Target").Position = enemy.sprite.Position;
+        enemy.problem.UpdateLabel(true);
     }
     public void RemoveEnemy(Enemy enemy)
     {
@@ -153,7 +262,6 @@ public partial class Game : Node2D
             enemy.problem.label.QueueFree();
         }
     }
-
     public void InitializeUIEvents()
     {
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballCooldown").Timeout += EnableFireball;
@@ -195,17 +303,6 @@ public partial class Game : Node2D
         GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Text += $"\n{GameLogic.powerup_inventory["Frenzy"]}";
 
         GetNode<LineEdit>("GameContainer/PanelContainer4/Answer").TextSubmitted += CheckAnswer;
-    }
-
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event is InputEventKey eventKey)
-        {
-            if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
-            {
-                HandlePause(true); // changing the bool of pause
-            }
-        }
     }
     public void HandlePause(bool pause_changed) // if pause_changed is true, it enables/disables the ui elements. if its false, it just sets them to what they should be based on isPaused
     {
@@ -398,10 +495,10 @@ public partial class Game : Node2D
 
     public void HandleExplosion(Enemy enemy)
     {
-        enemy.giveMoney();
+        GiveMoney(enemy);
         RemoveEnemy(enemy);
         CheckEnemies();
-        Explosion explosion = new Explosion(enemy.Position);
+        Explosion explosion = new Explosion(enemy.sprite.Position);
         // GetNode<Node>("GameContainer").AddChild(explosion);
         float ex_scale_x = explosion.sprite.Texture.GetSize().X * explosion.sprite.Scale.X / 2;
         float ex_scale_y = explosion.sprite.Texture.GetSize().Y * explosion.sprite.Scale.Y / 2;
@@ -409,8 +506,9 @@ public partial class Game : Node2D
         float ex_inner_y = explosion.sprite.Position.Y - ex_scale_y;
         float ex_outer_x = explosion.sprite.Position.X + ex_scale_x;
         float ex_outer_y = explosion.sprite.Position.Y + ex_scale_y;
-        foreach(Enemy e in GameLogic.wave.unspawned_enemies)
+        for(int enemy_index = GameLogic.wave.unspawned_enemies.Count - 1; enemy_index >= 0; enemy_index--)
         {
+            Enemy e = GameLogic.wave.unspawned_enemies[enemy_index];
             float scale_x = e.sprite.Texture.GetSize().X * e.sprite.Scale.X / 2;
             float scale_y = e.sprite.Texture.GetSize().Y * e.sprite.Scale.Y / 2;
             float inner_x = e.sprite.Position.X - scale_x;
@@ -419,10 +517,15 @@ public partial class Game : Node2D
             float outer_y = e.sprite.Position.Y + scale_y;
             if (outer_x > ex_inner_x && inner_x < ex_outer_x && outer_y > ex_inner_y && inner_y < ex_outer_y)
             {
-                e.giveMoney();
+                GiveMoney(e);
                 RemoveEnemy(e);
                 CheckEnemies();
             }
          }
+    }
+    public void GiveMoney(Enemy enemy)
+    {
+        GameLogic.currency += enemy.value;
+        GetNode<Label>("GameContainer/Money").Text = GameLogic.currency.ToString();
     }
 }
