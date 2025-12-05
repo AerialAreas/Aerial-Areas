@@ -52,11 +52,11 @@ text = "X"
 
 [node name="DifficultyContainer" type="VBoxContainer" parent="."]
 visible = false
-offset_left = 718.0
-offset_top = 323.0
-offset_right = 868.0
-offset_bottom = 431.0
-scale = Vector2(0.7, 0.7)
+offset_left = 705.0
+offset_top = 311.0
+offset_right = 855.0
+offset_bottom = 455.0
+scale = Vector2(0.75, 0.75)
 
 [node name="EasyButton" type="Button" parent="DifficultyContainer"]
 layout_mode = 2
@@ -77,7 +77,7 @@ text = "Hard"
 [node name="NightmareButton" type="Button" parent="DifficultyContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_ghw46")
-text = "Nightmare
+text = "
 "
 
 [node name="EnterName" type="LineEdit" parent="."]
@@ -87,6 +87,18 @@ offset_right = 701.0
 offset_bottom = 590.0
 theme_override_fonts/font = ExtResource("2_ghw46")
 placeholder_text = "Enter Name"
+
+[node name="NightmareCheck" type="Label" parent="."]
+offset_left = 455.0
+offset_top = 610.0
+offset_right = 495.0
+offset_bottom = 635.0
+theme_override_fonts/font = ExtResource("2_ghw46")
+horizontal_alignment = 1
+
+[node name="NightmareCheckTimer" type="Timer" parent="NightmareCheck"]
+wait_time = 2.0
+one_shot = true
 
 [node name="MenuBackground" type="Sprite2D" parent="."]
 z_index = -1005

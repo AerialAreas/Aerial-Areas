@@ -23,7 +23,7 @@ public partial class Game : Node2D
         Enemy found_enemy = new Enemy();
         if (@event is InputEventMouseButton mouseButtonEvent)
         {
-            if (mouseButtonEvent.ButtonIndex == MouseButton.Left && mouseButtonEvent.Pressed)
+            if (mouseButtonEvent.ButtonIndex == MouseButton.Left && mouseButtonEvent.Pressed && !GameLogic.isPaused)
             {
                 bool enemy_found = false;
                 foreach (Enemy wave_enemy in curr_wave.unspawned_enemies)
@@ -72,11 +72,11 @@ public partial class Game : Node2D
             {
                 HandlePause(true); // changing the bool of pause
             }
-            if(eventKey.Pressed && eventKey.Keycode == Key.Up)
+            if(eventKey.Pressed && eventKey.Keycode == Key.Up && !GameLogic.isPaused)
             {
                 ChangeHighlightedEnemy("Up");
             }
-            if(eventKey.Pressed && eventKey.Keycode == Key.Down)
+            if(eventKey.Pressed && eventKey.Keycode == Key.Down && !GameLogic.isPaused)
             {
                 ChangeHighlightedEnemy("Down");
             }
@@ -148,6 +148,7 @@ public partial class Game : Node2D
         float lowest_height = -1337f;
         if(GameLogic.wave.unspawned_enemies.Count == 0)
         {
+            GetNode<Sprite2D>("GameContainer/Target").Position = new Vector2(-250,-250);
             return;
         }
         foreach(Enemy enemy in GameLogic.wave.unspawned_enemies)
@@ -232,17 +233,20 @@ public partial class Game : Node2D
     }
     public void HighlightEnemy(Enemy enemy)
     {
-        foreach(Enemy e in GameLogic.wave.unspawned_enemies)
+        if (!GameLogic.isPaused)
         {
-            if (e.isHighlighted)
+            foreach(Enemy e in GameLogic.wave.unspawned_enemies)
             {
-                e.isHighlighted = false;
-                e.problem.UpdateLabel(false);
+                if (e.isHighlighted)
+                {
+                    e.isHighlighted = false;
+                    e.problem.UpdateLabel(false);
+                }
             }
+            enemy.isHighlighted = true;
+            GetNode<Sprite2D>("GameContainer/Target").Position = enemy.sprite.Position;
+            enemy.problem.UpdateLabel(true);
         }
-        enemy.isHighlighted = true;
-        GetNode<Sprite2D>("GameContainer/Target").Position = enemy.sprite.Position;
-        enemy.problem.UpdateLabel(true);
     }
     public void RemoveEnemy(Enemy enemy)
     {

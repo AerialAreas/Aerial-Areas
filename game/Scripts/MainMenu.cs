@@ -8,10 +8,11 @@ public partial class MainMenu : Node2D
 {
 	public override void _Ready()
 	{
-		InitializeUIEvents();
-		InitializeTemporaryHighScores();
 		ReadPlayerDataFile();
+		InitializeTemporaryHighScores();
+		InitializeUIEvents();
 		GameLogic.inGame = false;
+		GameLogic.isPaused = false;
 	}
 
 	public void ReadPlayerDataFile()
@@ -39,6 +40,7 @@ public partial class MainMenu : Node2D
 	}
 	public void InitializeUIEvents() // Let's just put all of our ui events here
 	{
+		GetNode<Timer>("NightmareCheck/NightmareCheckTimer").Timeout += HideLabel;
 		GetNode<Button>("ExitButton").Connect(Button.SignalName.Pressed, Callable.From(OnExitButtonPressed));
 		GetNode<Button>("ButtonsContainer/StartButton").Connect(Button.SignalName.Pressed, Callable.From(OnStartButtonPressed));
 		GetNode<Button>("ButtonsContainer/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButtonPressed));
@@ -49,7 +51,21 @@ public partial class MainMenu : Node2D
 		GetNode<Button>("DifficultyContainer/MediumButton").Connect(Button.SignalName.Pressed, Callable.From(OnMediumButtonPressed));
 		GetNode<Button>("DifficultyContainer/HardButton").Connect(Button.SignalName.Pressed, Callable.From(OnHardButtonPressed));
 		GetNode<Button>("DifficultyContainer/NightmareButton").Connect(Button.SignalName.Pressed, Callable.From(OnNightmareButtonPressed));
+
+		if (GameLogic.nightmare_unlocked)
+		{
+			GetNode<Button>("DifficultyContainer/NightmareButton").Text = "Nightmare";
+		}
+		else
+        {
+			GetNode<Button>("DifficultyContainer/NightmareButton").Text = "🔒Nightmare";
+        }
 	}
+
+	public void HideLabel()
+    {
+        GetNode<Label>("NightmareCheck").Visible = false;
+    }
 	public void InitializeTemporaryHighScores() // This is for the sample data for high scores, but we could have predefined high scores in there
 	{
 		List<string> high_scores_paths = new List<string> { "user://easy_highscores.txt", "user://medium_highscores.txt", "user://hard_highscores.txt", "user://nightmare_highscores.txt" };
@@ -151,6 +167,12 @@ public partial class MainMenu : Node2D
 		{
 			StartGame("nightmare");
 		}
+		else
+        {
+            GetNode<Label>("NightmareCheck").Visible = true;
+            GetNode<Label>("NightmareCheck").Text = "Beat Hard Mode to Unlock";
+			GetNode<Timer>("NightmareCheck/NightmareCheckTimer").Start();
+        }
 	}
 	public void UpdateName(string newName)
     {
