@@ -64,6 +64,10 @@ public partial class Game : Node2D
         }
         else if (@event is InputEventKey eventKey)
         {
+            if (GetNode<Control>("Options").Visible || GetNode<Control>("Formulas").Visible)
+            {
+                return;
+            }
             if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
             {
                 HandlePause(true); // changing the bool of pause
@@ -268,6 +272,7 @@ public partial class Game : Node2D
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballCooldown").Timeout += EnableFireball;
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzyTimer").Timeout += EnableFrenzy;
         GetNode<Timer>("GameContainer/Timer").WaitTime = GameLogic.difficulty_spawn_time[GameLogic.difficulty];
+        GetNode<AudioStreamPlayer>("GameContainer/BGMusic").Finished += ReplayBGMusic;
         GetNode<Timer>("GameContainer/Timer").Connect(Timer.SignalName.Timeout, Callable.From(EnemyCooldown));
 
         bool night = GameLogic.wave_num % 3 == 0;
@@ -305,6 +310,18 @@ public partial class Game : Node2D
         GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Text += $"\n{GameLogic.powerup_inventory["Frenzy"]}";
 
         GetNode<LineEdit>("GameContainer/PanelContainer4/Answer").TextSubmitted += CheckAnswer;
+        if (!UIHelper.music)
+        {
+            GetNode<AudioStreamPlayer>("GameContainer/BGMusic").Stop();
+        }
+        else
+        {
+            GetNode<AudioStreamPlayer>("GameContainer/BGMusic").VolumeDb = -20.0f + UIHelper.volume/5.0f;
+            if (UIHelper.volume == 0)
+            {
+                GetNode<AudioStreamPlayer>("GameContainer/BGMusic").VolumeDb = -80.0f;
+            }
+        }
     }
     public void HandlePause(bool pause_changed) // if pause_changed is true, it enables/disables the ui elements. if its false, it just sets them to what they should be based on isPaused
     {
@@ -322,8 +339,27 @@ public partial class Game : Node2D
         GetNode<LineEdit>("GameContainer/PanelContainer4/Answer").Editable = !new_paused;
         GetNode<Timer>("GameContainer/Timer").Paused = new_paused;
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeTimer").Paused = new_paused;
+        GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeSFX").StreamPaused = new_paused;
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballCooldown").Paused = new_paused;
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzyTimer").Paused = new_paused;
+        GetNode<AudioStreamPlayer>("GameContainer/BGMusic").StreamPaused = new_paused;
+        GetNode<AudioStreamPlayer>("GameContainer/BGMusic").VolumeDb = -20.0f + UIHelper.volume/5.0f;
+            if (UIHelper.volume == 0)
+            {
+                GetNode<AudioStreamPlayer>("GameContainer/BGMusic").VolumeDb = -80.0f;
+            }
+        if (!UIHelper.music)
+        {
+            GetNode<AudioStreamPlayer>("GameContainer/BGMusic").Stop();
+        }
+        else if(!GetNode<AudioStreamPlayer>("GameContainer/BGMusic").Playing && !new_paused)
+        {
+            GetNode<AudioStreamPlayer>("GameContainer/BGMusic").Play();
+        }
+        if (!UIHelper.sfx)
+        {
+            GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeSFX").Stop();
+        }
     }
 
     public void EnemyCooldown()
@@ -396,6 +432,14 @@ public partial class Game : Node2D
                 GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Disabled = true;
                 freeze.Start();
                 GameLogic.isFreeze = true;
+                GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeSFX").VolumeDb = -20.0f + UIHelper.volume/5.0f;
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeSFX").Play();
+                }
                 GetNode<Label>("GameContainer/Label").Text = "You used the 🧊 power up!";
                 GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Text = $"🧊\n{GameLogic.powerup_inventory["Freeze"]}";
             }
@@ -516,6 +560,10 @@ public partial class Game : Node2D
         GameLogic.isFrenzy = false;
     }
 
+    private void ReplayBGMusic()
+    {
+        GetNode<AudioStreamPlayer>("GameContainer/BGMusic").Play();
+    }
     public void HandleExplosion(Enemy enemy)
     {
         GiveMoney(enemy);

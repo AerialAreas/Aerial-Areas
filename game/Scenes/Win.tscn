@@ -35,6 +35,6 @@ theme_override_fonts/font = ExtResource("2_8acr0")
 text = "Main Menu"
 
 [node name="DaWin" type="Sprite2D" parent="."]
-position = Vector2(565, 361.00003)
+position = Vector2(637.00006, 354.00003)
 scale = Vector2(0.4692691, 0.4692691)
 texture = ExtResource("3_8acr0")

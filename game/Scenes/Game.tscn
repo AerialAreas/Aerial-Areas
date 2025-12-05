@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://56y4kxgniqxq"]
+[gd_scene load_steps=15 format=3 uid="uid://56y4kxgniqxq"]
 
 [ext_resource type="Script" uid="uid://b1q6ffty23rfe" path="res://Scripts/Game.cs" id="1_gl6un"]
+[ext_resource type="AudioStream" uid="uid://0i6uuk1javdn" path="res://Audio/tth_original_bg_music.wav" id="2_3so38"]
 [ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Font/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_71axn"]
 [ext_resource type="Script" uid="uid://d3w7yshupp0n2" path="res://Scripts/Tooltip.cs" id="3_j5yw3"]
 [ext_resource type="Script" uid="uid://dq2ajcqpgwi18" path="res://Scripts/TooltipInteract.cs" id="3_kldst"]
@@ -9,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bwihct4ke12eq" path="res://Sprites/Backgrounds/night.png" id="5_bf53h"]
 [ext_resource type="Texture2D" uid="uid://7n7lsnprnoc7" path="res://Sprites/Backgrounds/day.png" id="6_71axn"]
 [ext_resource type="PackedScene" uid="uid://bqxs73m0063lj" path="res://Scenes/Formulas.tscn" id="6_fgofq"]
+[ext_resource type="AudioStream" uid="uid://cu4nsej5luced" path="res://Audio/Metal Gear Solid_ VR Training  12. Level Complete.mp3" id="7_3cx6b"]
 [ext_resource type="Texture2D" uid="uid://dx8fvo70tysq3" path="res://Sprites/target.png" id="7_bf53h"]
 [ext_resource type="Texture2D" uid="uid://c6wtrg5ucqg08" path="res://Sprites/player.png" id="7_dahhg"]
 
@@ -53,6 +55,11 @@ offset_top = 396.0
 offset_right = 880.0
 offset_bottom = 419.0
 text = "For testing"
+
+[node name="BGMusic" type="AudioStreamPlayer" parent="GameContainer"]
+stream = ExtResource("2_3so38")
+volume_db = -20.0
+autoplay = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameContainer"]
 layout_mode = 0
@@ -237,6 +244,9 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("2_71axn")
 text = "🧊"
 script = ExtResource("3_kldst")
+
+[node name="FreezeSFX" type="AudioStreamPlayer" parent="GameContainer/PanelContainer3/PowerUps/Freeze"]
+stream = ExtResource("7_3cx6b")
 
 [node name="FreezeTimer" type="Timer" parent="GameContainer/PanelContainer3/PowerUps/Freeze"]
 wait_time = 5.0

@@ -35,9 +35,9 @@ public static class GameLogic
     };
     public static Dictionary<string, int> powerup_inventory = new Dictionary<string, int>
     {
-        {"Freeze", 0}, // stops all enemy movement for a certain period of time
-        {"Fireball", 0}, // destroy the closest enemy
-        {"Frenzy", 0} // x2 score for a certain period of time
+        {"Freeze", 1}, // stops all enemy movement for a certain period of time
+        {"Fireball", 1}, // destroy the closest enemy
+        {"Frenzy", 1} // x2 score for a certain period of time
     };
     public static Dictionary<string, int> difficulty_enemy_count = new Dictionary<string, int>
     {
@@ -82,7 +82,7 @@ public static class GameLogic
         }
         foreach (string p_key in powerup_inventory.Keys)
         {
-            powerup_inventory[p_key] = 0;
+            powerup_inventory[p_key] = 1;
         }
         foreach (string upgrade_key in Upgrade.upgrades.Keys)
         {
