@@ -68,8 +68,8 @@ public static class GameLogic
         score = 0;
         wave_num = 1;
         currency = 0;
-        lives = 100;
-        max_lives = 100;
+        lives = 5;
+        max_lives = 5;
         penalty = false;
         isBiggerBoomMax = false;
         isSlowMax = false;
@@ -82,7 +82,7 @@ public static class GameLogic
         }
         foreach (string p_key in powerup_inventory.Keys)
         {
-            powerup_inventory[p_key] = 10;
+            powerup_inventory[p_key] = 0;
         }
         foreach (string upgrade_key in Upgrade.upgrades.Keys)
         {

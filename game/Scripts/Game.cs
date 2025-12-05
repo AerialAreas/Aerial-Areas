@@ -177,7 +177,7 @@ public partial class Game : Node2D
             if (enemy_escaped)
             {
                 GameLogic.lives--;
-                GetNode<Label>("GameContainer/Lives").Text = $"Lives: {GameLogic.lives}/{GameLogic.max_lives}";
+                GetNode<Label>("GameContainer/Lives").Text = $"❤️:{GameLogic.lives}/{GameLogic.max_lives}";
                 RemoveEnemy(enemies[enemy_index]);
                 CheckEnemies();
             }
