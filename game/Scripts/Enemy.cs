@@ -96,7 +96,7 @@ public partial class Enemy : Sprite2D
                 }
                 break;
         }
-        const float VELOCITY_MULTIPLIER = 10f; // debug variable
+        float VELOCITY_MULTIPLIER = GameLogic.difficulty_speed_multiplier[GameLogic.difficulty];
         velocity = new Vector2((GD.Randf() - 0.5f) / 5f, 0.1f + (GD.Randf() / 10f)); // 0.1f to 0.2f down and -0.1f to 0.1f horizontal
         velocity = new Vector2(velocity.X * VELOCITY_MULTIPLIER, velocity.Y * VELOCITY_MULTIPLIER);
         

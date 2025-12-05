@@ -15,10 +15,10 @@ public partial class Shop : Node2D
         GetNode<Button>("GoBack").Connect(Button.SignalName.Pressed, Callable.From(OnGoBackButton));
 
         GetNode<Button>("Items/Upgrades/BiggerBooms").Connect(Button.SignalName.Pressed, Callable.From(BiggerBoomsBought));
-        GetNode<Button>("Items/Upgrades/BiggerBooms").Text = $"🧨\nBigger Booms\n{Upgrade.upgrades["Bigger Booms"]}\nLevel: {GameLogic.upgrade_inventory["Bigger Booms"]}";
+        GetNode<Button>("Items/Upgrades/BiggerBooms").Text = $"💥\nBigger Booms\n{Upgrade.upgrades["Bigger Booms"]}\nLevel: {GameLogic.upgrade_inventory["Bigger Booms"]}";
         if (GameLogic.isBiggerBoomMax)
         {
-            GetNode<Button>("Items/Upgrades/BiggerBooms").Text = "🧨\nBigger Booms\nMAX";
+            GetNode<Button>("Items/Upgrades/BiggerBooms").Text = "💥\nBigger Booms\nMAX";
         }
         
         GetNode<Button>("Items/Upgrades/Slow").Connect(Button.SignalName.Pressed, Callable.From(SlowBought));
@@ -67,6 +67,7 @@ public partial class Shop : Node2D
 
     public void OnGoBackButton()
     {
+        GameLogic.wave_num++;
         UIHelper.SwitchSceneTo(this, "Game");
     }
 
@@ -74,17 +75,17 @@ public partial class Shop : Node2D
     {
         if (CanBuy("Bigger Booms", false))
         {
-            GetNode<Label>("DebugText").Text = "🧨 upgrade bought";
+            GetNode<Label>("DebugText").Text = "💥 upgrade bought";
             Upgrade.IncreaseLevel("Bigger Booms");
             if ((GameLogic.upgrade_inventory["Bigger Booms"] - 1) <= 3)
             {
                 Upgrade.upgrades["Bigger Booms"] = Upgrade.cost_per_level[GameLogic.upgrade_inventory["Bigger Booms"] - 1];
-                GetNode<Button>("Items/Upgrades/BiggerBooms").Text = $"🧨\nBigger Booms\n{Upgrade.upgrades["Bigger Booms"]}\nLevel: {GameLogic.upgrade_inventory["Bigger Booms"]}";
+                GetNode<Button>("Items/Upgrades/BiggerBooms").Text = $"💥\nBigger Booms\n{Upgrade.upgrades["Bigger Booms"]}\nLevel: {GameLogic.upgrade_inventory["Bigger Booms"]}";
             }
 
             if (GameLogic.upgrade_inventory["Bigger Booms"] == 5)
             {
-                GetNode<Button>("Items/Upgrades/BiggerBooms").Text = "🧨\nBigger Booms\nMAX";
+                GetNode<Button>("Items/Upgrades/BiggerBooms").Text = "💥\nBigger Booms\nMAX";
                 GameLogic.isBiggerBoomMax = true;
             }
         }

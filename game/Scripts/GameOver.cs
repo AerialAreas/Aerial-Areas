@@ -6,7 +6,7 @@ public partial class GameOver : Node
     public override void _Ready()
     {
         GameLogic.isPaused = false;
-        GetNode<Label>("Score").Text = $"Score: {GameLogic.score}\nWave: {GameLogic.wave}";
+        GetNode<Label>("Score").Text = $"Score: {GameLogic.score}\nWave: {GameLogic.wave_num}";
         HighScores.UpdateHighScore(GameLogic.difficulty, GameLogic.player_name, GameLogic.score);
         InitializeUIEvents();
     }

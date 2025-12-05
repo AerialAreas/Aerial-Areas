@@ -6,31 +6,15 @@ public class Wave
 {
     public int waveNum;
     public List<Enemy> unspawned_enemies;
-    public List<Enemy> spawned_enemies;
     public Wave(int number)
     {
         waveNum = number;
         unspawned_enemies = new List<Enemy>();
-        spawned_enemies = new List<Enemy>();
     }
 
     public void SpawnEnemy(int index)
     {
-        spawned_enemies.Add(unspawned_enemies[index]);
         unspawned_enemies.Remove(unspawned_enemies[index]);
-    }
-
-    public void displayProblems()
-    {
-        foreach(Enemy enemy in spawned_enemies)
-        {
-            // Display enemy.problem on screen
-        }
-    }
-
-    public bool checkLastWave()
-    {
-        return waveNum >= 12;
     }
 
     public void HandleExplosion(Explosion explosion)
@@ -53,11 +37,5 @@ public class Wave
         //         // destroyEnemy(enemy);
         //     }
         // }
-    }
-
-    public void destroyEnemy(Enemy enemy)
-    {
-        GameLogic.currency += enemy.value;
-        spawned_enemies.Remove(enemy);
     }
 }

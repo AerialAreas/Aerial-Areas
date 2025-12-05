@@ -11,6 +11,7 @@ public partial class MainMenu : Node2D
 		InitializeUIEvents();
 		InitializeTemporaryHighScores();
 		ReadPlayerDataFile();
+		GameLogic.inGame = false;
 	}
 
 	public void ReadPlayerDataFile()

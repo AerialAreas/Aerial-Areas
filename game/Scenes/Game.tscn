@@ -37,10 +37,10 @@ offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="GameContainer"]
 layout_mode = 0
-offset_left = 779.0
-offset_top = 118.0
-offset_right = 1014.0
-offset_bottom = 207.0
+offset_left = 389.0
+offset_top = 114.0
+offset_right = 624.0
+offset_bottom = 203.0
 theme_override_font_sizes/font_size = 40
 horizontal_alignment = 1
 
@@ -72,10 +72,6 @@ offset_left = 714.0
 offset_top = 438.0
 offset_right = 959.0
 offset_bottom = 545.0
-
-[node name="ShopButton" type="Button" parent="GameContainer/VBoxContainer"]
-layout_mode = 2
-text = "Shop"
 
 [node name="WinButton" type="Button" parent="GameContainer/VBoxContainer"]
 layout_mode = 2
@@ -144,7 +140,7 @@ horizontal_alignment = 1
 
 [node name="BiggerBooms" type="Button" parent="GameContainer/PanelContainer2/Upgrades"]
 layout_mode = 2
-text = "🧨"
+text = "💥"
 script = ExtResource("3_kldst")
 
 [node name="Tooltip" type="PanelContainer" parent="GameContainer/PanelContainer2/Upgrades/BiggerBooms"]
@@ -262,6 +258,9 @@ layout_mode = 2
 text = "🔥"
 script = ExtResource("3_kldst")
 
+[node name="FireballCooldown" type="Timer" parent="GameContainer/PanelContainer3/PowerUps/Fireball"]
+one_shot = true
+
 [node name="Tooltip" type="PanelContainer" parent="GameContainer/PanelContainer3/PowerUps/Fireball"]
 top_level = true
 layout_mode = 0
@@ -318,6 +317,15 @@ offset_bottom = 646.0
 layout_mode = 2
 placeholder_text = "Enter Answer"
 
+[node name="Lives" type="Label" parent="GameContainer"]
+layout_mode = 0
+offset_left = 1040.0
+offset_top = 615.0
+offset_right = 1153.0
+offset_bottom = 638.0
+mouse_force_pass_scroll_events = false
+text = "Lives:"
+
 [node name="Money" type="Label" parent="GameContainer"]
 layout_mode = 0
 offset_left = 967.0
@@ -332,6 +340,9 @@ offset_top = 91.0
 offset_right = 933.0
 offset_bottom = 114.0
 text = "My answer is 30"
+
+[node name="Timer" type="Timer" parent="GameContainer"]
+wait_time = 5.0
 
 [node name="Night" type="Sprite2D" parent="GameContainer"]
 z_index = -1
