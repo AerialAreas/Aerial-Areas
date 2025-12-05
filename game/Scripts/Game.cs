@@ -133,6 +133,9 @@ public partial class Game : Node2D
         GameLogic.wave = new Wave(GameLogic.wave_num);
         enemy_spawn_number = (GameLogic.wave_num - 1) % 3 * 2 + 10 + GameLogic.difficulty_enemy_count[GameLogic.difficulty];
         GetNode<Timer>("GameContainer/Timer").Start();
+        GameLogic.isFreeze = false;
+        GameLogic.isFrenzy = false;
+        GameLogic.sceneSwitch = false;
     }
     public override void _Process(double delta) // should generally be called 60 times per second or whatever we set the framerate to
     {
@@ -182,6 +185,15 @@ public partial class Game : Node2D
             if (enemy_escaped)
             {
                 GameLogic.lives--;
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/takeDamage.wav");
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Play();
+                }
                 GetNode<Label>("GameContainer/Lives").Text = $"❤️:{GameLogic.lives}/{GameLogic.max_lives}";
                 RemoveEnemy(enemies[enemy_index]);
                 CheckEnemies();
@@ -257,7 +269,7 @@ public partial class Game : Node2D
 
         if (GameLogic.wave.unspawned_enemies.Contains(enemy))
         {
-            GameLogic.wave.unspawned_enemies.Remove(enemy); // todo fix this so it removes spawned enemies   
+            GameLogic.wave.unspawned_enemies.Remove(enemy);  
         }
 
         if (enemy.sprite != null && enemy.sprite.IsInsideTree())
@@ -345,7 +357,10 @@ public partial class Game : Node2D
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeTimer").Paused = new_paused;
         GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeSFX").StreamPaused = new_paused;
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballCooldown").Paused = new_paused;
+        GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballSFX").StreamPaused = new_paused;
         GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzyTimer").Paused = new_paused;
+        GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzySFX").StreamPaused = new_paused;
+        GetNode<AudioStreamPlayer>("GameContainer/GameSFX").StreamPaused = new_paused;
         GetNode<AudioStreamPlayer>("GameContainer/BGMusic").StreamPaused = new_paused;
         GetNode<AudioStreamPlayer>("GameContainer/BGMusic").VolumeDb = -20.0f + UIHelper.volume/5.0f;
             if (UIHelper.volume == 0)
@@ -363,6 +378,9 @@ public partial class Game : Node2D
         if (!UIHelper.sfx)
         {
             GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeSFX").Stop();
+            GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballSFX").Stop();
+            GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzySFX").Stop();
+            GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Stop();
         }
     }
 
@@ -436,7 +454,7 @@ public partial class Game : Node2D
                 GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Disabled = true;
                 freeze.Start();
                 GameLogic.isFreeze = true;
-                GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeSFX").VolumeDb = -20.0f + UIHelper.volume/5.0f;
+                GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
                 if (UIHelper.volume == 0)
                 {
                     GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeSFX").VolumeDb = -80.0f;
@@ -449,6 +467,15 @@ public partial class Game : Node2D
             }
             else
             {
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/failNoise.wav");
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Play();
+                }
                 GetNode<Label>("GameContainer/Label").Text = "You don't have enough 🧊 power ups!";
             }
         }
@@ -458,16 +485,54 @@ public partial class Game : Node2D
     {
         if (!GameLogic.isPaused)
         {
+            Enemy selected_enemy = new Enemy();
+            bool enemy_found = false;
+            foreach (Enemy wave_enemy in GameLogic.wave.unspawned_enemies)
+            {
+                if (wave_enemy.isHighlighted)
+                {
+                    selected_enemy = wave_enemy;
+                    enemy_found = true;
+                    break;
+                }
+            }
+
+            if (!enemy_found)
+            {
+                return;
+            }
             if (Powerup.UsePowerup("Fireball"))
             {
                 Timer cooldown = GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballCooldown");
                 GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Fireball").Disabled = true;
                 cooldown.Start();
+                GiveMoney(selected_enemy);
+                GiveScore(selected_enemy);
+                RemoveEnemy(selected_enemy);
+                GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Fireball/FireballSFX").Play();
+                }
                 GetNode<Label>("GameContainer/Label").Text = "You used the 🔥 power up!";
                 GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Fireball").Text = $"🔥\n{GameLogic.powerup_inventory["Fireball"]}";
+                GetNode<Tooltip>("GameContainer/PanelContainer3/PowerUps/Fireball/Tooltip").Toggle(false);
+                CheckEnemies();
             }
             else
             {
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/failNoise.wav");
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Play();
+                }
                 GetNode<Label>("GameContainer/Label").Text = "You don't have enough 🔥 power ups!";
             }
         }
@@ -483,11 +548,28 @@ public partial class Game : Node2D
                 GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Disabled = true;
                 frenzy.Start();
                 GameLogic.isFrenzy = true;
+                GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzySFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzySFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzySFX").Play();
+                }
                 GetNode<Label>("GameContainer/Label").Text = "You used the ⚡ power up!";
                 GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Text = $"⚡\n{GameLogic.powerup_inventory["Frenzy"]}";
             }
             else
             {
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/failNoise.wav");
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Play();
+                }
                 GetNode<Label>("GameContainer/Label").Text = "You don't have enough ⚡ power ups!";
             }
         }
@@ -524,6 +606,15 @@ public partial class Game : Node2D
         }
         else
         {
+            GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+            GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/failNoise.wav");
+            if (UIHelper.volume == 0)
+            {
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -80.0f;
+            }
+            if (UIHelper.sfx) {
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Play();
+            }
             GD.Print("wrong");
         }
         a.Clear();
@@ -533,16 +624,19 @@ public partial class Game : Node2D
     {
         if (GameLogic.lives <= 0)
         {
+            GameLogic.sceneSwitch = true;
             UIHelper.SwitchSceneTo(this, "Game Over");
         }
         if (GameLogic.wave.unspawned_enemies.Count == 0 && enemy_spawn_number == 0)
         {
             if (GameLogic.wave_num == 12)
             {
+                GameLogic.sceneSwitch = true;
                 UIHelper.SwitchSceneTo(this, "Win");
             }
             else
             {
+                GameLogic.sceneSwitch = true;
                 UIHelper.SwitchSceneTo(this, "Shop");  
             }
         }

@@ -12,12 +12,12 @@ public partial class TooltipInteract : Button
         MouseExited += OnMouseExisted;
     }
 
-    private void OnMouseEntered()
+    public void OnMouseEntered()
     {
         tooltip.Toggle(true);
     }
 
-    private void OnMouseExisted()
+    public void OnMouseExisted()
     {
         tooltip.Toggle(false);
     }

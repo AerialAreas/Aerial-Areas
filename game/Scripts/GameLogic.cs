@@ -25,6 +25,7 @@ public static class GameLogic
     public static float slow_multiplier = 1.0f;
     public static bool isFrenzy = false;
     public static bool isFreeze = false;
+    public static bool sceneSwitch = false;
     public static Dictionary<string, int> upgrade_inventory = new Dictionary<string, int>
     {
         // Permanent for each run

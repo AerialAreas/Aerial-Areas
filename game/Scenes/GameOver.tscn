@@ -17,6 +17,8 @@ theme_override_font_sizes/font_size = 56
 text = "GAME OVER"
 horizontal_alignment = 1
 
+[node name="GameOverSFX" type="AudioStreamPlayer" parent="."]
+
 [node name="Score" type="Label" parent="."]
 offset_left = 70.0
 offset_top = 211.0

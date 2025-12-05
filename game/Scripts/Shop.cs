@@ -6,6 +6,7 @@ public partial class Shop : Node2D
     public override void _Ready()
     {
         InitializeUIEvents();
+        GameLogic.sceneSwitch = false;
     }
 
     public void InitializeUIEvents()
@@ -43,6 +44,16 @@ public partial class Shop : Node2D
 
         GetNode<Button>("Items/Powerups/Frenzy").Connect(Button.SignalName.Pressed, Callable.From(FrenzyBought));
         GetNode<Button>("Items/Powerups/Frenzy").Text = $"⚡\nFrenzy\n{Powerup.powerups["Frenzy"]}\nQuantity: {GameLogic.powerup_inventory["Frenzy"]}";
+        
+        GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+        GetNode<AudioStreamPlayer>("ShopSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/winWave.wav");
+        if (UIHelper.volume == 0)
+        {
+            GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -80.0f;
+        }
+        if (UIHelper.sfx) {
+            GetNode<AudioStreamPlayer>("ShopSFX").Play();
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -171,16 +182,43 @@ public partial class Shop : Node2D
             {
                 GameLogic.currency -= Powerup.powerups[item_name];
                 GetNode<Label>("Money").Text = $"💵:{GameLogic.currency}";
+                GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                GetNode<AudioStreamPlayer>("ShopSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/purchase.wav");
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("ShopSFX").Play();
+                }
                 return true;
             }
             else if (GameLogic.currency < Powerup.powerups[item_name])
             {
                 GetNode<Label>("DebugText").Text = "Haha You are a brokie Haha";
+                GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                GetNode<AudioStreamPlayer>("ShopSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/failNoise.wav");
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("ShopSFX").Play();
+                }
                 return false;
             }
             else
             {
                 GetNode<Label>("DebugText").Text = "Thats enough, buddy. No more greed.";
+                GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                GetNode<AudioStreamPlayer>("ShopSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/failNoise.wav");
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("ShopSFX").Play();
+                }
                 return false;
             }
         }
@@ -190,16 +228,43 @@ public partial class Shop : Node2D
             {
                 GameLogic.currency -= Upgrade.upgrades[item_name];
                 GetNode<Label>("Money").Text = $"💵:{GameLogic.currency}";
+                GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                GetNode<AudioStreamPlayer>("ShopSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/purchase.wav");
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("ShopSFX").Play();
+                }
                 return true;
             }
             else if (GameLogic.currency < Upgrade.upgrades[item_name])
             {
                 GetNode<Label>("DebugText").Text = "Haha You are a brokie Haha";
+                GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                GetNode<AudioStreamPlayer>("ShopSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/failNoise.wav");
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("ShopSFX").Play();
+                }
                 return false;
             }
             else
             {
                 GetNode<Label>("DebugText").Text = "Thats enough, buddy. No more greed.";
+                GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+                GetNode<AudioStreamPlayer>("ShopSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/failNoise.wav");
+                if (UIHelper.volume == 0)
+                {
+                    GetNode<AudioStreamPlayer>("ShopSFX").VolumeDb = -80.0f;
+                }
+                if (UIHelper.sfx) {
+                    GetNode<AudioStreamPlayer>("ShopSFX").Play();
+                }
                 return false;
             } 
         }
