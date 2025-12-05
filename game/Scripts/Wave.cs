@@ -33,31 +33,54 @@ public class Wave
         return waveNum >= 12;
     }
 
-    public void HandleExplosion(Explosion explosion)
+    public void HandleExplosion(Enemy enemy)
     {
-        // Sprite2D explosionSprite = explosion.sprite;
-        // int innerExplosionX = (int)explosionSprite.position.X;
-        // int innerExplosionY = (int)explosionSprite.position.Y;
-        // int outerExplosionX = (int)(innerExplosionX + explosionSprite.size.X);
-        // int outerExplosionY = (int)(innerExplosionY + explosionSprite.size.Y);
-        // foreach(Enemy enemy in spawned_enemies)
-        // {
-        //     Sprite2D enemySprite = enemy.sprite;
-        //     int enemyX = (int)enemySprite.Position.X;
-        //     int enemyY = (int)enemySprite.Position.Y;
-            
-        //     //assuming sprites have position toward top-left corner of png
-        //     if (enemyX < outerExplosionX && enemyX > innerExplosionX - enemySprite.size.X &&
-        //         enemyY < outerExplosionY && enemyY > innerExplosionY - enemySprite.size.Y)
-        //     {
-        //         // destroyEnemy(enemy);
-        //     }
-        // }
+        enemy.giveMoney();
+        destroyEnemy(enemy);
+        Explosion explosion = new Explosion(enemy.Position);
+        // GetNode<Node>("GameContainer").AddChild(explosion);
+        float ex_scale_x = explosion.sprite.Texture.GetSize().X * explosion.sprite.Scale.X / 2;
+        float ex_scale_y = explosion.sprite.Texture.GetSize().Y * explosion.sprite.Scale.Y / 2;
+        float ex_inner_x = explosion.sprite.Position.X - ex_scale_x;
+        float ex_inner_y = explosion.sprite.Position.Y - ex_scale_y;
+        float ex_outer_x = explosion.sprite.Position.X + ex_scale_x;
+        float ex_outer_y = explosion.sprite.Position.Y + ex_scale_y;
+        foreach(Enemy e in unspawned_enemies)
+        {
+            float scale_x = e.sprite.Texture.GetSize().X * e.sprite.Scale.X / 2;
+            float scale_y = e.sprite.Texture.GetSize().Y * e.sprite.Scale.Y / 2;
+            float inner_x = e.sprite.Position.X - scale_x;
+            float inner_y = e.sprite.Position.Y - scale_y;
+            float outer_x = e.sprite.Position.X + scale_x;
+            float outer_y = e.sprite.Position.Y + scale_y;
+            if (outer_x > ex_inner_x && inner_x < ex_outer_x && outer_y > ex_inner_y && inner_y < ex_outer_y)
+            {
+                e.giveMoney();
+                destroyEnemy(e);
+            }
+         }
     }
 
     public void destroyEnemy(Enemy enemy)
     {
-        GameLogic.currency += enemy.value;
-        spawned_enemies.Remove(enemy);
+        if (enemy == null)
+        {
+            return;
+        }
+
+        if (GameLogic.wave.unspawned_enemies.Contains(enemy))
+        {
+            GameLogic.wave.unspawned_enemies.Remove(enemy); // todo fix this so it removes spawned enemies   
+        }
+
+        if (enemy.sprite != null && enemy.sprite.IsInsideTree())
+        {
+            enemy.sprite.QueueFree();
+        }
+
+        if (enemy.problem != null && enemy.problem.label != null && enemy.problem.label.IsInsideTree())
+        {
+            enemy.problem.label.QueueFree();
+        }
     }
 }

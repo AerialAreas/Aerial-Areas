@@ -32,6 +32,8 @@ public partial class Enemy : Sprite2D
         // GD.Print($"{sprite.Position.X}, {sprite.Position.Y}");
     }
 
+    public Enemy() {}
+
     public Enemy(string shape)
     {
         string texture_path = "";
@@ -96,7 +98,7 @@ public partial class Enemy : Sprite2D
                 }
                 break;
         }
-        const float VELOCITY_MULTIPLIER = 10f; // debug variable
+        const float VELOCITY_MULTIPLIER = 1f; // debug variable
         velocity = new Vector2((GD.Randf() - 0.5f) / 5f, 0.1f + (GD.Randf() / 10f)); // 0.1f to 0.2f down and -0.1f to 0.1f horizontal
         velocity = new Vector2(velocity.X * VELOCITY_MULTIPLIER, velocity.Y * VELOCITY_MULTIPLIER);
         
@@ -118,6 +120,11 @@ public partial class Enemy : Sprite2D
             return true;
         }
         return false;
+    }
+
+    public void giveMoney()
+    {
+        GD.Print("Jew jew jew");
     }
 }
 
