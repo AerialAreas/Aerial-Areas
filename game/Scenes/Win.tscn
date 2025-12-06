@@ -1,10 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://7l5mvxkqflpo"]
+[gd_scene load_steps=7 format=3 uid="uid://7l5mvxkqflpo"]
 
 [ext_resource type="Script" uid="uid://dd4ndwovgkik5" path="res://Scripts/Win.cs" id="1_jo0u0"]
-[ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Font/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_8acr0"]
+[ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Fonts/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_8acr0"]
 [ext_resource type="Texture2D" uid="uid://cdaw1uvnmt5d3" path="res://Sprites/da_win.png" id="3_8acr0"]
 [ext_resource type="AudioStream" uid="uid://hvpddw765a8n" path="res://Audio/win.wav" id="3_ac5ay"]
 [ext_resource type="Texture2D" uid="uid://d0p6i7yono058" path="res://Sprites/Backgrounds/starsbg.png" id="4_8acr0"]
+[ext_resource type="Theme" uid="uid://ct0cqqngb202b" path="res://Styles/MainMenuButtonStyle.tres" id="4_ov476"]
 
 [node name="Win" type="Node2D"]
 script = ExtResource("1_jo0u0")
@@ -40,10 +41,10 @@ theme_override_font_sizes/font_size = 39
 [node name="ExitButton" type="Button" parent="."]
 offset_left = 517.0
 offset_top = 590.0
-offset_right = 621.0
+offset_right = 637.0
 offset_bottom = 621.0
 pivot_offset = Vector2(-801, 151)
-theme_override_fonts/font = ExtResource("2_8acr0")
+theme = ExtResource("4_ov476")
 text = "Main Menu"
 
 [node name="DaWin" type="Sprite2D" parent="."]

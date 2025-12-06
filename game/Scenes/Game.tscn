@@ -1,12 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://56y4kxgniqxq"]
+[gd_scene load_steps=20 format=3 uid="uid://56y4kxgniqxq"]
 
 [ext_resource type="Script" uid="uid://b1q6ffty23rfe" path="res://Scripts/Game.cs" id="1_gl6un"]
 [ext_resource type="AudioStream" uid="uid://0i6uuk1javdn" path="res://Audio/tth_original_bg_music.wav" id="2_3so38"]
-[ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Font/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_71axn"]
+[ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Fonts/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_71axn"]
+[ext_resource type="Theme" uid="uid://ct0cqqngb202b" path="res://Styles/MainMenuButtonStyle.tres" id="3_4q8tf"]
 [ext_resource type="Script" uid="uid://d3w7yshupp0n2" path="res://Scripts/Tooltip.cs" id="3_j5yw3"]
 [ext_resource type="Script" uid="uid://dq2ajcqpgwi18" path="res://Scripts/TooltipInteract.cs" id="3_kldst"]
 [ext_resource type="PackedScene" uid="uid://cvp5lvmx5fvu1" path="res://Scenes/Options.tscn" id="5_7lihs"]
-[ext_resource type="FontFile" uid="uid://bt2bogo4rhiuu" path="res://Font/static/ScienceGothic-Bold.ttf" id="5_71axn"]
+[ext_resource type="FontFile" uid="uid://bt2bogo4rhiuu" path="res://Fonts/static/ScienceGothic-Bold.ttf" id="5_71axn"]
 [ext_resource type="Texture2D" uid="uid://bwihct4ke12eq" path="res://Sprites/Backgrounds/night.png" id="5_bf53h"]
 [ext_resource type="Texture2D" uid="uid://7n7lsnprnoc7" path="res://Sprites/Backgrounds/day.png" id="6_71axn"]
 [ext_resource type="PackedScene" uid="uid://bqxs73m0063lj" path="res://Scenes/Formulas.tscn" id="6_fgofq"]
@@ -16,6 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://d0yqtxc4qkrh5" path="res://Audio/fire.wav" id="8_acvyw"]
 [ext_resource type="AudioStream" uid="uid://bxcs0ctc03wmx" path="res://Audio/frenzy.wav" id="9_alh3a"]
 [ext_resource type="Texture2D" uid="uid://dsm5qyputhpf6" path="res://Sprites/Explosion.png" id="10_3so38"]
+[ext_resource type="Texture2D" uid="uid://d0p6i7yono058" path="res://Sprites/Backgrounds/starsbg.png" id="18_x3xnh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kldst"]
 content_margin_left = 24.0
@@ -59,57 +61,34 @@ autoplay = true
 
 [node name="GameSFX" type="AudioStreamPlayer" parent="GameContainer"]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameContainer"]
-layout_mode = 0
-offset_left = 714.0
-offset_top = 438.0
-offset_right = 959.0
-offset_bottom = 545.0
-
-[node name="WinButton" type="Button" parent="GameContainer/VBoxContainer"]
-layout_mode = 2
-text = "Win"
-
-[node name="GameOverButton" type="Button" parent="GameContainer/VBoxContainer"]
-layout_mode = 2
-text = "Game Over"
-
-[node name="ScoreButton" type="Button" parent="GameContainer/VBoxContainer"]
-layout_mode = 2
-text = "Give Score"
-
-[node name="ShopButton" type="Button" parent="GameContainer/VBoxContainer"]
-layout_mode = 2
-text = "Shop"
-
 [node name="PauseMenu" type="VBoxContainer" parent="GameContainer"]
 visible = false
 z_index = 1
 layout_mode = 0
 offset_left = 550.0
 offset_top = 260.0
-offset_right = 646.0
+offset_right = 673.0
 offset_bottom = 396.0
 
 [node name="Resume" type="Button" parent="GameContainer/PauseMenu"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_71axn")
+theme = ExtResource("3_4q8tf")
 text = "Resume"
 
 [node name="FormulasButton" type="Button" parent="GameContainer/PauseMenu"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_71axn")
+theme = ExtResource("3_4q8tf")
 text = "Formulas"
 
 [node name="OptionsButton" type="Button" parent="GameContainer/PauseMenu"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_71axn")
+theme = ExtResource("3_4q8tf")
 text = "Options
 "
 
 [node name="MainMenuButton" type="Button" parent="GameContainer/PauseMenu"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_71axn")
+theme = ExtResource("3_4q8tf")
 text = "Main Menu"
 
 [node name="ProblemListPanelContainer" type="PanelContainer" parent="GameContainer"]
@@ -165,7 +144,7 @@ theme_override_fonts/normal_font = ExtResource("2_71axn")
 theme_override_fonts/bold_font = ExtResource("5_71axn")
 bbcode_enabled = true
 text = "[b][u][font_size=24]Bigger Booms[/font_size][/u][/b]
-Increases explosion size by every level"
+Increases explosion size by every level. (Does not affect bosses)."
 fit_content = true
 horizontal_alignment = 1
 
@@ -243,7 +222,7 @@ horizontal_alignment = 1
 
 [node name="Freeze" type="Button" parent="GameContainer/PanelContainer3/PowerUps"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_71axn")
+theme = ExtResource("3_4q8tf")
 text = "🧊"
 script = ExtResource("3_kldst")
 
@@ -278,7 +257,7 @@ horizontal_alignment = 1
 
 [node name="Fireball" type="Button" parent="GameContainer/PanelContainer3/PowerUps"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_71axn")
+theme = ExtResource("3_4q8tf")
 text = "🔥"
 script = ExtResource("3_kldst")
 
@@ -306,13 +285,13 @@ theme_override_fonts/normal_font = ExtResource("2_71axn")
 theme_override_fonts/bold_font = ExtResource("5_71axn")
 bbcode_enabled = true
 text = "[b][u][font_size=24]Fireball[/font_size][/u][/b]
-Destroys the closest enemy"
+Destroys the closest enemy (Can't use in boss waves)"
 fit_content = true
 horizontal_alignment = 1
 
 [node name="Frenzy" type="Button" parent="GameContainer/PanelContainer3/PowerUps"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_71axn")
+theme = ExtResource("3_4q8tf")
 text = "⚡"
 script = ExtResource("3_kldst")
 
@@ -433,3 +412,8 @@ visible = false
 
 [node name="Formulas" parent="." instance=ExtResource("6_fgofq")]
 visible = false
+
+[node name="Starsbg" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(574, 240)
+texture = ExtResource("18_x3xnh")

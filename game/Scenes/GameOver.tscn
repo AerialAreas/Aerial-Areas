@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dl0itksoekg40"]
+[gd_scene load_steps=6 format=3 uid="uid://dl0itksoekg40"]
 
 [ext_resource type="Script" uid="uid://bxgwp2t38nbuv" path="res://Scripts/GameOver.cs" id="1_k52d1"]
 [ext_resource type="Texture2D" uid="uid://nntkxfms2kiu" path="res://Sprites/game_over.png" id="2_k52d1"]
-[ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Font/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_ktc4i"]
+[ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Fonts/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_ktc4i"]
+[ext_resource type="Theme" uid="uid://ct0cqqngb202b" path="res://Styles/MainMenuButtonStyle.tres" id="3_rdiyk"]
 [ext_resource type="Texture2D" uid="uid://d0p6i7yono058" path="res://Sprites/Backgrounds/starsbg.png" id="4_uib17"]
 
 [node name="GameOver" type="Node2D"]
@@ -31,9 +32,10 @@ theme_override_font_sizes/font_size = 39
 [node name="ExitButton" type="Button" parent="."]
 offset_left = 547.0
 offset_top = 601.0
-offset_right = 643.0
+offset_right = 662.0
 offset_bottom = 632.0
 pivot_offset = Vector2(-801, 151)
+theme = ExtResource("3_rdiyk")
 theme_override_fonts/font = ExtResource("2_ktc4i")
 text = "Main Menu"
 

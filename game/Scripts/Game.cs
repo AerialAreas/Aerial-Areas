@@ -394,12 +394,7 @@ public partial class Game : Node2D
         GetNode<Control>("Formulas").Visible = false;
 
         GetNode<Label>("GameContainer/Lives").Text += $"{GameLogic.lives}/{GameLogic.max_lives}";
-
         GetNode<Label>("GameContainer/Money").Text = $"💵:{GameLogic.currency}";
-        GetNode<Button>("GameContainer/VBoxContainer/WinButton").Connect(Button.SignalName.Pressed, Callable.From(OnWinButton));
-        GetNode<Button>("GameContainer/VBoxContainer/GameOverButton").Connect(Button.SignalName.Pressed, Callable.From(OnGameOverButton));
-        GetNode<Button>("GameContainer/VBoxContainer/ScoreButton").Connect(Button.SignalName.Pressed, Callable.From(OnScoreButton));
-        GetNode<Button>("GameContainer/VBoxContainer/ShopButton").Connect(Button.SignalName.Pressed, Callable.From(OnShopButton));
 
         GetNode<Button>("GameContainer/PauseMenu/MainMenuButton").Connect(Button.SignalName.Pressed, Callable.From(OnMainMenuButton));
         GetNode<Button>("GameContainer/PauseMenu/OptionsButton").Connect(Button.SignalName.Pressed, Callable.From(OnOptionsButton));
@@ -461,10 +456,11 @@ public partial class Game : Node2D
         GetNode<AudioStreamPlayer>("GameContainer/GameSFX").StreamPaused = new_paused;
         GetNode<AudioStreamPlayer>("GameContainer/BGMusic").StreamPaused = new_paused;
         GetNode<AudioStreamPlayer>("GameContainer/BGMusic").VolumeDb = -20.0f + UIHelper.volume/5.0f;
-            if (UIHelper.volume == 0)
-            {
-                GetNode<AudioStreamPlayer>("GameContainer/BGMusic").VolumeDb = -80.0f;
-            }
+        GetNode<Sprite2D>("Starsbg").Visible = new_paused;
+        if (UIHelper.volume == 0)
+        {
+            GetNode<AudioStreamPlayer>("GameContainer/BGMusic").VolumeDb = -80.0f;
+        }
         if (!UIHelper.music)
         {
             GetNode<AudioStreamPlayer>("GameContainer/BGMusic").Stop();
@@ -494,26 +490,6 @@ public partial class Game : Node2D
             enemy_spawn_number--;
         }
     }
-    public void OnShopButton()
-    {
-        UIHelper.SwitchSceneTo(this, "Shop");
-    }
-
-    public void OnWinButton()
-    {
-        UIHelper.SwitchSceneTo(this, "Win");
-    }
-
-    public void OnGameOverButton()
-    {
-        UIHelper.SwitchSceneTo(this, "Game Over");
-    }
-
-    public void OnScoreButton()
-    {
-        GameLogic.score += 5000;
-        GD.Print($"Score: {GameLogic.score}");
-    }
 
     public void OnMainMenuButton()
     {
@@ -527,6 +503,7 @@ public partial class Game : Node2D
         GetNode<Control>("Options").Visible = true;
         GetNode<Control>("Formulas").Visible = false;
         GetNode<VBoxContainer>("GameContainer/PauseMenu").Visible = false;
+        GetNode<Sprite2D>("Starsbg").Visible = false;
     }
 
     public void OnFormulasButton()
@@ -535,6 +512,7 @@ public partial class Game : Node2D
         GetNode<Control>("Options").Visible = false;
         GetNode<Control>("Formulas").Visible = true;
         GetNode<VBoxContainer>("GameContainer/PauseMenu").Visible = false;
+        GetNode<Sprite2D>("Starsbg").Visible = false;
     }
 
     public void ShowGame()
@@ -543,6 +521,7 @@ public partial class Game : Node2D
         GetNode<Control>("Options").Visible = false;
         GetNode<Control>("Formulas").Visible = false;
         GetNode<VBoxContainer>("GameContainer/PauseMenu").Visible = true;
+        GetNode<Sprite2D>("Starsbg").Visible = true;
     }
 
     public void OnResumeButton()
@@ -590,6 +569,19 @@ public partial class Game : Node2D
 
     public void OnFireballButton()
     {
+        if (GameLogic.wave_num % 3 == 0)
+        {
+            GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
+            GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/failNoise.wav");
+            if (UIHelper.volume == 0)
+            {
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -80.0f;
+            }
+            if (UIHelper.sfx) {
+                GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Play();
+            }
+            return;
+        }
         if (!GameLogic.isPaused)
         {
             Enemy selected_enemy = new Enemy();
@@ -778,7 +770,11 @@ public partial class Game : Node2D
         RemoveEnemy(enemy);
         if (GameLogic.wave_num % 3 == 0)
         {
-            GiveBossScore(GameLogic.wave.boss);
+            if (GameLogic.wave.unspawned_enemies.Count == 0)
+            {
+                GiveBossMoney(GameLogic.wave.boss);
+                GiveBossScore(GameLogic.wave.boss);
+            }
             CheckEnemies();
             return;
         }
@@ -828,6 +824,13 @@ public partial class Game : Node2D
         GameLogic.currency += enemy.value;
         GetNode<Label>("GameContainer/Money").Text = $"💵:{GameLogic.currency}";
     }
+
+    public void GiveBossMoney(BossEnemy enemy)
+    {
+        GameLogic.currency += enemy.value;
+        GetNode<Label>("GameContainer/Money").Text = $"💵:{GameLogic.currency}";
+    }
+
     public void GiveScore(Enemy enemy)
     {
         int score = (int)(enemy.score * (2 - (enemy.sprite.Position.Y/GameLogic.ENEMY_ESCAPE_BOUND)));

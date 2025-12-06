@@ -21,7 +21,6 @@ public partial class Shop : Node2D
         GetNode<Timer>("SpeechBubble/Timer").Timeout += SpeechBubbleVanish;
 
         GetNode<Label>("Money").Text = $"💵:{GameLogic.currency}";
-        GetNode<Button>("DebugMoreMoney").Connect(Button.SignalName.Pressed, Callable.From(MoreMoneyButton));
         GetNode<Button>("GoBack").Connect(Button.SignalName.Pressed, Callable.From(OnGoBackButton));
 
         GetNode<Button>("Items/Upgrades/BiggerBooms").Connect(Button.SignalName.Pressed, Callable.From(BiggerBoomsBought));
@@ -197,11 +196,7 @@ public partial class Shop : Node2D
             GetNode<Button>("Items/Powerups/Frenzy").Text = $"⚡\nFrenzy\n{Powerup.powerups["Frenzy"]}\nQuantity: {GameLogic.powerup_inventory["Frenzy"]}";
         }
     }
-    public void MoreMoneyButton()
-    {
-        GameLogic.currency += 5000;
-        GetNode<Label>("Money").Text = $"💵:{GameLogic.currency}";
-    }
+    
     private bool CanBuy(string item_name, bool isPowerUp)
     {
         if (isPowerUp)

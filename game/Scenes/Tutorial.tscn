@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://ctth1uyqqd50p"]
+[gd_scene load_steps=5 format=3 uid="uid://ctth1uyqqd50p"]
 
 [ext_resource type="Script" uid="uid://brfyrdlmkx0r8" path="res://Scripts/Tutorial.cs" id="1_2o727"]
 [ext_resource type="Texture2D" uid="uid://blpambt3eid1n" path="res://Sprites/Tutorial/final_tutorial.png" id="2_2o727"]
+[ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Fonts/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="3_uo1fs"]
+[ext_resource type="Theme" uid="uid://ct0cqqngb202b" path="res://Styles/MainMenuButtonStyle.tres" id="4_7bloo"]
 
 [node name="Tutorial" type="Node2D"]
 script = ExtResource("1_2o727")
@@ -12,11 +14,12 @@ scale = Vector2(0.78358203, 0.78381646)
 texture = ExtResource("2_2o727")
 
 [node name="Label" type="Label" parent="."]
-offset_left = 490.0
-offset_top = 217.0
-offset_right = 867.0
-offset_bottom = 354.0
+offset_left = 474.0
+offset_top = 216.0
+offset_right = 688.0
+offset_bottom = 291.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_uo1fs")
 theme_override_font_sizes/font_size = 50
 text = "Tutorial"
 
@@ -36,8 +39,10 @@ size_flags_vertical = 4
 
 [node name="ReadyButton" type="Button" parent="ButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("4_7bloo")
 text = "I'm Ready"
 
 [node name="BackButton" type="Button" parent="ButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("4_7bloo")
 text = "Back"

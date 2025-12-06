@@ -25,7 +25,7 @@ public abstract class Problem
         b.Modulate = new Color(0,0,0,0);
         clickable = b;
     }
-    public string fontPath = "res://Font/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf";
+    public string fontPath = "res://Fonts/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf";
 }
 public class Rectangle : Problem
 {
