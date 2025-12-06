@@ -1,14 +1,23 @@
-[gd_scene load_steps=11 format=3 uid="uid://56y4kxgniqxq"]
+[gd_scene load_steps=20 format=3 uid="uid://56y4kxgniqxq"]
 
 [ext_resource type="Script" uid="uid://b1q6ffty23rfe" path="res://Scripts/Game.cs" id="1_gl6un"]
-[ext_resource type="Texture2D" uid="uid://covgrja1iyeir" path="res://Sprites/geometroid.png" id="1_iukft"]
+[ext_resource type="AudioStream" uid="uid://0i6uuk1javdn" path="res://Audio/tth_original_bg_music.wav" id="2_3so38"]
+[ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Fonts/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_71axn"]
+[ext_resource type="Theme" uid="uid://ct0cqqngb202b" path="res://Styles/MainMenuButtonStyle.tres" id="3_4q8tf"]
 [ext_resource type="Script" uid="uid://d3w7yshupp0n2" path="res://Scripts/Tooltip.cs" id="3_j5yw3"]
 [ext_resource type="Script" uid="uid://dq2ajcqpgwi18" path="res://Scripts/TooltipInteract.cs" id="3_kldst"]
 [ext_resource type="PackedScene" uid="uid://cvp5lvmx5fvu1" path="res://Scenes/Options.tscn" id="5_7lihs"]
+[ext_resource type="FontFile" uid="uid://bt2bogo4rhiuu" path="res://Fonts/static/ScienceGothic-Bold.ttf" id="5_71axn"]
 [ext_resource type="Texture2D" uid="uid://bwihct4ke12eq" path="res://Sprites/Backgrounds/night.png" id="5_bf53h"]
 [ext_resource type="Texture2D" uid="uid://7n7lsnprnoc7" path="res://Sprites/Backgrounds/day.png" id="6_71axn"]
 [ext_resource type="PackedScene" uid="uid://bqxs73m0063lj" path="res://Scenes/Formulas.tscn" id="6_fgofq"]
+[ext_resource type="AudioStream" uid="uid://ltplu2cosms8" path="res://Audio/freeze.wav" id="7_3cx6b"]
+[ext_resource type="Texture2D" uid="uid://dx8fvo70tysq3" path="res://Sprites/target.png" id="7_bf53h"]
 [ext_resource type="Texture2D" uid="uid://c6wtrg5ucqg08" path="res://Sprites/player.png" id="7_dahhg"]
+[ext_resource type="AudioStream" uid="uid://d0yqtxc4qkrh5" path="res://Audio/fire.wav" id="8_acvyw"]
+[ext_resource type="AudioStream" uid="uid://bxcs0ctc03wmx" path="res://Audio/frenzy.wav" id="9_alh3a"]
+[ext_resource type="Texture2D" uid="uid://dsm5qyputhpf6" path="res://Sprites/Explosion.png" id="10_3so38"]
+[ext_resource type="Texture2D" uid="uid://d0p6i7yono058" path="res://Sprites/Backgrounds/starsbg.png" id="18_x3xnh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kldst"]
 content_margin_left = 24.0
@@ -36,83 +45,51 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="GameContainer"]
+visible = false
 layout_mode = 0
-offset_left = 779.0
-offset_top = 118.0
-offset_right = 1014.0
-offset_bottom = 207.0
+offset_left = 389.0
+offset_top = 114.0
+offset_right = 624.0
+offset_bottom = 203.0
 theme_override_font_sizes/font_size = 40
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="GameContainer"]
-layout_mode = 0
-offset_left = 797.0
-offset_top = 396.0
-offset_right = 880.0
-offset_bottom = 419.0
-text = "For testing"
+[node name="BGMusic" type="AudioStreamPlayer" parent="GameContainer"]
+stream = ExtResource("2_3so38")
+volume_db = -20.0
+autoplay = true
 
-[node name="GameAttributes" type="Label" parent="GameContainer"]
-layout_mode = 0
-offset_left = 349.0
-offset_top = 506.0
-offset_right = 389.0
-offset_bottom = 548.0
-theme_override_font_sizes/font_size = 20
-horizontal_alignment = 1
-
-[node name="Geometroid" type="Sprite2D" parent="GameContainer"]
-position = Vector2(865.5, 40)
-scale = Vector2(0.365, 0.29)
-texture = ExtResource("1_iukft")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GameContainer"]
-layout_mode = 0
-offset_left = 714.0
-offset_top = 438.0
-offset_right = 959.0
-offset_bottom = 545.0
-
-[node name="ShopButton" type="Button" parent="GameContainer/VBoxContainer"]
-layout_mode = 2
-text = "Shop"
-
-[node name="WinButton" type="Button" parent="GameContainer/VBoxContainer"]
-layout_mode = 2
-text = "Win"
-
-[node name="GameOverButton" type="Button" parent="GameContainer/VBoxContainer"]
-layout_mode = 2
-text = "Game Over"
-
-[node name="ScoreButton" type="Button" parent="GameContainer/VBoxContainer"]
-layout_mode = 2
-text = "Give Score"
+[node name="GameSFX" type="AudioStreamPlayer" parent="GameContainer"]
 
 [node name="PauseMenu" type="VBoxContainer" parent="GameContainer"]
 visible = false
-z_index = 1
-layout_mode = 0
-offset_left = 550.0
-offset_top = 260.0
-offset_right = 646.0
-offset_bottom = 396.0
+z_index = 3
+layout_mode = 1
+offset_left = 507.0
+offset_top = 250.0
+offset_right = 630.0
+offset_bottom = 386.0
+pivot_offset = Vector2(61, 64)
 
 [node name="Resume" type="Button" parent="GameContainer/PauseMenu"]
 layout_mode = 2
+theme = ExtResource("3_4q8tf")
 text = "Resume"
 
 [node name="FormulasButton" type="Button" parent="GameContainer/PauseMenu"]
 layout_mode = 2
+theme = ExtResource("3_4q8tf")
 text = "Formulas"
 
 [node name="OptionsButton" type="Button" parent="GameContainer/PauseMenu"]
 layout_mode = 2
+theme = ExtResource("3_4q8tf")
 text = "Options
 "
 
 [node name="MainMenuButton" type="Button" parent="GameContainer/PauseMenu"]
 layout_mode = 2
+theme = ExtResource("3_4q8tf")
 text = "Main Menu"
 
 [node name="ProblemListPanelContainer" type="PanelContainer" parent="GameContainer"]
@@ -125,6 +102,7 @@ layout_mode = 2
 
 [node name="ProblemListLabel" type="Label" parent="GameContainer/ProblemListPanelContainer/ProblemList"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_71axn")
 text = "Problem List"
 horizontal_alignment = 1
 
@@ -139,12 +117,14 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="GameContainer/PanelContainer2/Upgrades"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_71axn")
 text = "Upgrades"
 horizontal_alignment = 1
 
 [node name="BiggerBooms" type="Button" parent="GameContainer/PanelContainer2/Upgrades"]
 layout_mode = 2
-text = "🧨"
+theme_override_fonts/font = ExtResource("2_71axn")
+text = "💥"
 script = ExtResource("3_kldst")
 
 [node name="Tooltip" type="PanelContainer" parent="GameContainer/PanelContainer2/Upgrades/BiggerBooms"]
@@ -161,14 +141,17 @@ script = ExtResource("3_j5yw3")
 [node name="RichTextLabel" type="RichTextLabel" parent="GameContainer/PanelContainer2/Upgrades/BiggerBooms/Tooltip"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_71axn")
+theme_override_fonts/bold_font = ExtResource("5_71axn")
 bbcode_enabled = true
-text = "[b]Bigger Booms[/b]
-Increases explosion size"
+text = "[b][u][font_size=24]Bigger Booms[/font_size][/u][/b]
+Increases explosion size by every level. (Does not affect bosses)."
 fit_content = true
 horizontal_alignment = 1
 
 [node name="Slow" type="Button" parent="GameContainer/PanelContainer2/Upgrades"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_71axn")
 text = "🐌"
 script = ExtResource("3_kldst")
 
@@ -186,14 +169,17 @@ script = ExtResource("3_j5yw3")
 [node name="RichTextLabel" type="RichTextLabel" parent="GameContainer/PanelContainer2/Upgrades/Slow/Tooltip"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_71axn")
+theme_override_fonts/bold_font = ExtResource("5_71axn")
 bbcode_enabled = true
-text = "[b]Slow[/b]
-Passively slows enemies"
+text = "[b][u][font_size=24]Slow[/font_size][/u][/b]
+Passively makes enemies slower with each increasing level"
 fit_content = true
 horizontal_alignment = 1
 
 [node name="MaxLives" type="Button" parent="GameContainer/PanelContainer2/Upgrades"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_71axn")
 text = "❤️"
 script = ExtResource("3_kldst")
 
@@ -211,8 +197,10 @@ script = ExtResource("3_j5yw3")
 [node name="RichTextLabel" type="RichTextLabel" parent="GameContainer/PanelContainer2/Upgrades/MaxLives/Tooltip"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_71axn")
+theme_override_fonts/bold_font = ExtResource("5_71axn")
 bbcode_enabled = true
-text = "[b]Max Lives[/b]
+text = "[b][u][font_size=24]Max Lives[/font_size][/u][/b]
 Increases max lives"
 fit_content = true
 horizontal_alignment = 1
@@ -229,13 +217,22 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="GameContainer/PanelContainer3/PowerUps"]
 layout_mode = 2
-text = "Power Ups"
+theme_override_fonts/font = ExtResource("2_71axn")
+text = "Powerups"
 horizontal_alignment = 1
 
 [node name="Freeze" type="Button" parent="GameContainer/PanelContainer3/PowerUps"]
 layout_mode = 2
+theme = ExtResource("3_4q8tf")
 text = "🧊"
 script = ExtResource("3_kldst")
+
+[node name="FreezeSFX" type="AudioStreamPlayer" parent="GameContainer/PanelContainer3/PowerUps/Freeze"]
+stream = ExtResource("7_3cx6b")
+
+[node name="FreezeTimer" type="Timer" parent="GameContainer/PanelContainer3/PowerUps/Freeze"]
+wait_time = 5.0
+one_shot = true
 
 [node name="Tooltip" type="PanelContainer" parent="GameContainer/PanelContainer3/PowerUps/Freeze"]
 top_level = true
@@ -251,16 +248,25 @@ script = ExtResource("3_j5yw3")
 [node name="RichTextLabel" type="RichTextLabel" parent="GameContainer/PanelContainer3/PowerUps/Freeze/Tooltip"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_71axn")
+theme_override_fonts/bold_font = ExtResource("5_71axn")
 bbcode_enabled = true
-text = "[b]Freeze[/b]
-Halts enemey movement for 5 seconds"
+text = "[b][u][font_size=24]Freeze[/font_size][/u][/b]
+Halts enemy movement for 5 seconds"
 fit_content = true
 horizontal_alignment = 1
 
 [node name="Fireball" type="Button" parent="GameContainer/PanelContainer3/PowerUps"]
 layout_mode = 2
+theme = ExtResource("3_4q8tf")
 text = "🔥"
 script = ExtResource("3_kldst")
+
+[node name="FireballSFX" type="AudioStreamPlayer" parent="GameContainer/PanelContainer3/PowerUps/Fireball"]
+stream = ExtResource("8_acvyw")
+
+[node name="FireballCooldown" type="Timer" parent="GameContainer/PanelContainer3/PowerUps/Fireball"]
+one_shot = true
 
 [node name="Tooltip" type="PanelContainer" parent="GameContainer/PanelContainer3/PowerUps/Fireball"]
 top_level = true
@@ -276,16 +282,26 @@ script = ExtResource("3_j5yw3")
 [node name="RichTextLabel" type="RichTextLabel" parent="GameContainer/PanelContainer3/PowerUps/Fireball/Tooltip"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_71axn")
+theme_override_fonts/bold_font = ExtResource("5_71axn")
 bbcode_enabled = true
-text = "[b]Fireball[/b]
-Destroys the closest enemy"
+text = "[b][u][font_size=24]Fireball[/font_size][/u][/b]
+Destroys the closest enemy (Can't use in boss waves)"
 fit_content = true
 horizontal_alignment = 1
 
 [node name="Frenzy" type="Button" parent="GameContainer/PanelContainer3/PowerUps"]
 layout_mode = 2
+theme = ExtResource("3_4q8tf")
 text = "⚡"
 script = ExtResource("3_kldst")
+
+[node name="FrenzySFX" type="AudioStreamPlayer" parent="GameContainer/PanelContainer3/PowerUps/Frenzy"]
+stream = ExtResource("9_alh3a")
+
+[node name="FrenzyTimer" type="Timer" parent="GameContainer/PanelContainer3/PowerUps/Frenzy"]
+wait_time = 10.0
+one_shot = true
 
 [node name="Tooltip" type="PanelContainer" parent="GameContainer/PanelContainer3/PowerUps/Frenzy"]
 top_level = true
@@ -301,9 +317,11 @@ script = ExtResource("3_j5yw3")
 [node name="RichTextLabel" type="RichTextLabel" parent="GameContainer/PanelContainer3/PowerUps/Frenzy/Tooltip"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_71axn")
+theme_override_fonts/bold_font = ExtResource("5_71axn")
 bbcode_enabled = true
-text = "[b]Frenzy[/b]
-Doubles score for 5 seconds"
+text = "[b][u][font_size=24]Frenzy[/font_size][/u][/b]
+Doubles score for 10 seconds"
 fit_content = true
 horizontal_alignment = 1
 
@@ -316,22 +334,30 @@ offset_bottom = 646.0
 
 [node name="Answer" type="LineEdit" parent="GameContainer/PanelContainer4"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_71axn")
 placeholder_text = "Enter Answer"
+keep_editing_on_text_submit = true
+
+[node name="Lives" type="Label" parent="GameContainer"]
+layout_mode = 0
+offset_left = 1040.0
+offset_top = 579.0
+offset_right = 1153.0
+offset_bottom = 602.0
+mouse_force_pass_scroll_events = false
+theme_override_fonts/font = ExtResource("2_71axn")
+text = "❤️:"
 
 [node name="Money" type="Label" parent="GameContainer"]
 layout_mode = 0
-offset_left = 967.0
+offset_left = 1040.0
 offset_top = 615.0
-offset_right = 1035.0
+offset_right = 1108.0
 offset_bottom = 638.0
+theme_override_fonts/font = ExtResource("2_71axn")
 
-[node name="DebugEnemy" type="Label" parent="GameContainer"]
-layout_mode = 0
-offset_left = 810.0
-offset_top = 91.0
-offset_right = 933.0
-offset_bottom = 114.0
-text = "My answer is 30"
+[node name="Timer" type="Timer" parent="GameContainer"]
+wait_time = 5.0
 
 [node name="Night" type="Sprite2D" parent="GameContainer"]
 z_index = -1
@@ -340,7 +366,7 @@ scale = Vector2(0.592, 0.47)
 texture = ExtResource("5_bf53h")
 
 [node name="Day" type="Sprite2D" parent="GameContainer"]
-z_index = -1
+z_index = -8
 position = Vector2(578.49994, 324.125)
 scale = Vector2(0.589, 0.47)
 texture = ExtResource("6_71axn")
@@ -350,8 +376,46 @@ position = Vector2(648, 576)
 scale = Vector2(0.24622357, 0.24622357)
 texture = ExtResource("7_dahhg")
 
+[node name="Target" type="Sprite2D" parent="GameContainer"]
+z_index = 2
+position = Vector2(-1000, 31.75)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("7_bf53h")
+
+[node name="Explosion" type="Sprite2D" parent="GameContainer"]
+position = Vector2(-256, 296)
+texture = ExtResource("10_3so38")
+
+[node name="Timer" type="Timer" parent="GameContainer/Explosion"]
+wait_time = 0.25
+
+[node name="ActivePowerups" type="VBoxContainer" parent="GameContainer"]
+layout_mode = 0
+offset_left = 228.0
+offset_top = 3.0
+offset_right = 268.0
+offset_bottom = 43.0
+
+[node name="ActiveFreeze" type="Label" parent="GameContainer/ActivePowerups"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "🧊"
+
+[node name="ActiveFrenzy" type="Label" parent="GameContainer/ActivePowerups"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "⚡"
+
 [node name="Options" parent="." instance=ExtResource("5_7lihs")]
 visible = false
 
 [node name="Formulas" parent="." instance=ExtResource("6_fgofq")]
 visible = false
+
+[node name="Starsbg" type="Sprite2D" parent="."]
+visible = false
+z_index = 2
+position = Vector2(574, 240)
+texture = ExtResource("18_x3xnh")

@@ -39,13 +39,13 @@ public partial class Tooltip : PanelContainer
 
     public async void Toggle(bool on)
     {
-        if (on)
+        if (on && !GameLogic.sceneSwitch)
         {
             Show(); Modulate = new Color(1, 1, 1, 0);
             Callable.From(UpdateTooltipPosition).CallDeferred();
             TweenOpacity(new Color(1, 1, 1, 1));
         }
-        else
+        else if(!GameLogic.sceneSwitch)
         {
             Modulate = new Color(1, 1, 1, 1);
             await ToSignal(TweenOpacity(new Color(1, 1, 1, 0)),

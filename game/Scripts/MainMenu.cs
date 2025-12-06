@@ -8,9 +8,11 @@ public partial class MainMenu : Node2D
 {
 	public override void _Ready()
 	{
-		InitializeUIEvents();
-		InitializeTemporaryHighScores();
 		ReadPlayerDataFile();
+		InitializeTemporaryHighScores();
+		InitializeUIEvents();
+		GameLogic.inGame = false;
+		GameLogic.isPaused = false;
 	}
 
 	public void ReadPlayerDataFile()
@@ -20,7 +22,7 @@ public partial class MainMenu : Node2D
 		{
 			using var file = Godot.FileAccess.Open(player_data_file_path, Godot.FileAccess.ModeFlags.Write);
 			file.StoreString($"Anonymous:false:100:True:True:False");
-			GD.Print($"Created player data file: {player_data_file_path}");
+			//GD.Print($"Created player data file: {player_data_file_path}");
 		}
 		string result = TextFileReader.GetStringFromTextFile(player_data_file_path);
 		string []strings = result.Split(":");
@@ -38,6 +40,7 @@ public partial class MainMenu : Node2D
 	}
 	public void InitializeUIEvents() // Let's just put all of our ui events here
 	{
+		GetNode<Timer>("NightmareCheck/NightmareCheckTimer").Timeout += HideLabel;
 		GetNode<Button>("ExitButton").Connect(Button.SignalName.Pressed, Callable.From(OnExitButtonPressed));
 		GetNode<Button>("ButtonsContainer/StartButton").Connect(Button.SignalName.Pressed, Callable.From(OnStartButtonPressed));
 		GetNode<Button>("ButtonsContainer/FormulasButton").Connect(Button.SignalName.Pressed, Callable.From(OnFormulasButtonPressed));
@@ -48,7 +51,21 @@ public partial class MainMenu : Node2D
 		GetNode<Button>("DifficultyContainer/MediumButton").Connect(Button.SignalName.Pressed, Callable.From(OnMediumButtonPressed));
 		GetNode<Button>("DifficultyContainer/HardButton").Connect(Button.SignalName.Pressed, Callable.From(OnHardButtonPressed));
 		GetNode<Button>("DifficultyContainer/NightmareButton").Connect(Button.SignalName.Pressed, Callable.From(OnNightmareButtonPressed));
+
+		if (GameLogic.nightmare_unlocked)
+		{
+			GetNode<Button>("DifficultyContainer/NightmareButton").Text = "Nightmare";
+		}
+		else
+        {
+			GetNode<Button>("DifficultyContainer/NightmareButton").Text = "🔒Nightmare";
+        }
 	}
+
+	public void HideLabel()
+    {
+        GetNode<Label>("NightmareCheck").Visible = false;
+    }
 	public void InitializeTemporaryHighScores() // This is for the sample data for high scores, but we could have predefined high scores in there
 	{
 		List<string> high_scores_paths = new List<string> { "user://easy_highscores.txt", "user://medium_highscores.txt", "user://hard_highscores.txt", "user://nightmare_highscores.txt" };
@@ -57,9 +74,8 @@ public partial class MainMenu : Node2D
 			if (!Godot.FileAccess.FileExists(high_score_path))
 			{
 				using var file = Godot.FileAccess.Open(high_score_path, Godot.FileAccess.ModeFlags.Write);
-				//file.StoreString($"blank sample data for the path: {high_score_path}\nJimbo: 100,000\nErik: 98,000\nMike Vrabel: 81,000\nJohnathan: 50,000\nGeoff: 34,500");
-				file.StoreString("Jimbo:100000\nErik:98000\nMike Vrabel:81000\nJohnathan:50000\nGeoff:34500");
-				GD.Print($"Created high score file: {high_score_path}");
+				file.StoreString("Anonymous:0\nAnonymous:0\nAnonymous:0\nAnonymous:0\nAnonymous:0");
+				//GD.Print($"Created high score file: {high_score_path}");
 			}
 		}
 	}
@@ -150,6 +166,12 @@ public partial class MainMenu : Node2D
 		{
 			StartGame("nightmare");
 		}
+		else
+        {
+            GetNode<Label>("NightmareCheck").Visible = true;
+            GetNode<Label>("NightmareCheck").Text = "Beat Hard Mode to Unlock";
+			GetNode<Timer>("NightmareCheck/NightmareCheckTimer").Start();
+        }
 	}
 	public void UpdateName(string newName)
     {

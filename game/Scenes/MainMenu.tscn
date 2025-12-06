@@ -1,8 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://np7ridp5ciyp"]
+[gd_scene load_steps=8 format=3 uid="uid://np7ridp5ciyp"]
 
 [ext_resource type="Script" uid="uid://76cwmi5dldyf" path="res://Scripts/MainMenu.cs" id="1_853f1"]
+[ext_resource type="Theme" uid="uid://ct0cqqngb202b" path="res://Styles/MainMenuButtonStyle.tres" id="2_df05h"]
+[ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Fonts/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_ghw46"]
 [ext_resource type="Texture2D" uid="uid://dqmjsips2n8tx" path="res://Sprites/Backgrounds/mainmenubg.png" id="3_8saeu"]
-[ext_resource type="Texture2D" uid="uid://by8vvp0i2p45q" path="res://Sprites/aerial_areas_logo.png" id="3_ghw46"]
+[ext_resource type="Texture2D" uid="uid://rci0ordbbs18" path="res://Sprites/aerial_areas_logo.png" id="3_ghw46"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_df05h"]
+content_margin_left = 5.0
+bg_color = Color(0.15276155, 0.094734676, 0.36740243, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8um5k"]
+content_margin_left = 5.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_853f1")
@@ -23,62 +37,83 @@ size_flags_vertical = 4
 
 [node name="StartButton" type="Button" parent="ButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("2_df05h")
 text = "Start"
 
 [node name="FormulasButton" type="Button" parent="ButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("2_df05h")
 text = "Formulas"
 
 [node name="OptionsButton" type="Button" parent="ButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("2_df05h")
 text = "Options"
 
 [node name="HighScoresButton" type="Button" parent="ButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("2_df05h")
 text = "High Scores"
 
 [node name="ExitButton" type="Button" parent="."]
-offset_left = 1090.0
+offset_left = 1121.0
 offset_top = 1.0
-offset_right = 1136.0
-offset_bottom = 32.0
+offset_right = 1151.0
+offset_bottom = 34.0
+theme = ExtResource("2_df05h")
 text = "X"
 
 [node name="DifficultyContainer" type="VBoxContainer" parent="."]
 visible = false
-offset_left = 719.0
-offset_top = 307.0
-offset_right = 869.0
-offset_bottom = 447.00003
-scale = Vector2(0.7, 0.7)
+offset_left = 705.0
+offset_top = 311.0
+offset_right = 855.0
+offset_bottom = 455.0
+scale = Vector2(0.75, 0.75)
 
 [node name="EasyButton" type="Button" parent="DifficultyContainer"]
 layout_mode = 2
+theme = ExtResource("2_df05h")
 text = "Easy"
 
 [node name="MediumButton" type="Button" parent="DifficultyContainer"]
 layout_mode = 2
+theme = ExtResource("2_df05h")
 text = "Medium
 "
 
 [node name="HardButton" type="Button" parent="DifficultyContainer"]
 layout_mode = 2
+theme = ExtResource("2_df05h")
 text = "Hard"
 
 [node name="NightmareButton" type="Button" parent="DifficultyContainer"]
 layout_mode = 2
-text = "Nightmare
+theme = ExtResource("2_df05h")
+text = "
 "
-
-[node name="DifficultyContainer" type="VBoxContainer" parent="DifficultyContainer"]
-layout_mode = 2
 
 [node name="EnterName" type="LineEdit" parent="."]
 offset_left = 425.0
 offset_top = 559.0
 offset_right = 701.0
 offset_bottom = 590.0
+theme_override_fonts/font = ExtResource("2_ghw46")
+theme_override_styles/normal = SubResource("StyleBoxFlat_df05h")
+theme_override_styles/focus = SubResource("StyleBoxFlat_8um5k")
 placeholder_text = "Enter Name"
+
+[node name="NightmareCheck" type="Label" parent="."]
+offset_left = 455.0
+offset_top = 610.0
+offset_right = 495.0
+offset_bottom = 635.0
+theme_override_fonts/font = ExtResource("2_ghw46")
+horizontal_alignment = 1
+
+[node name="NightmareCheckTimer" type="Timer" parent="NightmareCheck"]
+wait_time = 2.0
+one_shot = true
 
 [node name="MenuBackground" type="Sprite2D" parent="."]
 z_index = -1005

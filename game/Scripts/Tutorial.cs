@@ -9,8 +9,8 @@ public partial class Tutorial : Node
 	}
 	public void InitializeUIEvents()
 	{
-		GetNode<Button>("BackButton").Connect(Button.SignalName.Pressed, Callable.From(OnBackButtonClicked));
-		GetNode<Button>("ReadyButton").Connect(Button.SignalName.Pressed, Callable.From(OnReadyButtonClicked));
+		GetNode<Button>("ButtonsContainer/BackButton").Connect(Button.SignalName.Pressed, Callable.From(OnBackButtonClicked));
+		GetNode<Button>("ButtonsContainer/ReadyButton").Connect(Button.SignalName.Pressed, Callable.From(OnReadyButtonClicked));
 	}
 	public void OnBackButtonClicked()
 	{

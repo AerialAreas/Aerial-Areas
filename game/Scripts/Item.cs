@@ -6,7 +6,7 @@ using System.Linq;
 
 public abstract class Item
 {
-	Sprite2D sprite;
+    
 }
 
 public class Powerup : Item

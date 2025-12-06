@@ -1,35 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://dl0itksoekg40"]
+[gd_scene load_steps=6 format=3 uid="uid://dl0itksoekg40"]
 
 [ext_resource type="Script" uid="uid://bxgwp2t38nbuv" path="res://Scripts/GameOver.cs" id="1_k52d1"]
 [ext_resource type="Texture2D" uid="uid://nntkxfms2kiu" path="res://Sprites/game_over.png" id="2_k52d1"]
+[ext_resource type="FontFile" uid="uid://b4e7dsu1fkhqs" path="res://Fonts/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf" id="2_ktc4i"]
+[ext_resource type="Theme" uid="uid://ct0cqqngb202b" path="res://Styles/MainMenuButtonStyle.tres" id="3_rdiyk"]
+[ext_resource type="Texture2D" uid="uid://d0p6i7yono058" path="res://Sprites/Backgrounds/starsbg.png" id="4_uib17"]
 
 [node name="GameOver" type="Node2D"]
 script = ExtResource("1_k52d1")
 
 [node name="Label" type="Label" parent="."]
-offset_left = 446.0
-offset_top = 26.0
-offset_right = 757.0
-offset_bottom = 79.0
-theme_override_font_sizes/font_size = 38
-text = "HA HA YOU LOST"
+offset_left = 391.0
+offset_top = 43.0
+offset_right = 791.0
+offset_bottom = 126.0
+theme_override_fonts/font = ExtResource("2_ktc4i")
+theme_override_font_sizes/font_size = 56
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="GameOverSFX" type="AudioStreamPlayer" parent="."]
 
 [node name="Score" type="Label" parent="."]
-offset_left = 70.0
-offset_top = 211.0
-offset_right = 195.0
-offset_bottom = 265.0
+offset_left = 27.0
+offset_top = 207.0
+offset_right = 152.0
+offset_bottom = 266.0
+theme_override_fonts/font = ExtResource("2_ktc4i")
 theme_override_font_sizes/font_size = 39
 
 [node name="ExitButton" type="Button" parent="."]
-offset_left = 917.0
-offset_top = 449.0
-offset_right = 1013.0
-offset_bottom = 480.0
+offset_left = 547.0
+offset_top = 601.0
+offset_right = 662.0
+offset_bottom = 632.0
 pivot_offset = Vector2(-801, 151)
+theme = ExtResource("3_rdiyk")
+theme_override_fonts/font = ExtResource("2_ktc4i")
 text = "Main Menu"
 
 [node name="GameOver" type="Sprite2D" parent="."]
-position = Vector2(618, 363.00003)
+position = Vector2(592, 363.00003)
 scale = Vector2(0.4589178, 0.49640086)
 texture = ExtResource("2_k52d1")
+
+[node name="Starsbg" type="Sprite2D" parent="."]
+z_index = -4
+position = Vector2(508, 9)
+texture = ExtResource("4_uib17")
