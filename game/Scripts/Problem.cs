@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
@@ -28,9 +29,9 @@ public abstract class Problem
 }
 public class Rectangle : Problem
 {
-    private int length;
-    private int width;
-    Rectangle()
+    public int length;
+    public int width;
+    public Rectangle()
     {
         length = rand.Next(1, 13); // 1 to 12
         width = rand.Next(1, 13); // 1 to 12
@@ -95,14 +96,14 @@ public class Rectangle : Problem
         GD.Print($"I am a rectangle with length {length}, width {width}, and type {problemType}, solution is {solution}");
     }
 } // end of Rectangle class
+
 public class Triangle : Problem
 {
     public int base_length;
     public int height;
     public int side2;
     public int side3;
-    public string identifier;
-    Triangle()
+    public Triangle()
     {
         shape = "Triangle";
         base_length = rand.Next(3, 13); // 3 to 12
@@ -128,20 +129,6 @@ public class Triangle : Problem
             problemType = "Perimeter";
             solution = (base_length + side2 + side3).ToString();
             label.Text = $"[img height=32]res://Sprites/ProblemList/problemlist_triangle_perimeter.png[/img] side lengths {base_length}, {side2}, {side3}";
-        }
-
-        // set identifier based on side lengths
-        if (base_length == side2 && side2 == side3)
-        {
-            identifier = "Equilateral";
-        }
-        else if (base_length == side2 || base_length == side3 || side2 == side3)
-        {
-            identifier = "Isosceles";
-        }
-        else
-        {
-            identifier = "Scalene";
         }
     }
 
@@ -172,7 +159,7 @@ public class Triangle : Problem
     }
     public override void PrintProblemData()
     {
-        GD.Print($"I am a shape {shape} with length {base_length}, height {height}, side2 {side2}, side3 {side3}, type {problemType}, identifier {identifier}, solution is {solution}");
+        GD.Print($"I am a shape {shape} with length {base_length}, height {height}, side2 {side2}, side3 {side3}, type {problemType}, solution is {solution}");
     }
 }
 public class Circle : Problem
@@ -180,7 +167,7 @@ public class Circle : Problem
     public enum FillType { FULL = 1, SEMI = 2, QUARTER = 3 }
     private int radius;
     public int fillType;
-    Circle()
+    public Circle()
     {
         shape = "Circle";
         radius = rand.Next(1, 13); // 1 to 12
@@ -282,6 +269,3 @@ public class Circle : Problem
         GD.Print($"I am a circle with r {radius}, fillType {fillType}, type {problemType}, solution is {solution}");
     }
 } // end of Circle class
-// public class BossProblem : Problem
-// {
-// }

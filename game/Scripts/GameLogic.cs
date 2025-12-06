@@ -66,7 +66,7 @@ public static class GameLogic
     public static void SetToStart()
     {
         score = 0;
-        wave_num = 1;
+        wave_num = 12;
         currency = 0;
         lives = 5;
         max_lives = 5;

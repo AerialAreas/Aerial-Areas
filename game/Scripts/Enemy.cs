@@ -103,13 +103,10 @@ public partial class Enemy
         sprite.Position = new Vector2(rand.Next(GameLogic.ENEMY_LEFT_BOUND + 10, GameLogic.ENEMY_RIGHT_BOUND - 10), GameLogic.ENEMY_SPAWN_Y);
         sprite.Texture = GD.Load<Texture2D>(texture_path);
         sprite.Scale = new Vector2(.25f, .25f);
-        //SetScript(GD.Load<Script>("res://Scripts/Enemy.cs"));
 
         value = rand.Next(10, 21); // random between 10 and 20
         score = 100;
         isHighlighted = false;
-        // GD.Print($"Spawned an enemy with shape {shape} and velocity {velocity.X}, {velocity.Y} and value {value} and sprite path {sprite.filePath} and sprite pos {sprite.position.X}, {sprite.position.Y}");
-        // problem.PrintProblemData();
     }
     public bool compareAnswer(string input)
     {
@@ -120,7 +117,35 @@ public partial class Enemy
         return false;
     }
 }
+public class BossEnemy : Enemy
+{
+    public BossProblem bossproblem;
+    
+    public BossEnemy(string shape)
+    {
+        string texture_path = "";
+        switch (shape)
+        {
+            case "BossRectangle":
+                GD.Print("Hi");
+                bossproblem = (BossProblem)Activator.CreateInstance(typeof(RectangleBoss), true);
+                texture_path = "res://Sprites/Bosses/sqboss.png";
+                break;
+            case "BossTriangle":
+                bossproblem = (BossProblem)Activator.CreateInstance(typeof(TriangleBoss), true);
+                texture_path = "res://Sprites/Bosses/triboss.png";
+                break;
+            case "BossCircle":
+                bossproblem = (BossProblem)Activator.CreateInstance(typeof(CircleBoss), true);
+                texture_path = "res://Sprites/Bosses/cirboss.png";
+                break;
+            case "BossFinal":
+                bossproblem = (BossProblem)Activator.CreateInstance(typeof(FinalBoss), true);
+                texture_path = "res://Sprites/Bosses/finalboss.png";
+                break;
+        }
 
+<<<<<<< Updated upstream
 public class BossEnemy : Enemy
 {
     public BossEnemy()
@@ -133,3 +158,18 @@ public class BossEnemy : Enemy
     }
 }
 
+=======
+        float VELOCITY_MULTIPLIER = GameLogic.difficulty_speed_multiplier[GameLogic.difficulty];
+        velocity = new Vector2(0, .03f);
+        velocity = new Vector2(velocity.X * VELOCITY_MULTIPLIER * GameLogic.slow_multiplier, velocity.Y * VELOCITY_MULTIPLIER * GameLogic.slow_multiplier);
+
+        sprite = new Sprite2D();
+        sprite.Position = new Vector2(600, 0);
+        sprite.Texture = GD.Load<Texture2D>(texture_path);
+
+        value = rand.Next(250, 300); // random between 250 and 300
+        score = 1000;
+        isHighlighted = false;
+    }
+}
+>>>>>>> Stashed changes
