@@ -707,8 +707,7 @@ public partial class Game : Node2D
         GD.Print(answer.Trim());
         GD.Print(selected_enemy.problem.solution);
         if (answer.Trim() == selected_enemy.problem.solution)
-        {   
-            
+        {               
             HandleExplosion(selected_enemy);
             GD.Print("correct");
         }
@@ -737,6 +736,7 @@ public partial class Game : Node2D
         }
         if (GameLogic.wave.unspawned_enemies.Count == 0 && enemy_spawn_number == 0)
         {
+            GetNode<Timer>("GameContainer/Explosion/Timer").Stop();
             if (GameLogic.wave_num == 12)
             {
                 GameLogic.sceneSwitch = true;
@@ -789,8 +789,11 @@ public partial class Game : Node2D
         }
 
         Explosion explosion = new Explosion(enemy.sprite.Position);
+        if(enemy_spawn_number != 0)
+        {
+            GetNode<Timer>("GameContainer/Explosion/Timer").Start();
+        }
         Sprite2D explosion_sprite = GetNode<Sprite2D>("GameContainer/Explosion");
-        GetNode<Timer>("GameContainer/Explosion/Timer").Start();
         explosion_sprite.Position = enemy.sprite.Position;
         int bigger_booms_level = GameLogic.upgrade_inventory["Bigger Booms"];
         explosion_sprite.Scale = new Vector2(bigger_booms_level * 0.1f, bigger_booms_level * 0.1f);
