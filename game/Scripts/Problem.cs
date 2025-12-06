@@ -93,7 +93,7 @@ public class Rectangle : Problem
     }
     public override void PrintProblemData()
     {
-        GD.Print($"I am a rectangle with length {length}, width {width}, and type {problemType}, solution is {solution}");
+        //GD.Print($"I am a rectangle with length {length}, width {width}, and type {problemType}, solution is {solution}");
     }
 } // end of Rectangle class
 
@@ -159,7 +159,7 @@ public class Triangle : Problem
     }
     public override void PrintProblemData()
     {
-        GD.Print($"I am a shape {shape} with length {base_length}, height {height}, side2 {side2}, side3 {side3}, type {problemType}, solution is {solution}");
+        //GD.Print($"I am a shape {shape} with length {base_length}, height {height}, side2 {side2}, side3 {side3}, type {problemType}, solution is {solution}");
     }
 }
 public class Circle : Problem
@@ -266,6 +266,6 @@ public class Circle : Problem
     }
     public override void PrintProblemData()
     {
-        GD.Print($"I am a circle with r {radius}, fillType {fillType}, type {problemType}, solution is {solution}");
+        //GD.Print($"I am a circle with r {radius}, fillType {fillType}, type {problemType}, solution is {solution}");
     }
 } // end of Circle class

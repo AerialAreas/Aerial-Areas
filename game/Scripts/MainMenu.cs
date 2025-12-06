@@ -22,7 +22,7 @@ public partial class MainMenu : Node2D
 		{
 			using var file = Godot.FileAccess.Open(player_data_file_path, Godot.FileAccess.ModeFlags.Write);
 			file.StoreString($"Anonymous:false:100:True:True:False");
-			GD.Print($"Created player data file: {player_data_file_path}");
+			//GD.Print($"Created player data file: {player_data_file_path}");
 		}
 		string result = TextFileReader.GetStringFromTextFile(player_data_file_path);
 		string []strings = result.Split(":");
@@ -75,7 +75,7 @@ public partial class MainMenu : Node2D
 			{
 				using var file = Godot.FileAccess.Open(high_score_path, Godot.FileAccess.ModeFlags.Write);
 				file.StoreString("Anonymous:0\nAnonymous:0\nAnonymous:0\nAnonymous:0\nAnonymous:0");
-				GD.Print($"Created high score file: {high_score_path}");
+				//GD.Print($"Created high score file: {high_score_path}");
 			}
 		}
 	}

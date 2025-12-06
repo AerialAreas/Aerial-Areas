@@ -113,7 +113,7 @@ public partial class Game : Node2D
         }
         if(highlighted_index == -1)
         {
-            GD.Print("Highlighted enemy is not found on arrow press");
+            //GD.Print("Highlighted enemy is not found on arrow press");
             return;
         }
         if(direction == "Up")
@@ -696,12 +696,12 @@ public partial class Game : Node2D
             return;
         }
 
-        GD.Print(answer.Trim());
-        GD.Print(selected_enemy.problem.solution);
+        //GD.Print(answer.Trim());
+        //GD.Print(selected_enemy.problem.solution);
         if (answer.Trim() == selected_enemy.problem.solution)
         {               
             HandleExplosion(selected_enemy);
-            GD.Print("correct");
+            //GD.Print("correct");
         }
         else
         {
@@ -714,7 +714,7 @@ public partial class Game : Node2D
             if (UIHelper.sfx) {
                 GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Play();
             }
-            GD.Print("wrong");
+            //GD.Print("wrong");
         }
         a.Clear();
     }

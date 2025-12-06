@@ -127,7 +127,6 @@ public class BossEnemy : Enemy
         switch (shape)
         {
             case "BossRectangle":
-                GD.Print("Hi");
                 bossproblem = (BossProblem)Activator.CreateInstance(typeof(RectangleBoss), true);
                 texture_path = "res://Sprites/Bosses/sqboss.png";
                 break;
