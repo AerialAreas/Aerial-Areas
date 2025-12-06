@@ -63,12 +63,13 @@ autoplay = true
 
 [node name="PauseMenu" type="VBoxContainer" parent="GameContainer"]
 visible = false
-z_index = 1
-layout_mode = 0
-offset_left = 550.0
-offset_top = 260.0
-offset_right = 673.0
-offset_bottom = 396.0
+z_index = 3
+layout_mode = 1
+offset_left = 507.0
+offset_top = 250.0
+offset_right = 630.0
+offset_bottom = 386.0
+pivot_offset = Vector2(61, 64)
 
 [node name="Resume" type="Button" parent="GameContainer/PauseMenu"]
 layout_mode = 2
@@ -376,7 +377,7 @@ scale = Vector2(0.24622357, 0.24622357)
 texture = ExtResource("7_dahhg")
 
 [node name="Target" type="Sprite2D" parent="GameContainer"]
-z_index = 934
+z_index = 2
 position = Vector2(-1000, 31.75)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("7_bf53h")
@@ -415,5 +416,6 @@ visible = false
 
 [node name="Starsbg" type="Sprite2D" parent="."]
 visible = false
+z_index = 2
 position = Vector2(574, 240)
 texture = ExtResource("18_x3xnh")
