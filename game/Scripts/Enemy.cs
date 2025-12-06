@@ -145,20 +145,6 @@ public class BossEnemy : Enemy
                 break;
         }
 
-<<<<<<< Updated upstream
-public class BossEnemy : Enemy
-{
-    public BossEnemy()
-    {
-        foo(this);
-    }
-    public void foo(Enemy e)
-    {
-        
-    }
-}
-
-=======
         float VELOCITY_MULTIPLIER = GameLogic.difficulty_speed_multiplier[GameLogic.difficulty];
         velocity = new Vector2(0, .03f);
         velocity = new Vector2(velocity.X * VELOCITY_MULTIPLIER * GameLogic.slow_multiplier, velocity.Y * VELOCITY_MULTIPLIER * GameLogic.slow_multiplier);
@@ -172,4 +158,3 @@ public class BossEnemy : Enemy
         isHighlighted = false;
     }
 }
->>>>>>> Stashed changes

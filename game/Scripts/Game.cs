@@ -145,14 +145,6 @@ public partial class Game : Node2D
 
     public void StartWave()
     {
-<<<<<<< Updated upstream
-        GameLogic.wave = new Wave(GameLogic.wave_num);
-        enemy_spawn_number = (GameLogic.wave_num - 1) % 3 * 2 + 10 + GameLogic.difficulty_enemy_count[GameLogic.difficulty];
-        GetNode<Timer>("GameContainer/Timer").Start();
-        GameLogic.isFreeze = false;
-        GameLogic.isFrenzy = false;
-        GameLogic.sceneSwitch = false;
-=======
         if (GameLogic.wave_num % 3 == 0)
         {
             GameLogic.wave = new Wave(GameLogic.wave_num);
@@ -164,7 +156,6 @@ public partial class Game : Node2D
             enemy_spawn_number = (GameLogic.wave_num - 1) % 3 * 2 + 10 + GameLogic.difficulty_enemy_count[GameLogic.difficulty];
             GetNode<Timer>("GameContainer/Timer").Start();
         }
->>>>>>> Stashed changes
     }
     public override void _Process(double delta) // should generally be called 60 times per second or whatever we set the framerate to
     {
@@ -234,8 +225,7 @@ public partial class Game : Node2D
             bool enemy_escaped = enemy.Move();
             if (enemy_escaped)
             {
-<<<<<<< Updated upstream
-                GameLogic.lives--;
+                GameLogic.lives = 0;
                 GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
                 GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/takeDamage.wav");
                 if (UIHelper.volume == 0)
@@ -245,9 +235,6 @@ public partial class Game : Node2D
                 if (UIHelper.sfx) {
                     GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Play();
                 }
-=======
-                GameLogic.lives = 0;
->>>>>>> Stashed changes
                 GetNode<Label>("GameContainer/Lives").Text = $"❤️:{GameLogic.lives}/{GameLogic.max_lives}";
                 RemoveEnemy(enemy);
                 CheckEnemies();
