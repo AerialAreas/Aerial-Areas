@@ -23,7 +23,7 @@ public partial class Game : Node2D
         Enemy found_enemy = new Enemy();
         if (@event is InputEventMouseButton mouseButtonEvent)
         {
-            if (mouseButtonEvent.ButtonIndex == MouseButton.Left && mouseButtonEvent.Pressed && !GameLogic.isPaused)
+            if (mouseButtonEvent.ButtonIndex == MouseButton.Left && mouseButtonEvent.Pressed && !GameLogic.isPaused  && GameLogic.wave_num % 3 != 0)
             {
                 bool enemy_found = false;
                 foreach (Enemy wave_enemy in curr_wave.unspawned_enemies)
@@ -133,7 +133,10 @@ public partial class Game : Node2D
             highlighted_index = 0;
         }
         GameLogic.wave.unspawned_enemies[highlighted_index].isHighlighted = true;
-        GetNode<Sprite2D>("GameContainer/Target").Position = GameLogic.wave.unspawned_enemies[highlighted_index].sprite.Position;
+        if (GameLogic.wave_num % 3 != 0)
+        {
+            GetNode<Sprite2D>("GameContainer/Target").Position = GameLogic.wave.unspawned_enemies[highlighted_index].sprite.Position;
+        }
         GameLogic.wave.unspawned_enemies[highlighted_index].problem.UpdateLabel(true);
 
         GameLogic.wave.unspawned_enemies[old_highlighted_index].isHighlighted = false;
@@ -142,12 +145,17 @@ public partial class Game : Node2D
 
     public void StartWave()
     {
-        GameLogic.wave = new Wave(GameLogic.wave_num);
-        enemy_spawn_number = (GameLogic.wave_num - 1) % 3 * 2 + 10 + GameLogic.difficulty_enemy_count[GameLogic.difficulty];
-        GetNode<Timer>("GameContainer/Timer").Start();
-        GameLogic.isFreeze = false;
-        GameLogic.isFrenzy = false;
-        GameLogic.sceneSwitch = false;
+        if (GameLogic.wave_num % 3 == 0)
+        {
+            GameLogic.wave = new Wave(GameLogic.wave_num);
+            AddEnemy(GameLogic.wave_num);
+        }
+        else
+        {
+            GameLogic.wave = new Wave(GameLogic.wave_num);
+            enemy_spawn_number = (GameLogic.wave_num - 1) % 3 * 2 + 10 + GameLogic.difficulty_enemy_count[GameLogic.difficulty];
+            GetNode<Timer>("GameContainer/Timer").Start();
+        }
     }
     public override void _Process(double delta) // should generally be called 60 times per second or whatever we set the framerate to
     {
@@ -161,6 +169,28 @@ public partial class Game : Node2D
     {
         Enemy lowest_enemy = new Enemy();
         float lowest_height = -1337f;
+        if (GameLogic.wave_num % 3 == 0)
+        {
+            if(GameLogic.wave.unspawned_enemies.Count > 0)
+            {
+                foreach (Enemy enemy in GameLogic.wave.unspawned_enemies)
+                {
+                    if (enemy.isHighlighted)
+                    {
+                        return;
+                    }
+                }
+                foreach (Enemy enemy in GameLogic.wave.unspawned_enemies)
+                {
+                    enemy.isHighlighted = false;
+                    enemy.problem.UpdateLabel(false);
+                }
+                GameLogic.wave.unspawned_enemies[0].isHighlighted = true;
+                GameLogic.wave.unspawned_enemies[0].problem.UpdateLabel(true);
+            }
+            return;
+        }
+
         if(GameLogic.wave.unspawned_enemies.Count == 0)
         {
             GetNode<Sprite2D>("GameContainer/Target").Position = new Vector2(-250,-250);
@@ -174,7 +204,7 @@ public partial class Game : Node2D
                 return;
             }
             else
-            {
+            {   
                 if(enemy.sprite.Position.Y > lowest_height)
                 {
                     lowest_enemy = enemy;
@@ -189,14 +219,13 @@ public partial class Game : Node2D
 
     public void HandleMoveAndEscapes()
     {
-        List<Enemy> enemies = GameLogic.wave.unspawned_enemies; // todo fix this so its spawned enemies
-        // this is a nifty workaround because we don't want to remove things from the collection its iterating over
-        for(int enemy_index = enemies.Count - 1; enemy_index >= 0; enemy_index--)
+        if (GameLogic.wave.waveNum % 3 == 0)
         {
-            bool enemy_escaped = enemies[enemy_index].Move();
+            BossEnemy enemy = GameLogic.wave.boss;
+            bool enemy_escaped = enemy.Move();
             if (enemy_escaped)
             {
-                GameLogic.lives--;
+                GameLogic.lives = 0;
                 GetNode<AudioStreamPlayer>("GameContainer/GameSFX").VolumeDb = -10.0f + UIHelper.volume/5.0f;
                 GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Stream = (Godot.AudioStream)GD.Load("res://Audio/takeDamage.wav");
                 if (UIHelper.volume == 0)
@@ -207,10 +236,26 @@ public partial class Game : Node2D
                     GetNode<AudioStreamPlayer>("GameContainer/GameSFX").Play();
                 }
                 GetNode<Label>("GameContainer/Lives").Text = $"❤️:{GameLogic.lives}/{GameLogic.max_lives}";
-                RemoveEnemy(enemies[enemy_index]);
+                RemoveEnemy(enemy);
                 CheckEnemies();
             }
         }
+        else
+        {
+            List<Enemy> enemies = GameLogic.wave.unspawned_enemies;
+            for(int enemy_index = enemies.Count - 1; enemy_index >= 0; enemy_index--)
+            {
+                bool enemy_escaped = enemies[enemy_index].Move();
+                if (enemy_escaped)
+                {
+                    GameLogic.lives--;
+                    GetNode<Label>("GameContainer/Lives").Text = $"❤️:{GameLogic.lives}/{GameLogic.max_lives}";
+                    RemoveEnemy(enemies[enemy_index]);
+                    CheckEnemies();
+                }
+            }
+        }
+        
     }
     public override void _Draw()
     {
@@ -219,41 +264,74 @@ public partial class Game : Node2D
     public void AddEnemy(int wave_num)
     {
         string type = "";
-        if (wave_num < 4)
+        if(wave_num % 3 == 0)
         {
-            type = "Rectangle";
-        }
-        else if (wave_num > 3 && wave_num < 7)
-        {
-            type = "Triangle";
-        }
-        else if (wave_num > 6 && wave_num < 10)
-        {
-            type = "Circle";
+            if (wave_num == 3)
+            {
+                type = "BossRectangle";
+            }
+            else if (wave_num == 6)
+            {
+                type = "BossTriangle";
+            }
+            else if (wave_num == 9)
+            {
+                type = "BossCircle";
+            }
+            else
+            {
+                type = "BossFinal";
+            }
+
+            BossEnemy newEnemy = new BossEnemy(type);
+            GetNode<Node>("GameContainer").AddChild(newEnemy.sprite);
+            GameLogic.wave.boss = newEnemy;
+            foreach (Enemy e in newEnemy.bossproblem.enemy_list)
+            {
+                GameLogic.wave.unspawned_enemies.Add(e);
+                e.problem.label.AddChild(e.problem.clickable);
+                GetNode<VBoxContainer>("GameContainer/ProblemListPanelContainer/ProblemList").AddChild(e.problem.label);
+                e.problem.clickable.Pressed += () => HighlightEnemy(e);
+            }
         }
         else
         {
-            int temp = new Random().Next(1, 4);
-            if(temp == 1)
+            if (wave_num < 4)
+            {
+            type = "Rectangle";
+            }
+            else if (wave_num > 3 && wave_num < 7)
             {
                 type = "Triangle";
             }
-            if(temp == 2)
-            {
-                type = "Rectangle";
-
-            }
-            if(temp == 3)
+            else if (wave_num > 6 && wave_num < 10)
             {
                 type = "Circle";
             }
+            else
+            {
+                int temp = new Random().Next(1, 4);
+                if(temp == 1)
+                {
+                    type = "Triangle";
+                }
+                if(temp == 2)
+                {
+                    type = "Rectangle";
+
+                }
+                if(temp == 3)
+                {
+                    type = "Circle";
+                }
+            }
+            Enemy newEnemy = new Enemy(type);
+            GameLogic.wave.unspawned_enemies.Add(newEnemy);
+            GetNode<Node>("GameContainer").AddChild(newEnemy.sprite);
+            newEnemy.problem.label.AddChild(newEnemy.problem.clickable);
+            GetNode<VBoxContainer>("GameContainer/ProblemListPanelContainer/ProblemList").AddChild(newEnemy.problem.label);
+            newEnemy.problem.clickable.Pressed += () => HighlightEnemy(newEnemy);
         }
-        Enemy newEnemy = new Enemy(type);
-        GameLogic.wave.unspawned_enemies.Add(newEnemy);
-        GetNode<Node>("GameContainer").AddChild(newEnemy.sprite);
-        newEnemy.problem.label.AddChild(newEnemy.problem.clickable);
-        GetNode<VBoxContainer>("GameContainer/ProblemListPanelContainer/ProblemList").AddChild(newEnemy.problem.label);
-        newEnemy.problem.clickable.Pressed += () => HighlightEnemy(newEnemy);
     }
     public void HighlightEnemy(Enemy enemy)
     {
@@ -268,10 +346,14 @@ public partial class Game : Node2D
                 }
             }
             enemy.isHighlighted = true;
-            GetNode<Sprite2D>("GameContainer/Target").Position = enemy.sprite.Position;
+            if (GameLogic.wave_num % 3 != 0)
+            {
+                GetNode<Sprite2D>("GameContainer/Target").Position = enemy.sprite.Position;
+            }
             enemy.problem.UpdateLabel(true);
         }
     }
+
     public void RemoveEnemy(Enemy enemy)
     {
         if (enemy == null)
@@ -694,8 +776,18 @@ public partial class Game : Node2D
     {
         GiveMoney(enemy);
         RemoveEnemy(enemy);
-        GiveScore(enemy);
-        CheckEnemies();
+        if (GameLogic.wave_num % 3 == 0)
+        {
+            GiveBossScore(GameLogic.wave.boss);
+            CheckEnemies();
+            return;
+        }
+        else
+        {
+            GiveScore(enemy);
+            CheckEnemies();
+        }
+
         Explosion explosion = new Explosion(enemy.sprite.Position);
         Sprite2D explosion_sprite = GetNode<Sprite2D>("GameContainer/Explosion");
         GetNode<Timer>("GameContainer/Explosion/Timer").Start();
@@ -741,5 +833,18 @@ public partial class Game : Node2D
             score *= 2;
         }
         GameLogic.score += score;
+    }
+
+    public void GiveBossScore(BossEnemy enemy)
+    {
+        if (GameLogic.wave.unspawned_enemies.Count == 0)
+        {
+            int score = (int)(enemy.score * (2 - (enemy.sprite.Position.Y/GameLogic.ENEMY_ESCAPE_BOUND)));
+            if (GameLogic.isFrenzy)
+            {
+                score *= 2;
+            }
+            GameLogic.score += score;
+        }
     }
 }
