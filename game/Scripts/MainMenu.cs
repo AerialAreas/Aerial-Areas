@@ -74,8 +74,7 @@ public partial class MainMenu : Node2D
 			if (!Godot.FileAccess.FileExists(high_score_path))
 			{
 				using var file = Godot.FileAccess.Open(high_score_path, Godot.FileAccess.ModeFlags.Write);
-				//file.StoreString($"blank sample data for the path: {high_score_path}\nJimbo: 100,000\nErik: 98,000\nMike Vrabel: 81,000\nJohnathan: 50,000\nGeoff: 34,500");
-				file.StoreString("Jimbo:100000\nErik:98000\nMike Vrabel:81000\nJohnathan:50000\nGeoff:34500");
+				file.StoreString("Anonymous:0\nAnonymous:0\nAnonymous:0\nAnonymous:0\nAnonymous:0");
 				GD.Print($"Created high score file: {high_score_path}");
 			}
 		}

@@ -39,6 +39,7 @@ theme_override_font_sizes/font_size = 40
 text = "Upgrades"
 
 [node name="ShopSFX" type="AudioStreamPlayer" parent="."]
+
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = 582.0
 offset_top = 79.0
@@ -78,10 +79,10 @@ scale = Vector2(0.78440374, 1)
 points = PackedVector2Array(54, 327, 1124, 327)
 
 [node name="Money" type="Label" parent="."]
-offset_left = 1064.0
+offset_left = 1043.0
 offset_top = 613.0
-offset_right = 1132.0
-offset_bottom = 636.0
+offset_right = 1111.0
+offset_bottom = 638.0
 theme_override_fonts/font = ExtResource("2_e5ji4")
 
 [node name="DebugMoreMoney" type="Button" parent="."]

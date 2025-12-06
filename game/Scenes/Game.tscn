@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://56y4kxgniqxq"]
+[gd_scene load_steps=18 format=3 uid="uid://56y4kxgniqxq"]
 
 [ext_resource type="Script" uid="uid://b1q6ffty23rfe" path="res://Scripts/Game.cs" id="1_gl6un"]
 [ext_resource type="AudioStream" uid="uid://0i6uuk1javdn" path="res://Audio/tth_original_bg_music.wav" id="2_3so38"]
@@ -43,6 +43,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="GameContainer"]
+visible = false
 layout_mode = 0
 offset_left = 389.0
 offset_top = 114.0
@@ -50,14 +51,6 @@ offset_right = 624.0
 offset_bottom = 203.0
 theme_override_font_sizes/font_size = 40
 horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="GameContainer"]
-layout_mode = 0
-offset_left = 797.0
-offset_top = 396.0
-offset_right = 880.0
-offset_bottom = 419.0
-text = "For testing"
 
 [node name="BGMusic" type="AudioStreamPlayer" parent="GameContainer"]
 stream = ExtResource("2_3so38")
@@ -415,6 +408,25 @@ texture = ExtResource("10_3so38")
 
 [node name="Timer" type="Timer" parent="GameContainer/Explosion"]
 wait_time = 0.25
+
+[node name="ActivePowerups" type="VBoxContainer" parent="GameContainer"]
+layout_mode = 0
+offset_left = 228.0
+offset_top = 3.0
+offset_right = 268.0
+offset_bottom = 43.0
+
+[node name="ActiveFreeze" type="Label" parent="GameContainer/ActivePowerups"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "🧊"
+
+[node name="ActiveFrenzy" type="Label" parent="GameContainer/ActivePowerups"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "⚡"
 
 [node name="Options" parent="." instance=ExtResource("5_7lihs")]
 visible = false

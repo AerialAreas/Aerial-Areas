@@ -474,6 +474,7 @@ public partial class Game : Node2D
         {
             if (Powerup.UsePowerup("Freeze"))
             {
+                GetNode<Label>("GameContainer/ActivePowerups/ActiveFreeze").Visible = true;
                 Timer freeze = GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Freeze/FreezeTimer");
                 GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Disabled = true;
                 freeze.Start();
@@ -568,6 +569,7 @@ public partial class Game : Node2D
         {
             if (Powerup.UsePowerup("Frenzy"))
             {
+                GetNode<Label>("GameContainer/ActivePowerups/ActiveFrenzy").Visible = true;
                 Timer frenzy = GetNode<Timer>("GameContainer/PanelContainer3/PowerUps/Frenzy/FrenzyTimer");
                 GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Disabled = true;
                 frenzy.Start();
@@ -669,6 +671,7 @@ public partial class Game : Node2D
     private void EnableFreeze()
     {
         GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Freeze").Disabled = false;
+        GetNode<Label>("GameContainer/ActivePowerups/ActiveFreeze").Visible = false;
         GameLogic.isFreeze = false;
     }
     private void EnableFireball()
@@ -679,6 +682,7 @@ public partial class Game : Node2D
     private void EnableFrenzy()
     {
         GetNode<Button>("GameContainer/PanelContainer3/PowerUps/Frenzy").Disabled = false;
+        GetNode<Label>("GameContainer/ActivePowerups/ActiveFrenzy").Visible = false;
         GameLogic.isFrenzy = false;
     }
 
@@ -727,7 +731,7 @@ public partial class Game : Node2D
     public void GiveMoney(Enemy enemy)
     {
         GameLogic.currency += enemy.value;
-        GetNode<Label>("GameContainer/Money").Text = GameLogic.currency.ToString();
+        GetNode<Label>("GameContainer/Money").Text = $"💵:{GameLogic.currency}";
     }
     public void GiveScore(Enemy enemy)
     {
