@@ -2,6 +2,9 @@
 layout: default
 title: Diagrams
 ---
+<head>
+    <link rel="icon" href="geometroid.ico">
+</head>
 
 <div id="mobile-nav">
     <button id="mobile-nav-toggle">☰ Menu</button>
@@ -59,7 +62,7 @@ shop, they click the 'Next Wave' button, which</figcaption>
 <br>
 <br>
 <img src="sequence_diagram_2_activation.png" alt="sequencediagram2">
-<figcaption>depicts the user attempting to input a solution to a problem. The Game calls a
+<figcaption>This sequence diagram depicts the user attempting to input a solution to a problem. The Game calls a
 function to check the inputted answer against the selected enemy. The selected enemy
 will then check to see if the answer is correct, and if so, the Game creates an explosion,
 which then handles it along with the enemy, destroying them both, along with any other
@@ -72,6 +75,20 @@ player gave was wrong, the Game immediately returns control to the player.</figc
 <br>
 <h2>State Diagram</h2>
 <img src="state.png" alt="statediagram">
+<figcaption>This state diagram demonstrates the general flow of the game. The user begins in the Main Menu,
+which provides an assortment of options. High Scores, Change Options, and View
+Formulas are all simple screens that simply return to the Main Menu when the user is
+finished. The Main Menu also contains the only way to quit the game. Clicking the start
+button on the Main Menu will display a list of difficulties on the same screen that the user
+must press to begin the game. Once the difficulty is selected, the user starts the game,
+represented by Play Wave. Once a wave is completed, the user will go to the Shop, or the
+victory screen if the wave completed is the final one. At any moment during a wave or a
+visit to the shop, the user can access the Pause Menu, which will stop the game and allow
+the user to access the options menu, formulas menu, and the Main Menu. Once the user is
+done making changes to their options or viewing formulas, the user will be able to
+continue the wave. If the user loses too many lives during the wave, the user is sent to a
+Game Over screen. From both the victory screen represented by You Won, and the Game
+Over screen, the user will be guided back to the Main Menu.</figcaption>
 
 <style>
     #header nav {
